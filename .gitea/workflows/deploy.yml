@@ -1,98 +1,96 @@
 name: Deploy
 
 on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - '**.md'
+      - '.gitea/workflows/docker.yml'
+  pull_request:
+    branches: [main]
   workflow_dispatch:
     inputs:
-      environment:
-        description: 'Environment to deploy to'
+      action:
+        description: 'Action'
         required: true
-        default: 'development'
+        default: 'deploy'
         type: choice
         options:
-          - development
-          - staging
-          - production
-      version:
-        description: 'Version/Tag to deploy'
-        required: false
-        default: 'latest'
+          - deploy
+          - status
 
 env:
-  DOCKER_REGISTRY: minio.homelabdev.space
-  IMAGE_NAME: homelab/app
+  VM_HOST: 51.143.249.28
+  VM_USER: sidhant
+  APP_DIR: /home/sidhant/homelab
 
 jobs:
-  deploy:
+  lint:
     runs-on: ubuntu-latest
-    environment: ${{ github.event.inputs.environment }}
     steps:
       - uses: actions/checkout@v4
       
-      - name: Set environment variables
+      - name: ShellCheck
         run: |
-          echo "Deploying to: ${{ github.event.inputs.environment }}"
-          echo "Version: ${{ github.event.inputs.version }}"
-          
-      - name: Pull Docker image
+          which shellcheck && shellcheck scripts/*.sh || echo "No shell scripts to lint"
+      
+      - name: YAML lint
         run: |
-          echo "Pulling image from registry..."
-          echo "Image: ${{ env.DOCKER_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.event.inputs.version }}"
-          
-      - name: Deploy to Development
-        if: github.event.inputs.environment == 'development'
+          which yamllint && yamllint . || echo "yamllint not installed"
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: lint
+    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && github.event.inputs.action == 'deploy')
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup SSH
         run: |
-          echo "Deploying to DEVELOPMENT environment..."
-          echo "Running docker-compose for dev services..."
-          # In production, this would SSH to dev server and deploy
-          
-      - name: Deploy to Staging
-        if: github.event.inputs.environment == 'staging'
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H ${{ env.VM_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy to VM
         run: |
-          echo "Deploying to STAGING environment..."
-          # In production, this would SSH to staging server and deploy
-          
-      - name: Deploy to Production
-        if: github.event.inputs.environment == 'production'
-        run: |
-          echo "Deploying to PRODUCTION environment..."
-          # In production, this would SSH to prod server and deploy
-          
+          echo "=== Deploying to VM ==="
+          ssh ${{ env.VM_USER }}@${{ env.VM_HOST }} "
+            cd ${{ env.APP_DIR }} && \
+            git fetch origin main && \
+            git reset --hard origin/main && \
+            echo 'Deployed successfully!'
+          "
+
       - name: Verify deployment
         run: |
-          echo "Verifying deployment..."
-          curl -f http://${{ github.event.inputs.environment }}.homelabdev.space/health || true
-          
-      - name: Notify deployment
-        run: |
-          echo "Deployment completed!"
+          ssh ${{ env.VM_USER }}@${{ env.VM_HOST }} "
+            echo '=== VM Status ===' && \
+            uptime && \
+            echo '=== Recent Deploy ===' && \
+            cd ${{ env.APP_DIR }} && \
+            git log -1 --oneline
+          "
 
-  rollback:
+  notify:
     runs-on: ubuntu-latest
-    if: failure() && github.event.inputs.environment == 'production'
-    steps:
-      - name: Rollback production
-        run: |
-          echo "Rolling back PRODUCTION deployment..."
-          echo "This would revert to previous version in production"
-
-  notify-deployment:
-    runs-on: ubuntu-latest
-    needs: [deploy]
+    needs: [lint, deploy]
     if: always()
     steps:
-      - name: Discord deployment notification
+      - name: Discord notification
         run: |
           if [ "${{ needs.deploy.result }}" == "success" ]; then
             curl -X POST "https://discord.com/api/webhooks/1479135880819249172/b9P59Bs0f0oLMU1yKEngIgPLQdEXUmw9CnYa-m3O4R9lRhHVdkESYdqBEWAC0lkJvAw_" \
               -H "Content-Type: application/json" \
               -d "{
                 \"embeds\": [{
-                  \"title\": \"🚀 Deployment ${{ needs.deploy.result }}\",
+                  \"title\": \"✅ Deployment Successful\",
                   \"color\": 3066993,
                   \"fields\": [
-                    {\"name\": \"Environment\", \"value\": \"${{ github.event.inputs.environment }}\", \"inline\": true},
-                    {\"name\": \"Version\", \"value\": \"${{ github.event.inputs.version }}\", \"inline\": true},
-                    {\"name\": \"Actor\", \"value\": \"${{ github.actor }}\", \"inline\": true}
+                    {\"name\": \"Commit\", \"value\": \"${{ github.sha }}\", \"inline\": true},
+                    {\"name\": \"Branch\", \"value\": \"${{ github.ref_name }}\", \"inline\": true}
                   ],
                   \"timestamp\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"
                 }]
@@ -105,12 +103,9 @@ jobs:
                   \"title\": \"❌ Deployment Failed\",
                   \"color\": 15158332,
                   \"fields\": [
-                    {\"name\": \"Environment\", \"value\": \"${{ github.event.inputs.environment }}\", \"inline\": true},
-                    {\"name\": \"Version\", \"value\": \"${{ github.event.inputs.version }}\", \"inline\": true},
-                    {\"name\": \"Actor\", \"value\": \"${{ github.actor }}\", \"inline\": true}
+                    {\"name\": \"Job\", \"value\": \"${{ needs.deploy.result }}\", \"inline\": true}
                   ],
                   \"timestamp\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"
                 }]
               }"
           fi
-
