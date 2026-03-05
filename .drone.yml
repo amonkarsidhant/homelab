@@ -1,0 +1,26 @@
+kind: pipeline
+type: docker
+name: default
+
+steps:
+- name: test
+  image: alpine
+  commands:
+    - echo "Running tests..."
+    - echo "Test passed!"
+
+- name: build
+  image: alpine
+  commands:
+    - echo "Building application..."
+    - echo "Build complete!"
+
+- name: deploy
+  image: alpine
+  commands:
+    - echo "Deploying to homelab..."
+    - echo "Deployment complete!"
+  when:
+    branch:
+      - main
+
