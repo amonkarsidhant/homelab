@@ -61,6 +61,7 @@ jobs:
             mkdir -p ${{ env.APP_DIR }} && \
             cd ${{ env.APP_DIR }} && \
             git init && \
+            git remote remove origin 2>/dev/null || true && \
             git remote add origin https://gitea.homelabdev.space/sidhant/homelab.git && \
             git fetch origin main && \
             git reset --hard origin/main && \
