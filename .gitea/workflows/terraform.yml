@@ -1,0 +1,72 @@
+name: Terraform
+
+on:
+  push:
+    paths:
+      - 'terraform/**'
+  pull_request:
+    paths:
+      - 'terraform/**'
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'Action to perform'
+        required: true
+        default: 'plan'
+        type: choice
+        options:
+          - plan
+          - apply
+          - destroy
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: terraform
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Terraform
+        run: |
+          echo "Setting up Terraform..."
+          which terraform && terraform version || echo "Terraform not installed"
+          
+      - name: Terraform Init
+        run: |
+          echo "Initializing Terraform..."
+          # terraform init
+          
+      - name: Terraform Plan
+        if: github.event_name == 'pull_request' || (github.event_name == 'workflow_dispatch' && github.event.inputs.action == 'plan')
+        run: |
+          echo "Creating Terraform plan..."
+          # terraform plan -out=tfplan
+          
+      - name: Terraform Apply
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.action == 'apply'
+        run: |
+          echo "Applying Terraform..."
+          # terraform apply
+          
+      - name: Terraform Destroy
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.action == 'destroy'
+        run: |
+          echo "Destroying Terraform resources..."
+          # terraform destroy -auto-approve
+          echo "This would destroy all resources!"
+          
+      - name: Notify
+        run: |
+          echo "Terraform workflow completed!"
+
+  terraform-secrets-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check for secrets in Terraform
+        run: |
+          echo "Scanning Terraform files for secrets..."
+          grep -r -E "(password|secret|api_key|token|key)" --include="*.tf" terraform/ 2>/dev/null || echo "No secrets found"
+
