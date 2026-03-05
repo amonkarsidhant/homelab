@@ -1,0 +1,15 @@
+http:
+  routers:
+    gitea-router:
+      rule: "Host(`gitea.homelabdev.space`)"
+      service: gitea-svc
+      entryPoints:
+        - websecure
+      tls:
+        certResolver: letsencrypt
+
+  services:
+    gitea-svc:
+      loadBalancer:
+        servers:
+          - url: "http://gitea:3000"

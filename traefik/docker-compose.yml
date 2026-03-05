@@ -1,0 +1,98 @@
+version: '3.8'
+
+services:
+  traefik:
+    image: traefik:v3
+    container_name: traefik
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /mnt/data/traefik:/etc/traefik
+      - /mnt/data/traefik/certs:/certs:ro
+      - /home/sidhant/traefik/traefik.yml:/etc/traefik/traefik.yml:ro
+      - /home/sidhant/traefik/dynamic:/etc/traefik/dynamic:ro
+    environment:
+      - TZ=UTC
+      - CF_API_TOKEN=Ep7s5D06mGXd8lxzID4FYClBiDbxJV9tZrkwFgP9
+
+  gitlab:
+    image: gitlab/gitlab-ce:latest
+    container_name: gitlab
+    restart: unless-stopped
+    hostname: gitlab.homelabdev.space
+    volumes:
+      - /mnt/data/docker/volumes/gitlab_config:/etc/gitlab
+      - /mnt/data/docker/volumes/gitlab_logs:/var/log/gitlab
+      - /mnt/data/docker/volumes/gitlab_data:/var/opt/gitlab
+
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    restart: unless-stopped
+    environment:
+      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_PASSWORD=minioadmin
+    command: server /data --console-address ":9001"
+    volumes:
+      - /mnt/data/minio/data:/data
+      - /mnt/data/minio/config:/root/.minio
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    restart: unless-stopped
+    volumes:
+      - /mnt/data/prometheus:/prometheus
+      - /home/sidhant/observability/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    restart: unless-stopped
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_AUTH_GENERIC_OAUTH_ENABLED=true
+      - GF_AUTH_GENERIC_OAUTH_NAME=Authelia
+      - GF_AUTH_GENERIC_OAUTH_CLIENT_ID=grafana
+      - GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET=grafana_oidc_secret
+      - GF_AUTH_GENERIC_OAUTH_SCOPES=openid,profile,email
+      - GF_AUTH_GENERIC_OAUTH_AUTH_URL=https://auth.homelabdev.space/api/oidc/authorization
+      - GF_AUTH_GENERIC_OAUTH_TOKEN_URL=https://auth.homelabdev.space/api/oidc/token
+      - GF_AUTH_GENERIC_OAUTH_API_URL=https://auth.homelabdev.space/api/oidc/userinfo
+      - GF_AUTH_GENERIC_OAUTH_ALLOW_SIGN_UP=true
+      - GF_AUTH_GENERIC_OAUTH_AUTO_LOGIN=true
+    volumes:
+      - /mnt/data/grafana:/var/lib/grafana
+
+  loki:
+    image: grafana/loki:latest
+    container_name: loki
+    restart: unless-stopped
+    command: -config.file=/etc/loki/local-config.yaml
+    volumes:
+      - /mnt/data/loki:/loki
+
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    container_name: jaeger
+    restart: unless-stopped
+    ports:
+      - "6831:6831/udp"
+      - "14268:14268"
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+    volumes:
+      - /mnt/data/jaeger:/tmp/jaeger
+
+networks:
+  default:
+    name: traefik_default
+    external: true

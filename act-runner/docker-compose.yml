@@ -1,0 +1,18 @@
+services:
+  act-runner:
+    image: gitea/act_runner:latest
+    container_name: act-runner
+    restart: always
+    volumes:
+      - /mnt/data/act-runner:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - GITEA_INSTANCE_URL=https://gitea.homelabdev.space
+      - GITEA_RUNNER_REGISTRATION_TOKEN=PuVzo4h8U7d3X3DE597Xel3R4v5eEHsvZNvs9JWm
+      - GITEA_RUNNER_NAME=homelab-runner
+      - GITEA_RUNNER_LABELS=ubuntu-latest:docker://node:20-bullseye,ubuntu-22.04:docker://node:20-bullseye
+
+networks:
+  default:
+    name: traefik_default
+    external: true
