@@ -29,9 +29,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - name: Set up Docker Buildx
+      - name: Set up Docker
         run: |
-          echo "Setting up Docker Buildx..."
+          echo "Setting up Docker..."
+          apt-get update && apt-get install -y docker.io
           docker version
           
       - name: Build Docker image
