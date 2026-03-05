@@ -1,3 +1,4 @@
-# homelab
+# HomeLab
 
-Homelab Infrastructure
+Hi there!
+Cr pipeline works!
