@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  app:
+    image: minio.homelabdev.space/homelab/app:latest
+    container_name: homelab-app
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      - NODE_ENV=production
+      
+  app-dev:
+    image: minio.homelabdev.space/homelab/app:latest
+    container_name: homelab-app-dev
+    restart: unless-stopped
+    ports:
+      - "8081:8080"
+    environment:
+      - NODE_ENV=development
+
