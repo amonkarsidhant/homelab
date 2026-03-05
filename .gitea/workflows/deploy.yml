@@ -76,7 +76,7 @@ jobs:
             
             # Create required directories on extra volume
             sudo mkdir -p /mnt/data/{traefik,gitea,act-runner,prometheus,grafana,loki,jaeger,minio,authelia,mailserver}
-            sudo chown -R ${{ env.VM_USER }}:${{ env.VM_USER }} /mnt/data 2>/dev/null || true
+            sudo chown -R 65534:65534 /mnt/data/prometheus /mnt/data/grafana 2>/dev/null || true
             
             # Create Docker network if not exists
             docker network create traefik_default 2>/dev/null || true
