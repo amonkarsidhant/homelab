@@ -47,6 +47,13 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Debug - Check secret
+        run: |
+          echo "=== Debug Info ==="
+          echo "Event: ${{ github.event_name }}"
+          echo "Secret exists: ${{ secrets.SSH_PRIVATE_KEY != '' }}"
+          echo "VM Host: ${{ env.VM_HOST }}"
+
       - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
