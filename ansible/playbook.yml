@@ -1,0 +1,36 @@
+---
+- name: Deploy Homelab Application
+  hosts: localhost
+  connection: local
+  become: yes
+  
+  vars:
+    app_name: homelab
+    app_version: latest
+    environment: development
+    
+  tasks:
+    - name: Pull Docker image
+      docker_image:
+        name: minio.homelabdev.space/h
+        tag:omelab/app "{{ app_version }}"
+        source: pull
+        
+    - name: Create app container
+      docker_container:
+        name: "{{ app_name }}"
+        image: "minio.homelabdev.space/homelab/app:{{ app_version }}"
+        state: started
+        restart_policy: always
+        ports:
+          - "8080:8080"
+    
+    - name: Verify container is running
+      docker_container:
+        name: "{{ app_name }}"
+      register: container_status
+      
+    - name: Display container status
+      debug:
+        msg: "Container {{ container_status.container.FullId }} is {{ container_status.container.State.Status }}"
+
