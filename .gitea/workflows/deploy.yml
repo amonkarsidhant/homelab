@@ -74,31 +74,40 @@ jobs:
           ssh ${{ env.VM_USER }}@${{ env.VM_HOST }} "
             cd ${{ env.APP_DIR }} && \
             
-            # Create required directories
+            # Create required directories on extra volume
             sudo mkdir -p /mnt/data/{traefik,gitea,act-runner,prometheus,grafana,loki,jaeger,minio,authelia,mailserver}
             sudo chown -R ${{ env.VM_USER }}:${{ env.VM_USER }} /mnt/data 2>/dev/null || true
             
             # Create Docker network if not exists
             docker network create traefik_default 2>/dev/null || true
             
-            # Sync service files from homelab repo
-            echo 'Syncing service files...'
+            # Link or copy service files to correct locations
+            echo 'Setting up service files...'
             
-            # Create service directories
-            mkdir -p /home/sidhant/{traefik,gitea,act-runner,observability,authelia,mailserver}
+            # Traefik
+            mkdir -p /home/sidhant/traefik
+            cp -r ${{ env.APP_DIR }}/traefik/* /home/sidhant/traefik/ 2>/dev/null || true
             
-            echo 'Service directories created!'
+            # Gitea
+            mkdir -p /home/sidhant/gitea
+            cp ${{ env.APP_DIR }}/gitea/docker-compose.yml /home/sidhant/gitea/
+            
+            # Act Runner
+            mkdir -p /home/sidhant/act-runner
+            cp ${{ env.APP_DIR }}/act-runner/docker-compose.yml /home/sidhant/act-runner/
+            
+            echo 'Service files set up!'
           "
 
       - name: Start Services
         run: |
           echo "=== Starting services ==="
           ssh ${{ env.VM_USER }}@${{ env.VM_HOST }} "
-            cd /home/sidhant/traefik && docker-compose up -d || echo 'Traefik may need config'
-            cd /home/sidhant/gitea && docker-compose up -d || echo 'Gitea may need config'
-            cd /home/sidhant/act-runner && docker-compose up -d || echo 'Act-runner may need config'
+            cd /home/sidhant/traefik && docker-compose up -d
+            cd /home/sidhant/gitea && docker-compose up -d
+            cd /home/sidhant/act-runner && docker-compose up -d || true
             
-            echo 'Checking Docker status...'
+            echo '=== Docker Containers ==='
             docker ps
           "
 
