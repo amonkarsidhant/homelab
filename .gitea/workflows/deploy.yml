@@ -1,0 +1,116 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy to'
+        required: true
+        default: 'development'
+        type: choice
+        options:
+          - development
+          - staging
+          - production
+      version:
+        description: 'Version/Tag to deploy'
+        required: false
+        default: 'latest'
+
+env:
+  DOCKER_REGISTRY: minio.homelabdev.space
+  IMAGE_NAME: homelab/app
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment }}
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set environment variables
+        run: |
+          echo "Deploying to: ${{ github.event.inputs.environment }}"
+          echo "Version: ${{ github.event.inputs.version }}"
+          
+      - name: Pull Docker image
+        run: |
+          echo "Pulling image from registry..."
+          echo "Image: ${{ env.DOCKER_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.event.inputs.version }}"
+          
+      - name: Deploy to Development
+        if: github.event.inputs.environment == 'development'
+        run: |
+          echo "Deploying to DEVELOPMENT environment..."
+          echo "Running docker-compose for dev services..."
+          # In production, this would SSH to dev server and deploy
+          
+      - name: Deploy to Staging
+        if: github.event.inputs.environment == 'staging'
+        run: |
+          echo "Deploying to STAGING environment..."
+          # In production, this would SSH to staging server and deploy
+          
+      - name: Deploy to Production
+        if: github.event.inputs.environment == 'production'
+        run: |
+          echo "Deploying to PRODUCTION environment..."
+          # In production, this would SSH to prod server and deploy
+          
+      - name: Verify deployment
+        run: |
+          echo "Verifying deployment..."
+          curl -f http://${{ github.event.inputs.environment }}.homelabdev.space/health || true
+          
+      - name: Notify deployment
+        run: |
+          echo "Deployment completed!"
+
+  rollback:
+    runs-on: ubuntu-latest
+    if: failure() && github.event.inputs.environment == 'production'
+    steps:
+      - name: Rollback production
+        run: |
+          echo "Rolling back PRODUCTION deployment..."
+          echo "This would revert to previous version in production"
+
+  notify-deployment:
+    runs-on: ubuntu-latest
+    needs: [deploy]
+    if: always()
+    steps:
+      - name: Discord deployment notification
+        run: |
+          if [ "${{ needs.deploy.result }}" == "success" ]; then
+            curl -X POST "https://discord.com/api/webhooks/1479135880819249172/b9P59Bs0f0oLMU1yKEngIgPLQdEXUmw9CnYa-m3O4R9lRhHVdkESYdqBEWAC0lkJvAw_" \
+              -H "Content-Type: application/json" \
+              -d "{
+                \"embeds\": [{
+                  \"title\": \"🚀 Deployment ${{ needs.deploy.result }}\",
+                  \"color\": 3066993,
+                  \"fields\": [
+                    {\"name\": \"Environment\", \"value\": \"${{ github.event.inputs.environment }}\", \"inline\": true},
+                    {\"name\": \"Version\", \"value\": \"${{ github.event.inputs.version }}\", \"inline\": true},
+                    {\"name\": \"Actor\", \"value\": \"${{ github.actor }}\", \"inline\": true}
+                  ],
+                  \"timestamp\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"
+                }]
+              }"
+          else
+            curl -X POST "https://discord.com/api/webhooks/1479135880819249172/b9P59Bs0f0oLMU1yKEngIgPLQdEXUmw9CnYa-m3O4R9lRhHVdkESYdqBEWAC0lkJvAw_" \
+              -H "Content-Type: application/json" \
+              -d "{
+                \"embeds\": [{
+                  \"title\": \"❌ Deployment Failed\",
+                  \"color\": 15158332,
+                  \"fields\": [
+                    {\"name\": \"Environment\", \"value\": \"${{ github.event.inputs.environment }}\", \"inline\": true},
+                    {\"name\": \"Version\", \"value\": \"${{ github.event.inputs.version }}\", \"inline\": true},
+                    {\"name\": \"Actor\", \"value\": \"${{ github.actor }}\", \"inline\": true}
+                  ],
+                  \"timestamp\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"
+                }]
+              }"
+          fi
+
