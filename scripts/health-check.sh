@@ -6,25 +6,40 @@ echo "=== Homelab Health Check ==="
 echo "Timestamp: $(date)"
 echo ""
 
-check_service() {
+FAILED=0
+
+echo "=== Docker Containers ==="
+docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}" | head -20
+
+echo ""
+echo "=== Service Health ==="
+
+check_docker() {
     local name=$1
-    local url=$2
-    
-    if curl -sf -o /dev/null -w "%{http_code}" "$url" 2>/dev/null | grep -q "200\|301\|302"; then
-        echo "✓ $name: UP"
-        return 0
+    if docker ps --format '{{.Names}}' | grep -q "^${name}$"; then
+        local status=$(docker ps --filter "name=^${name}$" --format '{{.Status}}')
+        if echo "$status" | grep -q "Up"; then
+            echo "✓ $name: UP"
+            return 0
+        else
+            echo "✗ $name: $status"
+            FAILED=1
+            return 1
+        fi
     else
-        echo "✗ $name: DOWN"
+        echo "✗ $name: NOT RUNNING"
+        FAILED=1
         return 1
     fi
 }
 
-FAILED=0
-
-check_service "Traefik" "http://traefik.homelabdev.space" || FAILED=1
-check_service "Gitea" "https://gitea.homelabdev.space" || FAILED=1
-check_service "Prometheus" "http://prometheus.homelabdev.space" || FAILED=1
-check_service "Grafana" "http://grafana.homelabdev.space" || FAILED=1
+check_docker "traefik" || true
+check_docker "gitea" || true
+check_docker "act-runner" || true
+check_docker "prometheus" || true
+check_docker "grafana" || true
+check_docker "minio" || true
+check_docker "authelia" || true
 
 echo ""
 if [ $FAILED -eq 1 ]; then
