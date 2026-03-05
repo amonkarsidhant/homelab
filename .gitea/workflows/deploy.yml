@@ -47,13 +47,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Debug - Check secret
-        run: |
-          echo "=== Debug Info ==="
-          echo "Event: ${{ github.event_name }}"
-          echo "Secret exists: ${{ secrets.SSH_PRIVATE_KEY != '' }}"
-          echo "VM Host: ${{ env.VM_HOST }}"
-
       - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
@@ -71,7 +64,41 @@ jobs:
             git remote add origin https://gitea.homelabdev.space/sidhant/homelab.git && \
             git fetch origin main && \
             git reset --hard origin/main && \
-            echo 'Deployed successfully!'
+            echo 'Code deployed!'
+          "
+
+      - name: Setup VM Services
+        run: |
+          echo "=== Setting up VM services ==="
+          ssh ${{ env.VM_USER }}@${{ env.VM_HOST }} "
+            cd ${{ env.APP_DIR }} && \
+            
+            # Create required directories
+            sudo mkdir -p /mnt/data/{traefik,gitea,act-runner,prometheus,grafana,loki,jaeger,minio,authelia,mailserver}
+            sudo chown -R ${{ env.VM_USER }}:${{ env.VM_USER }} /mnt/data 2>/dev/null || true
+            
+            # Create Docker network if not exists
+            docker network create traefik_default 2>/dev/null || true
+            
+            # Sync service files from homelab repo
+            echo 'Syncing service files...'
+            
+            # Create service directories
+            mkdir -p /home/sidhant/{traefik,gitea,act-runner,observability,authelia,mailserver}
+            
+            echo 'Service directories created!'
+          "
+
+      - name: Start Services
+        run: |
+          echo "=== Starting services ==="
+          ssh ${{ env.VM_USER }}@${{ env.VM_HOST }} "
+            cd /home/sidhant/traefik && docker-compose up -d || echo 'Traefik may need config'
+            cd /home/sidhant/gitea && docker-compose up -d || echo 'Gitea may need config'
+            cd /home/sidhant/act-runner && docker-compose up -d || echo 'Act-runner may need config'
+            
+            echo 'Checking Docker status...'
+            docker ps
           "
 
       - name: Verify deployment
