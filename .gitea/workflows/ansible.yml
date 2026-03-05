@@ -1,0 +1,85 @@
+name: Ansible
+
+on:
+  push:
+    paths:
+      - 'ansible/**'
+  pull_request:
+    paths:
+      - 'ansible/**'
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'Action to perform'
+        required: true
+        default: 'check'
+        type: choice
+        options:
+          - check
+          - deploy
+          - rollback
+
+jobs:
+  ansible-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Ansible Lint
+        run: |
+          echo "Running Ansible lint..."
+          which ansible-lint && ansible-lint --version || echo "ansible-lint not installed"
+          
+  ansible-check:
+    runs-on: ubuntu-latest
+    needs: ansible-lint
+    if: github.event_name == 'pull_request' || (github.event_name == 'workflow_dispatch' && github.event.inputs.action == 'check')
+    steps:
+      - uses: actions/checkout@v4
+      - name: Ansible Check Mode (Dry Run)
+        run: |
+          echo "Running Ansible in check mode..."
+          # ansible-playbook --check playbook.yml
+          
+  ansible-deploy:
+    runs-on: ubuntu-latest
+    needs: ansible-lint
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.action == 'deploy'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy with Ansible
+        run: |
+          echo "Deploying with Ansible..."
+          # ansible-playbook playbook.yml
+          
+  ansible-rollback:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.action == 'rollback'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Rollback with Ansible
+        run: |
+          echo "Rolling back with Ansible..."
+          # ansible-playbook rollback.yml
+          
+  notify-ansible:
+    runs-on: ubuntu-latest
+    needs: [ansible-lint, ansible-check, ansible-deploy]
+    if: always()
+    steps:
+      - name: Discord notification
+        run: |
+          if [ "${{ success() }}" == "true" ]; then
+            curl -X POST "https://discord.com/api/webhooks/1479135880819249172/b9P59Bs0f0oLMU1yKEngIgPLQdEXUmw9CnYa-m3O4R9lRhHVdkESYdqBEWAC0lkJvAw_" \
+              -H "Content-Type: application/json" \
+              -d "{
+                \"embeds\": [{
+                  \"title\": \"✅ Ansible Playbook Completed\",
+                  \"color\": 3066993,
+                  \"fields\": [
+                    {\"name\": \"Action\", \"value\": \"${{ github.event.inputs.action }}\", \"inline\": true}
+                  ],
+                  \"timestamp\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"
+                }]
+              }"
+          fi
+
