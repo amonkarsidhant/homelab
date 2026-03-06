@@ -8,6 +8,7 @@ usage() {
 Usage:
   $0 list
   $0 observe
+  $0 install-reporting
   $0 annotate <title> <text>
   $0 stop <container> <seconds> [--force]
   $0 delay <container> <seconds> <delay-ms> [--force]
@@ -26,9 +27,15 @@ case "$cmd" in
     ;;
   observe)
     echo "Grafana: https://grafana.homelabdev.space"
+    echo "Chaos Control Center: https://grafana.homelabdev.space/d/chaos-center"
+    echo "Chaos Reporting: https://grafana.homelabdev.space/d/chaos-reporting"
     echo "Prometheus: https://prometheus.homelabdev.space"
     echo "Jaeger: https://jaeger.homelabdev.space"
     echo "Integrity logs: /home/sidhant/logs/integrity"
+    ;;
+  install-reporting)
+    "$SCRIPT_DIR/install-grafana-dashboard.sh"
+    "$SCRIPT_DIR/install-grafana-reporting-dashboard.sh"
     ;;
   annotate)
     shift
