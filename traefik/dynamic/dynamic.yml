@@ -1,15 +1,5 @@
 http:
   routers:
-    gitlab:
-      rule: "Host(`gitlab.homelabdev.space`)"
-      service: gitlab
-      entryPoints:
-        - websecure
-      tls:
-        certResolver: letsencrypt
-      middlewares:
-        - authelia
-
     minio:
       rule: "Host(`minio.homelabdev.space`)"
       service: minio
@@ -50,6 +40,61 @@ http:
       middlewares:
         - authelia
 
+    gitea:
+      rule: "Host(`gitea.homelabdev.space`)"
+      service: gitea
+      entryPoints:
+        - websecure
+      tls:
+        certResolver: letsencrypt
+      middlewares:
+        - authelia
+
+    gitea-actions:
+      rule: "Host(`gitea.homelabdev.space`) && PathPrefix(`/api/actions`)"
+      service: gitea
+      entryPoints:
+        - websecure
+      priority: 100
+      tls:
+        certResolver: letsencrypt
+
+    gitea-api:
+      rule: "Host(`gitea.homelabdev.space`) && PathPrefix(`/api`)"
+      service: gitea
+      entryPoints:
+        - websecure
+      priority: 105
+      tls:
+        certResolver: letsencrypt
+
+    gitea-git:
+      rule: "Host(`gitea.homelabdev.space`) && PathRegexp(`^/.+/.+\\.git($|/.*)`)"
+      service: gitea
+      entryPoints:
+        - websecure
+      priority: 110
+      tls:
+        certResolver: letsencrypt
+
+    code:
+      rule: "Host(`code.homelabdev.space`)"
+      service: code
+      entryPoints:
+        - websecure
+      tls:
+        certResolver: letsencrypt
+      middlewares:
+        - authelia
+
+    vault:
+      rule: "Host(`vault.homelabdev.space`)"
+      service: vault
+      entryPoints:
+        - websecure
+      tls:
+        certResolver: letsencrypt
+
   middlewares:
     authelia:
       forwardAuth:
@@ -57,11 +102,6 @@ http:
         trustForwardHeader: true
 
   services:
-    gitlab:
-      loadBalancer:
-        servers:
-          - url: "http://gitlab:80"
-
     minio:
       loadBalancer:
         servers:
@@ -81,3 +121,18 @@ http:
       loadBalancer:
         servers:
           - url: "http://jaeger:16686"
+
+    gitea:
+      loadBalancer:
+        servers:
+          - url: "http://gitea:3000"
+
+    code:
+      loadBalancer:
+        servers:
+          - url: "http://code-server:8080"
+
+    vault:
+      loadBalancer:
+        servers:
+          - url: "http://vaultwarden:80"

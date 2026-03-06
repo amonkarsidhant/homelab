@@ -6,12 +6,10 @@ services:
     container_name: gitea
     restart: unless-stopped
     ports:
-      - "3000:3000"
+      - "3001:3000"
       - "2222:22"
     volumes:
       - /mnt/data/gitea:/data
-      - /home/sidhant/gitea/data/git:/data/git
-      - /home/sidhant/gitea/data/ssh:/data/ssh
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     environment:
@@ -19,13 +17,18 @@ services:
       - USER_GID=1000
       - GITEA__server__ROOT_URL=https://gitea.homelabdev.space/
       - GITEA__server__SSH_DOMAIN=gitea.homelabdev.space
-      - GITEA__server__PROTOCOL=https
-      - GITEA__server__CERT_FILE=/certs/cert.pem
-      - GITEA__server__KEY_FILE=/certs/key.pem
+      - GITEA__server__PROTOCOL=http
       - GITEA__security__INSTALL_LOCK=true
       - GITEA__server__DISABLE_SSH=false
       - GITEA__server__SSH_PORT=2222
       - GITEA__server__HTTP_PORT=3000
+      - GITEA__mailer__ENABLED=true
+      - GITEA__mailer__PROTOCOL=smtp
+      - GITEA__mailer__SMTP_ADDR=${SMTP_ADDR}
+      - GITEA__mailer__SMTP_PORT=${SMTP_PORT}
+      - GITEA__mailer__USER=${SMTP_USER}
+      - GITEA__mailer__PASSWD=${SMTP_PASSWORD}
+      - GITEA__mailer__FROM=${SMTP_FROM}
     networks:
       - default
 
