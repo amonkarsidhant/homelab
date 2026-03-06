@@ -52,6 +52,7 @@ Log location:
 
 Alert channel:
 - Discord webhook via `~/.config/homelab/monitor.env`
+- Gitea Actions secret `DISCORD_WEBHOOK_URL` for CI/CD notifications
 
 Expected env file:
 ```bash
