@@ -76,7 +76,7 @@ jobs:
       - name: Discord notification
         run: |
           if [ "${{ needs.push-registry.result }}" == "success" ]; then
-            curl -X POST "https://discord.com/api/webhooks/1479135880819249172/b9P59Bs0f0oLMU1yKEngIgPLQdEXUmw9CnYa-m3O4R9lRhHVdkESYdqBEWAC0lkJvAw_" \
+            curl -X POST "${{ secrets.DISCORD_WEBHOOK_URL }}" \
               -H "Content-Type: application/json" \
               -d "{
                 \"embeds\": [{
@@ -91,7 +91,7 @@ jobs:
                 }]
               }"
           else
-            curl -X POST "https://discord.com/api/webhooks/1479135880819249172/b9P59Bs0f0oLMU1yKEngIgPLQdEXUmw9CnYa-m3O4R9lRhHVdkESYdqBEWAC0lkJvAw_" \
+            curl -X POST "${{ secrets.DISCORD_WEBHOOK_URL }}" \
               -H "Content-Type: application/json" \
               -d "{
                 \"embeds\": [{
@@ -120,4 +120,3 @@ jobs:
           echo "Branch: ${{ github.ref_name }}"
           echo "Commit: ${{ github.sha }}"
           echo "================================"
-
