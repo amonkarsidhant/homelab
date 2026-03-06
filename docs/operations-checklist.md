@@ -16,6 +16,10 @@ Use this checklist to keep the homelab healthy and secure.
 
 - Run full integrity check manually:
   - `/home/sidhant/scripts/service-integrity-check.sh`
+- Confirm weekly chaos drill timer is active:
+  - `systemctl status homelab-weekly-chaos.timer --no-pager`
+- Check latest chaos report:
+  - `ls -1t /home/sidhant/homelab/docs/chaos-reports | head -1`
 - Review logs for repeated warnings/errors:
   - `docker logs --since 7d traefik`
   - `docker logs --since 7d gitea`
