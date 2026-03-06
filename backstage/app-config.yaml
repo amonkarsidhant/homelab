@@ -1,0 +1,63 @@
+app:
+  title: HomeLab Developer Portal
+  baseUrl: https://backstage.homelabdev.space
+
+organization:
+  name: HomeLab
+
+backend:
+  baseUrl: https://backstage.homelabdev.space
+  listen:
+    port: 7007
+  cors:
+    origin: https://backstage.homelabdev.space
+    methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
+    credentials: true
+  auth:
+    keys:
+      - secret: ${BACKEND_SECRET}
+  reading:
+    allow:
+      - host: gitea.homelabdev.space
+  database:
+    client: pg
+    connection:
+      host: ${POSTGRES_HOST}
+      port: ${POSTGRES_PORT}
+      user: ${POSTGRES_USER}
+      password: ${POSTGRES_PASSWORD}
+
+integrations:
+  gitea:
+    - host: gitea.homelabdev.space
+      baseUrl: https://gitea.homelabdev.space
+
+auth:
+  providers:
+    guest: {}
+
+techdocs:
+  builder: local
+  generator:
+    runIn: docker
+  publisher:
+    type: local
+
+catalog:
+  import:
+    entityFilename: catalog-info.yaml
+    pullRequestBranchName: backstage-integration
+  rules:
+    - allow: [Component, System, API, Resource, Location, User, Group]
+  locations:
+    - type: file
+      target: /app/catalog/org.yaml
+      rules:
+        - allow: [User, Group]
+    - type: file
+      target: /app/catalog/all.yaml
+      rules:
+        - allow: [Component, System, API, Resource, Location]
+
+permission:
+  enabled: true

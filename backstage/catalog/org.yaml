@@ -1,0 +1,21 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: platform
+  description: Homelab platform ownership group
+spec:
+  type: team
+  profile:
+    displayName: Platform
+  children: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: sidhant
+spec:
+  profile:
+    displayName: Sidhant
+    email: amonkarsidhant@outlook.com
+  memberOf:
+    - platform
