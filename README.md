@@ -14,3 +14,4 @@ Homelab infrastructure repo for Gitea, CI/CD, observability, auth, and operation
 - Integrity monitor (Discord alerts): `scripts/service-integrity-monitor.sh`
 - Service health check: `scripts/health-check.sh`
 - Chaos control CLI: `scripts/chaos/chaosctl.sh`
+- Chaos reporting installer: `scripts/chaos/install-grafana-reporting-dashboard.sh`

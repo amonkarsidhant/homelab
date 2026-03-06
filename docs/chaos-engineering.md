@@ -18,16 +18,25 @@ Install/update dashboard in Grafana:
 
 ```bash
 ./scripts/chaos/install-grafana-dashboard.sh
+./scripts/chaos/install-grafana-reporting-dashboard.sh
 ```
 
 Dashboard name:
 - `Chaos Control Center`
+- `Chaos Reporting`
+
+Or use one command:
+
+```bash
+./scripts/chaos/chaosctl.sh install-reporting
+```
 
 What to watch during experiments:
 - service `up` metrics
 - scrape duration trends
 - alert list
 - annotation timeline (`CHAOS START`/`CHAOS END`)
+- transitions and availability trends in `Chaos Reporting`
 
 ## Safety Guardrails
 
