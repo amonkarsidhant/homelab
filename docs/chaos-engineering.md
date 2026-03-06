@@ -38,6 +38,17 @@ What to watch during experiments:
 - annotation timeline (`CHAOS START`/`CHAOS END`)
 - transitions and availability trends in `Chaos Reporting`
 
+Chaos event log source:
+- host file: `/home/sidhant/logs/chaos/events.log`
+- Loki label: `job="chaos-events"`
+
+KPI panels in `Chaos Reporting`:
+- Experiments started (24h)
+- Experiments recovered (24h)
+- Experiment failures (24h)
+- Average recovery time (7d)
+- Integrity BAD lines (24h)
+
 ## Safety Guardrails
 
 Fault injection requires explicit acknowledgment:

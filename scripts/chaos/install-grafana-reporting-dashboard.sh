@@ -71,8 +71,40 @@ read -r -d '' DASHBOARD_JSON <<EOF || true
       },
       {
         "type": "stat",
-        "title": "Integrity Errors in Logs (24h)",
+        "title": "Experiments Started (24h)",
         "gridPos": {"h": 5, "w": 6, "x": 18, "y": 0},
+        "datasource": {"type": "loki", "uid": "$LOKI_UID"},
+        "targets": [{"expr": "sum(count_over_time({job=\"chaos-events\"} |= \"CHAOS_EVENT\" |= \"phase=start\" [24h]))", "refId": "A"}],
+        "options": {"reduceOptions": {"calcs": ["lastNotNull"]}}
+      },
+      {
+        "type": "stat",
+        "title": "Experiments Recovered (24h)",
+        "gridPos": {"h": 5, "w": 6, "x": 0, "y": 5},
+        "datasource": {"type": "loki", "uid": "$LOKI_UID"},
+        "targets": [{"expr": "sum(count_over_time({job=\"chaos-events\"} |= \"CHAOS_EVENT\" |= \"phase=end\" [24h]))", "refId": "A"}],
+        "options": {"reduceOptions": {"calcs": ["lastNotNull"]}}
+      },
+      {
+        "type": "stat",
+        "title": "Experiment Failures (24h)",
+        "gridPos": {"h": 5, "w": 6, "x": 6, "y": 5},
+        "datasource": {"type": "loki", "uid": "$LOKI_UID"},
+        "targets": [{"expr": "sum(count_over_time({job=\"chaos-events\"} |= \"CHAOS_EVENT\" |= \"status=failed\" [24h]))", "refId": "A"}],
+        "options": {"reduceOptions": {"calcs": ["lastNotNull"]}}
+      },
+      {
+        "type": "stat",
+        "title": "Avg Recovery Time (s, 7d)",
+        "gridPos": {"h": 5, "w": 6, "x": 12, "y": 5},
+        "datasource": {"type": "loki", "uid": "$LOKI_UID"},
+        "targets": [{"expr": "avg_over_time(({job=\"chaos-events\"} |= \"CHAOS_EVENT\" |= \"phase=end\" | logfmt | unwrap elapsed_sec)[7d])", "refId": "A"}],
+        "options": {"reduceOptions": {"calcs": ["lastNotNull"]}}
+      },
+      {
+        "type": "stat",
+        "title": "Integrity BAD Lines (24h)",
+        "gridPos": {"h": 5, "w": 6, "x": 18, "y": 5},
         "datasource": {"type": "loki", "uid": "$LOKI_UID"},
         "targets": [{"expr": "sum(count_over_time({job=\"container-logs\"} |= \"service-integrity-check\" |= \"BAD\" [24h]))", "refId": "A"}],
         "options": {"reduceOptions": {"calcs": ["lastNotNull"]}}
@@ -80,21 +112,21 @@ read -r -d '' DASHBOARD_JSON <<EOF || true
       {
         "type": "timeseries",
         "title": "Service Availability Trend (1h rolling %) ",
-        "gridPos": {"h": 10, "w": 12, "x": 0, "y": 5},
+        "gridPos": {"h": 10, "w": 12, "x": 0, "y": 10},
         "datasource": {"type": "prometheus", "uid": "$PROM_UID"},
         "targets": [{"expr": "avg_over_time(up{job=~\"traefik|gitea|grafana|prometheus|minio|loki|jaeger\"}[1h]) * 100", "refId": "A"}]
       },
       {
         "type": "timeseries",
         "title": "Transitions by Service (24h)",
-        "gridPos": {"h": 10, "w": 12, "x": 12, "y": 5},
+        "gridPos": {"h": 10, "w": 12, "x": 12, "y": 10},
         "datasource": {"type": "prometheus", "uid": "$PROM_UID"},
         "targets": [{"expr": "changes(up{job=~\"traefik|gitea|grafana|prometheus|minio|loki|jaeger\"}[24h])", "refId": "A"}]
       },
       {
         "type": "table",
         "title": "Current Service Status",
-        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 15},
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 20},
         "datasource": {"type": "prometheus", "uid": "$PROM_UID"},
         "targets": [{"expr": "up{job=~\"traefik|gitea|grafana|prometheus|minio|loki|jaeger\"}", "refId": "A", "instant": true}],
         "transformations": [
@@ -104,14 +136,14 @@ read -r -d '' DASHBOARD_JSON <<EOF || true
       {
         "type": "logs",
         "title": "Recent Chaos / Integrity Logs",
-        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 15},
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 20},
         "datasource": {"type": "loki", "uid": "$LOKI_UID"},
-        "targets": [{"expr": "{job=\"container-logs\"} |= \"CHAOS\" or {job=\"container-logs\"} |= \"service-integrity-check\"", "refId": "A"}]
+        "targets": [{"expr": "{job=\"chaos-events\"} |= \"CHAOS_EVENT\" or {job=\"container-logs\"} |= \"service-integrity-check\"", "refId": "A"}]
       },
       {
         "type": "alertlist",
         "title": "Current Alerts",
-        "gridPos": {"h": 8, "w": 24, "x": 0, "y": 23},
+        "gridPos": {"h": 8, "w": 24, "x": 0, "y": 28},
         "options": {"show": "current", "sortOrder": 1}
       }
     ]
