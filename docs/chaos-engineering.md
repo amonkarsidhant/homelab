@@ -96,6 +96,27 @@ Manual annotation only:
 ./scripts/chaos/chaosctl.sh annotate "CHAOS NOTE" "manual drill"
 ```
 
+## Weekly Automation
+
+Install weekly scheduled drill (systemd timer):
+
+```bash
+./scripts/chaos/chaosctl.sh install-weekly
+```
+
+Run weekly drill immediately (on-demand):
+
+```bash
+./scripts/chaos/chaosctl.sh weekly-now
+```
+
+Schedule:
+- `homelab-weekly-chaos.timer`
+- Sunday 03:30 UTC
+
+Generated report path:
+- `/home/sidhant/homelab/docs/chaos-reports/<date>-weekly-drill.md`
+
 ## Redundancy & Recovery Checks
 
 For each experiment, validate:

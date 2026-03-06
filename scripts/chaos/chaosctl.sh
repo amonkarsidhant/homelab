@@ -9,6 +9,8 @@ Usage:
   $0 list
   $0 observe
   $0 install-reporting
+  $0 install-weekly
+  $0 weekly-now
   $0 annotate <title> <text>
   $0 stop <container> <seconds> [--force]
   $0 delay <container> <seconds> <delay-ms> [--force]
@@ -36,6 +38,12 @@ case "$cmd" in
   install-reporting)
     "$SCRIPT_DIR/install-grafana-dashboard.sh"
     "$SCRIPT_DIR/install-grafana-reporting-dashboard.sh"
+    ;;
+  install-weekly)
+    "$SCRIPT_DIR/install-weekly-drill.sh"
+    ;;
+  weekly-now)
+    "$SCRIPT_DIR/weekly-chaos-drill.sh"
     ;;
   annotate)
     shift
