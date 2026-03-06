@@ -17,17 +17,7 @@ services:
       - /home/sidhant/traefik/dynamic:/etc/traefik/dynamic:ro
     environment:
       - TZ=UTC
-      - CF_API_TOKEN=Ep7s5D06mGXd8lxzID4FYClBiDbxJV9tZrkwFgP9
-
-  gitlab:
-    image: gitlab/gitlab-ce:latest
-    container_name: gitlab
-    restart: unless-stopped
-    hostname: gitlab.homelabdev.space
-    volumes:
-      - /mnt/data/docker/volumes/gitlab_config:/etc/gitlab
-      - /mnt/data/docker/volumes/gitlab_logs:/var/log/gitlab
-      - /mnt/data/docker/volumes/gitlab_data:/var/opt/gitlab
+      - CF_API_TOKEN=${CF_API_TOKEN}
 
   minio:
     image: minio/minio:latest
@@ -35,7 +25,7 @@ services:
     restart: unless-stopped
     environment:
       - MINIO_ROOT_USER=minioadmin
-      - MINIO_ROOT_PASSWORD=minioadmin
+      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
     command: server /data --console-address ":9001"
     volumes:
       - /mnt/data/minio/data:/data
@@ -58,11 +48,20 @@ services:
     restart: unless-stopped
     environment:
       - GF_SECURITY_ADMIN_USER=admin
-      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_SECURITY_ADMIN_PASSWORD=${GF_SECURITY_ADMIN_PASSWORD}
+      - GF_SECURITY_ADMIN_EMAIL=${GF_SECURITY_ADMIN_EMAIL}
+      - GF_SERVER_DOMAIN=grafana.homelabdev.space
+      - GF_SERVER_ROOT_URL=https://grafana.homelabdev.space
+      - GF_SMTP_ENABLED=true
+      - GF_SMTP_HOST=${SMTP_HOST}
+      - GF_SMTP_USER=${SMTP_USER}
+      - GF_SMTP_PASSWORD=${SMTP_PASSWORD}
+      - GF_SMTP_FROM_ADDRESS=${SMTP_FROM_ADDRESS}
+      - GF_SMTP_FROM_NAME=Grafana
       - GF_AUTH_GENERIC_OAUTH_ENABLED=true
       - GF_AUTH_GENERIC_OAUTH_NAME=Authelia
       - GF_AUTH_GENERIC_OAUTH_CLIENT_ID=grafana
-      - GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET=grafana_oidc_secret
+      - GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET=${GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET}
       - GF_AUTH_GENERIC_OAUTH_SCOPES=openid,profile,email
       - GF_AUTH_GENERIC_OAUTH_AUTH_URL=https://auth.homelabdev.space/api/oidc/authorization
       - GF_AUTH_GENERIC_OAUTH_TOKEN_URL=https://auth.homelabdev.space/api/oidc/token
