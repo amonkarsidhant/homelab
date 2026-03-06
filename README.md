@@ -7,8 +7,10 @@ Homelab infrastructure repo for Gitea, CI/CD, observability, auth, and operation
 - Homelab operations runbook: `docs/homelab-operations-runbook.md`
 - Homelab architecture: `docs/homelab-architecture.md`
 - Operations checklist: `docs/operations-checklist.md`
+- Chaos engineering guide: `docs/chaos-engineering.md`
 
 ## Key Scripts
 - Integrity check: `scripts/service-integrity-check.sh`
 - Integrity monitor (Discord alerts): `scripts/service-integrity-monitor.sh`
 - Service health check: `scripts/health-check.sh`
+- Chaos control CLI: `scripts/chaos/chaosctl.sh`
