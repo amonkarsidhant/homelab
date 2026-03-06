@@ -3,6 +3,35 @@ set -euo pipefail
 
 PROTECTED_SERVICES=(traefik authelia vaultwarden)
 
+now_epoch() {
+  date +%s
+}
+
+new_experiment_id() {
+  local ts
+  ts=$(date -u +%Y%m%dT%H%M%SZ)
+  echo "exp-${ts}-${RANDOM}"
+}
+
+emit_event() {
+  local phase="$1"
+  local experiment_id="$2"
+  local kind="$3"
+  local target="$4"
+  local status="$5"
+  local duration_sec="${6:-0}"
+  local delay_ms="${7:-0}"
+  local elapsed_sec="${8:-0}"
+
+  local msg ts
+  ts=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+  msg="CHAOS_EVENT phase=${phase} id=${experiment_id} kind=${kind} target=${target} status=${status} duration_sec=${duration_sec} delay_ms=${delay_ms} elapsed_sec=${elapsed_sec}"
+  mkdir -p /home/sidhant/logs/chaos
+  printf '%s %s\n' "$ts" "$msg" >> /home/sidhant/logs/chaos/events.log
+  logger -t chaosctl "$msg"
+  echo "$msg"
+}
+
 require_docker() {
   if ! command -v docker >/dev/null 2>&1; then
     echo "docker is required"
