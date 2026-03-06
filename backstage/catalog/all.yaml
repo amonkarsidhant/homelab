@@ -1,0 +1,199 @@
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: homelab
+  description: Azure VM homelab platform for delivery, observability, and security
+spec:
+  owner: group:platform
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: azure-vm
+  description: Single Azure VM hosting homelab services
+spec:
+  type: compute-instance
+  owner: group:platform
+  system: homelab
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: data-volume
+  description: Persistent volume mounted at /mnt/data
+spec:
+  type: storage
+  owner: group:platform
+  system: homelab
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: cloudflare-dns
+  description: DNS and edge routing for homelabdev.space
+spec:
+  type: dns
+  owner: group:platform
+  system: homelab
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: traefik
+  description: Reverse proxy and TLS ingress
+  links:
+    - url: https://traefik.homelabdev.space:8080
+      title: Traefik Dashboard
+    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/traefik
+      title: Source Directory
+spec:
+  type: service
+  lifecycle: production
+  owner: group:platform
+  system: homelab
+  dependsOn:
+    - resource:default/azure-vm
+    - resource:default/cloudflare-dns
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: gitea
+  description: Git hosting and CI control plane
+  links:
+    - url: https://gitea.homelabdev.space
+      title: Gitea
+    - url: https://gitea.homelabdev.space/sidhant/homelab
+      title: Homelab Repository
+spec:
+  type: service
+  lifecycle: production
+  owner: group:platform
+  system: homelab
+  dependsOn:
+    - component:default/traefik
+    - resource:default/data-volume
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: authelia
+  description: Authentication gateway for protected services
+  links:
+    - url: https://auth.homelabdev.space
+      title: Authelia
+spec:
+  type: service
+  lifecycle: production
+  owner: group:platform
+  system: homelab
+  dependsOn:
+    - component:default/traefik
+    - resource:default/data-volume
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: grafana
+  description: Dashboards and reporting
+  links:
+    - url: https://grafana.homelabdev.space
+      title: Grafana
+spec:
+  type: service
+  lifecycle: production
+  owner: group:platform
+  system: homelab
+  dependsOn:
+    - component:default/traefik
+    - component:default/loki
+    - component:default/prometheus
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: prometheus
+  description: Metrics collection and querying
+  links:
+    - url: https://prometheus.homelabdev.space
+      title: Prometheus
+spec:
+  type: service
+  lifecycle: production
+  owner: group:platform
+  system: homelab
+  dependsOn:
+    - component:default/traefik
+    - resource:default/data-volume
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: loki
+  description: Log aggregation backend
+spec:
+  type: service
+  lifecycle: production
+  owner: group:platform
+  system: homelab
+  dependsOn:
+    - component:default/traefik
+    - resource:default/data-volume
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: vaultwarden
+  description: Secrets and credentials management
+  links:
+    - url: https://vault.homelabdev.space
+      title: Vaultwarden
+spec:
+  type: service
+  lifecycle: production
+  owner: group:platform
+  system: homelab
+  dependsOn:
+    - component:default/traefik
+    - resource:default/data-volume
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: backstage
+  description: Developer portal and service catalog
+  links:
+    - url: https://backstage.homelabdev.space
+      title: Backstage Portal
+spec:
+  type: website
+  lifecycle: production
+  owner: group:platform
+  system: homelab
+  dependsOn:
+    - component:default/traefik
+    - component:default/gitea
+    - resource:default/data-volume
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: homelab-integrity-check
+  description: Runtime integrity check command output contract
+spec:
+  type: openapi
+  lifecycle: production
+  owner: group:platform
+  system: homelab
+  definition: |
+    openapi: 3.0.0
+    info:
+      title: Homelab Integrity Check
+      version: 1.0.0
+    paths:
+      /scripts/service-integrity-check.sh:
+        get:
+          summary: Executes integrity checks and reports BAD/WARN counts
+          responses:
+            '200':
+              description: Integrity result output

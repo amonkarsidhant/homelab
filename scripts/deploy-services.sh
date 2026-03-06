@@ -16,6 +16,7 @@ SERVICES=(
     "observability"
     "authelia"
     "mailserver"
+    "backstage"
 )
 
 deploy_services() {
@@ -35,7 +36,7 @@ deploy_services() {
     echo ""
     echo "=== Creating required directories on VM ==="
     ssh -i ~/.ssh/homelab_deploy -o StrictHostKeyChecking=no "$VM_USER@$VM_HOST" "
-        sudo mkdir -p /mnt/data/{traefik,gitea,act-runner,prometheus,grafana,loki,jaeger,minio,authelia,mailserver}
+        sudo mkdir -p /mnt/data/{traefik,gitea,act-runner,prometheus,grafana,loki,jaeger,minio,authelia,mailserver,backstage,backstage-postgres}
         sudo chown -R $VM_USER:$VM_USER /mnt/data
         docker network create traefik_default 2>/dev/null || true
     "
@@ -46,6 +47,8 @@ deploy_services() {
         cd /home/sidhant/traefik && docker-compose up -d
         cd /home/sidhant/gitea && docker-compose up -d
         cd /home/sidhant/act-runner && docker-compose up -d
+        cd /home/sidhant/backstage && [ -f .env ] || cp .env.example .env
+        cd /home/sidhant/backstage && docker-compose up -d
     "
     
     echo ""

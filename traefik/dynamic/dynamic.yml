@@ -95,6 +95,16 @@ http:
       tls:
         certResolver: letsencrypt
 
+    backstage:
+      rule: "Host(`backstage.homelabdev.space`)"
+      service: backstage
+      entryPoints:
+        - websecure
+      tls:
+        certResolver: letsencrypt
+      middlewares:
+        - authelia
+
   middlewares:
     authelia:
       forwardAuth:
@@ -136,3 +146,8 @@ http:
       loadBalancer:
         servers:
           - url: "http://vaultwarden:80"
+
+    backstage:
+      loadBalancer:
+        servers:
+          - url: "http://backstage:7007"
