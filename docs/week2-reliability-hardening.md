@@ -36,11 +36,18 @@ Week 2 focuses on operational reliability in CI/CD and runtime compose ownership
 - add and enforce practical CI checks that validate shell scripts and compose integrity
 - keep checks non-interactive and runner-safe
 
+### 4) Backstage Catalog Reliability
+
+- normalize core component metadata and dependencies
+- add a consistent service-readiness annotation convention
+- ensure each core component links to operational guidance
+
 ## Started Work
 
 - Removed observability service definitions from `traefik/docker-compose.yml` so containers are defined in one stack only.
 - Existing orchestrator startup flow already starts observability from `observability/docker-compose.yml`.
 - Added `scripts/ci-preflight.sh` and wired it into `.gitea/workflows/ci.yml` lint stage to fail early on compose ownership overlap and shell syntax issues.
+- Normalized `backstage/catalog/all.yaml` with core service annotations (`tier`, `criticality`, `runbook`) and stronger operations/source links.
 
 ## Completion Criteria
 
