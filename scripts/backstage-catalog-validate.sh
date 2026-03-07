@@ -57,6 +57,13 @@ for idx, doc in enumerate(docs, start=1):
     if not (has_source or has_runbook):
         errors.append(f"{name}: links should include 'Source Directory' or 'Runbook'")
 
+    gitea_repo = annotations.get("homelab.dev/gitea-repo")
+    if gitea_repo:
+        if "/" not in gitea_repo:
+            errors.append(f"{name}: homelab.dev/gitea-repo should be owner/repo")
+        if "CI/CD (Gitea Actions)" not in titles:
+            errors.append(f"{name}: missing 'CI/CD (Gitea Actions)' link")
+
 if errors:
     print("Backstage catalog validation failed:")
     for err in errors:

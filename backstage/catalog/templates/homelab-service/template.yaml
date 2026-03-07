@@ -64,6 +64,7 @@ spec:
       required:
         - serviceUrl
         - sourceDirectoryUrl
+        - giteaRepo
       properties:
         serviceUrl:
           type: string
@@ -73,6 +74,12 @@ spec:
           type: string
           title: Source Directory URL
           format: uri
+        giteaRepo:
+          type: string
+          title: Gitea Repo
+          description: owner/repository slug used for CI lookups
+          default: sidhant/homelab
+          pattern: '^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$'
 
   steps:
     - id: generateCatalogInfo
@@ -90,6 +97,7 @@ spec:
           runbookPath: ${{ parameters.runbookPath }}
           serviceUrl: ${{ parameters.serviceUrl }}
           sourceDirectoryUrl: ${{ parameters.sourceDirectoryUrl }}
+          giteaRepo: ${{ parameters.giteaRepo }}
 
     - id: nextSteps
       name: Show Next Steps

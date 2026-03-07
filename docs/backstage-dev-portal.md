@@ -73,6 +73,14 @@ Usage:
 4. Copy generated `catalog-info.yaml` into your target service repository
 5. Register the component in Backstage Catalog
 
+## CI/CD Metadata Contract (Phase 1+2)
+
+- Annotation: `homelab.dev/gitea-repo` (format: `owner/repo`)
+- Link title: `CI/CD (Gitea Actions)`
+- Current rollout: `homelab-operations-hub` and all newly generated service entities via template
+
+This provides a consistent CI identity contract while we prepare a dedicated Gitea CI plugin/card integration.
+
 ## Guest Access Policy
 
 - Guest auth is allowed temporarily for homelab usability.
