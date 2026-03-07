@@ -15,8 +15,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Run ShellCheck
-        run: echo "Running linting..."
+      - name: Run preflight checks
+        run: |
+          bash scripts/ci-preflight.sh
 
   test:
     runs-on: ubuntu-latest
