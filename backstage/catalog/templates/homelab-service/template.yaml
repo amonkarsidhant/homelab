@@ -1,0 +1,108 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: homelab-service-onboarding
+  title: Homelab Service Onboarding
+  description: Generate a standardized catalog-info.yaml for a new homelab service
+  tags:
+    - homelab
+    - onboarding
+    - catalog
+spec:
+  owner: group:platform
+  type: service
+
+  parameters:
+    - title: Service Basics
+      required:
+        - serviceName
+        - serviceDescription
+        - owner
+      properties:
+        serviceName:
+          type: string
+          title: Service Name
+          description: Lowercase kebab-case service id
+          pattern: '^[a-z0-9-]+$'
+        serviceDescription:
+          type: string
+          title: Service Description
+        owner:
+          type: string
+          title: Owner Entity Ref
+          description: Backstage owner reference
+          default: group:platform
+
+    - title: Readiness Metadata
+      required:
+        - lifecycle
+        - tier
+        - criticality
+        - runbookPath
+      properties:
+        lifecycle:
+          type: string
+          title: Lifecycle
+          enum: [production, experimental, deprecated]
+          default: production
+        tier:
+          type: string
+          title: Tier
+          enum: [platform, observability, security, reliability, developer-experience, operations]
+          default: platform
+        criticality:
+          type: string
+          title: Criticality
+          enum: [low, medium, high]
+          default: medium
+        runbookPath:
+          type: string
+          title: Runbook Path
+          default: docs/homelab-operations-runbook.md
+
+    - title: Links
+      required:
+        - serviceUrl
+        - sourceDirectoryUrl
+      properties:
+        serviceUrl:
+          type: string
+          title: Service URL
+          format: uri
+        sourceDirectoryUrl:
+          type: string
+          title: Source Directory URL
+          format: uri
+
+  steps:
+    - id: generateCatalogInfo
+      name: Generate catalog-info.yaml
+      action: fetch:template
+      input:
+        url: ./skeleton
+        values:
+          serviceName: ${{ parameters.serviceName }}
+          serviceDescription: ${{ parameters.serviceDescription }}
+          owner: ${{ parameters.owner }}
+          lifecycle: ${{ parameters.lifecycle }}
+          tier: ${{ parameters.tier }}
+          criticality: ${{ parameters.criticality }}
+          runbookPath: ${{ parameters.runbookPath }}
+          serviceUrl: ${{ parameters.serviceUrl }}
+          sourceDirectoryUrl: ${{ parameters.sourceDirectoryUrl }}
+
+    - id: nextSteps
+      name: Show Next Steps
+      action: debug:log
+      input:
+        message: |
+          Generated ./catalog-info.yaml in the task workspace.
+          Next steps:
+          1) Copy the generated file into your service repo.
+          2) Register/import the file in Backstage (Catalog -> Register Existing Component).
+          3) Add service-specific dependsOn entries and links if needed.
+
+  output:
+    text:
+      - title: Next Step
+        content: Copy generated catalog-info.yaml into your target service repository.

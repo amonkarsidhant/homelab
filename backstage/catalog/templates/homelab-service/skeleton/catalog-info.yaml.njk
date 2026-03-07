@@ -1,0 +1,19 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: {{ values.serviceName }}
+  description: {{ values.serviceDescription }}
+  annotations:
+    homelab.dev/tier: {{ values.tier }}
+    homelab.dev/criticality: {{ values.criticality }}
+    homelab.dev/runbook: {{ values.runbookPath }}
+  links:
+    - url: {{ values.serviceUrl }}
+      title: Service URL
+    - url: {{ values.sourceDirectoryUrl }}
+      title: Source Directory
+spec:
+  type: service
+  lifecycle: {{ values.lifecycle }}
+  owner: {{ values.owner }}
+  system: homelab

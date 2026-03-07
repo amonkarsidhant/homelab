@@ -388,3 +388,12 @@ spec:
           responses:
             '200':
               description: Integrity result output
+---
+apiVersion: backstage.io/v1alpha1
+kind: Location
+metadata:
+  name: homelab-service-onboarding-template
+  description: Golden path template for homelab service catalog onboarding
+spec:
+  type: file
+  target: /app/catalog/templates/homelab-service/template.yaml
