@@ -7,11 +7,14 @@ metadata:
     homelab.dev/tier: {{ values.tier }}
     homelab.dev/criticality: {{ values.criticality }}
     homelab.dev/runbook: {{ values.runbookPath }}
+    homelab.dev/gitea-repo: {{ values.giteaRepo }}
   links:
     - url: {{ values.serviceUrl }}
       title: Service URL
     - url: {{ values.sourceDirectoryUrl }}
       title: Source Directory
+    - url: https://gitea.homelabdev.space/{{ values.giteaRepo }}/actions
+      title: CI/CD (Gitea Actions)
 spec:
   type: service
   lifecycle: {{ values.lifecycle }}
