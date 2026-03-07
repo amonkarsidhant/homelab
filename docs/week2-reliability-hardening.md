@@ -54,6 +54,7 @@ Week 2 focuses on operational reliability in CI/CD and runtime compose ownership
 - Added a Backstage golden-path template (`homelab-service-onboarding`) to standardize new service catalog metadata.
 - Extended deploy verification to assert Backstage template files are mounted and registered in catalog source.
 - Started CI/CD metadata contract rollout for Backstage entities (`homelab.dev/gitea-repo` + `CI/CD (Gitea Actions)` link).
+- Added Cortex-inspired scorecard generation and policy enforcement in CI preflight (`scripts/backstage-scorecard.sh`).
 
 ## Completion Criteria
 
