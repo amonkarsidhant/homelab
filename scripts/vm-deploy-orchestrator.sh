@@ -104,7 +104,7 @@ start_services() {
   (cd "$LIVE_BASE/traefik" && docker compose up -d)
   (cd "$LIVE_BASE/gitea" && docker compose up -d)
   (cd "$LIVE_BASE/act-runner" && docker compose up -d)
-  (cd "$LIVE_BASE/observability" && docker compose up -d)
+  (cd "$LIVE_BASE/observability" && docker compose up -d promtail cadvisor alertmanager)
   (cd "$LIVE_BASE/backstage" && docker compose up -d)
   (cd "$LIVE_BASE/goalert" && docker compose up -d)
 }
