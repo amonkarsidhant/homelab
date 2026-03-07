@@ -77,6 +77,15 @@ http:
       tls:
         certResolver: letsencrypt
 
+    gitea-git-http:
+      rule: "Host(`gitea.homelabdev.space`) && (PathRegexp(`^/.+/.+/info/refs$`) || PathRegexp(`^/.+/.+/git-upload-pack$`) || PathRegexp(`^/.+/.+/git-receive-pack$`))"
+      service: gitea
+      entryPoints:
+        - websecure
+      priority: 111
+      tls:
+        certResolver: letsencrypt
+
     code:
       rule: "Host(`code.homelabdev.space`)"
       service: code
