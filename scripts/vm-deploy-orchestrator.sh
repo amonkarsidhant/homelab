@@ -38,6 +38,45 @@ require_route_response() {
   esac
 }
 
+require_backstage_catalog_files() {
+  if docker exec backstage sh -lc 'test -s /app/catalog/all.yaml && test -s /app/catalog/org.yaml'; then
+    log "OK backstage catalog files mounted"
+    return 0
+  fi
+
+  log "ERROR backstage catalog files missing in container"
+  return 1
+}
+
+require_backstage_catalog_entity_in_source() {
+  local entity_name="$1"
+  if grep -q "name: ${entity_name}" "$LIVE_BASE/backstage/catalog/all.yaml"; then
+    log "OK backstage catalog source contains entity: ${entity_name}"
+    return 0
+  fi
+
+  log "ERROR backstage catalog source missing entity: ${entity_name}"
+  return 1
+}
+
+require_no_backstage_catalog_missing_file_warnings() {
+  local recent_logs
+  recent_logs="$(docker logs --since 2m backstage 2>&1 || true)"
+
+  if echo "$recent_logs" | grep -q 'file /app/catalog/all.yaml does not exist'; then
+    log "ERROR backstage reported missing /app/catalog/all.yaml"
+    return 1
+  fi
+
+  if echo "$recent_logs" | grep -q 'file /app/catalog/org.yaml does not exist'; then
+    log "ERROR backstage reported missing /app/catalog/org.yaml"
+    return 1
+  fi
+
+  log "OK backstage logs show catalog files available"
+  return 0
+}
+
 ensure_prereqs() {
   log "Ensuring data directories and Docker network"
 
@@ -189,6 +228,11 @@ verify_deploy() {
   require_route_response "jaeger.homelabdev.space" "/" || failures=$((failures + 1))
   require_route_response "minio.homelabdev.space" "/" || failures=$((failures + 1))
   require_route_response "goalert.homelabdev.space" "/" || failures=$((failures + 1))
+
+  echo "=== Backstage Catalog Assertions ==="
+  require_backstage_catalog_files || failures=$((failures + 1))
+  require_backstage_catalog_entity_in_source "homelab-operations-hub" || failures=$((failures + 1))
+  require_no_backstage_catalog_missing_file_warnings || failures=$((failures + 1))
 
   if [ "$failures" -gt 0 ]; then
     log "Deployment verification failed with $failures issue(s)"
