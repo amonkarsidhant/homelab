@@ -9,6 +9,35 @@ log() {
   printf '[vm-deploy] %s\n' "$1"
 }
 
+require_running_container() {
+  local name="$1"
+  if docker ps --format '{{.Names}}' | grep -qx "$name"; then
+    log "OK container: $name"
+    return 0
+  fi
+
+  log "ERROR container not running: $name"
+  return 1
+}
+
+require_route_response() {
+  local host="$1"
+  local path="${2:-/}"
+  local status
+
+  status="$(curl -ksS -o /dev/null -w '%{http_code}' --max-time 10 -H "Host: $host" "https://127.0.0.1$path" || true)"
+  case "$status" in
+    2*|3*|401|403)
+      log "OK route: https://$host$path -> $status"
+      return 0
+      ;;
+    *)
+      log "ERROR route failed: https://$host$path -> $status"
+      return 1
+      ;;
+  esac
+}
+
 ensure_prereqs() {
   log "Ensuring data directories and Docker network"
 
@@ -118,6 +147,25 @@ seed_goalert_admin() {
 }
 
 verify_deploy() {
+  local failures=0
+  local expected_containers=(
+    traefik
+    minio
+    gitea
+    act-runner
+    prometheus
+    grafana
+    loki
+    jaeger
+    promtail
+    cadvisor
+    alertmanager
+    backstage-postgres
+    backstage
+    goalert-postgres
+    goalert
+  )
+
   log "Verifying deployment"
   echo "=== VM Status ==="
   uptime
@@ -125,6 +173,29 @@ verify_deploy() {
   (cd "$APP_DIR" && git log -1 --oneline)
   echo "=== Containers ==="
   docker ps --format 'table {{.Names}}\t{{.Status}}\t{{.Ports}}'
+
+  echo "=== Container Assertions ==="
+  for name in "${expected_containers[@]}"; do
+    if ! require_running_container "$name"; then
+      failures=$((failures + 1))
+    fi
+  done
+
+  echo "=== Route Assertions ==="
+  require_route_response "gitea.homelabdev.space" "/" || failures=$((failures + 1))
+  require_route_response "backstage.homelabdev.space" "/" || failures=$((failures + 1))
+  require_route_response "prometheus.homelabdev.space" "/" || failures=$((failures + 1))
+  require_route_response "grafana.homelabdev.space" "/" || failures=$((failures + 1))
+  require_route_response "jaeger.homelabdev.space" "/" || failures=$((failures + 1))
+  require_route_response "minio.homelabdev.space" "/" || failures=$((failures + 1))
+  require_route_response "goalert.homelabdev.space" "/" || failures=$((failures + 1))
+
+  if [ "$failures" -gt 0 ]; then
+    log "Deployment verification failed with $failures issue(s)"
+    exit 1
+  fi
+
+  log "Deployment verification passed"
 }
 
 deploy_all() {
