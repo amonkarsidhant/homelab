@@ -45,9 +45,19 @@ Backstage is exposed through Traefik with Authelia forward auth:
 Current catalog includes:
 
 - System: `homelab`
-- Components: `traefik`, `gitea`, `authelia`, `grafana`, `prometheus`, `loki`, `vaultwarden`, `backstage`
+- Components: `traefik`, `gitea`, `act-runner`, `authelia`, `prometheus`, `grafana`, `loki`, `jaeger`, `minio`, `vaultwarden`, `backstage`, `goalert`
 - Resources: `azure-vm`, `data-volume`, `cloudflare-dns`
 - API: `homelab-integrity-check`
+
+## Service Readiness Metadata Convention
+
+Week 2 introduces consistent custom annotations in component entities:
+
+- `homelab.dev/tier`
+- `homelab.dev/criticality`
+- `homelab.dev/runbook`
+
+These annotations help keep reliability and operational ownership visible in the catalog.
 
 ## Adding a New Service to Catalog
 

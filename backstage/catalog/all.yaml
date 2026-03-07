@@ -41,11 +41,19 @@ kind: Component
 metadata:
   name: traefik
   description: Reverse proxy and TLS ingress
+  annotations:
+    homelab.dev/tier: platform
+    homelab.dev/criticality: high
+    homelab.dev/runbook: docs/homelab-operations-runbook.md
   links:
     - url: https://traefik.homelabdev.space:8080
-      title: Traefik Dashboard
+      title: Service URL
     - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/traefik
       title: Source Directory
+    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/homelab-operations-runbook.md
+      title: Runbook
+    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/operations-checklist.md
+      title: Ops Checklist
 spec:
   type: service
   lifecycle: production
@@ -60,11 +68,19 @@ kind: Component
 metadata:
   name: gitea
   description: Git hosting and CI control plane
+  annotations:
+    homelab.dev/tier: platform
+    homelab.dev/criticality: high
+    homelab.dev/runbook: docs/homelab-operations-runbook.md
   links:
     - url: https://gitea.homelabdev.space
-      title: Gitea
+      title: Service URL
     - url: https://gitea.homelabdev.space/sidhant/homelab
       title: Homelab Repository
+    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/gitea
+      title: Source Directory
+    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/homelab-operations-runbook.md
+      title: Runbook
 spec:
   type: service
   lifecycle: production
@@ -77,11 +93,70 @@ spec:
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
+  name: act-runner
+  description: Gitea Actions runtime agent
+  annotations:
+    homelab.dev/tier: platform
+    homelab.dev/criticality: high
+    homelab.dev/runbook: docs/homelab-operations-runbook.md
+  links:
+    - url: https://gitea.homelabdev.space/admin/actions/runners
+      title: Runner Admin
+    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/act-runner
+      title: Source Directory
+    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/homelab-operations-runbook.md
+      title: Runbook
+spec:
+  type: service
+  lifecycle: production
+  owner: group:platform
+  system: homelab
+  dependsOn:
+    - component:default/gitea
+    - component:default/traefik
+    - resource:default/data-volume
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
   name: authelia
   description: Authentication gateway for protected services
+  annotations:
+    homelab.dev/tier: platform
+    homelab.dev/criticality: high
+    homelab.dev/runbook: docs/homelab-operations-runbook.md
   links:
     - url: https://auth.homelabdev.space
-      title: Authelia
+      title: Service URL
+    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/traefik
+      title: Source Directory
+    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/homelab-operations-runbook.md
+      title: Runbook
+spec:
+  type: service
+  lifecycle: production
+  owner: group:platform
+  system: homelab
+  dependsOn:
+    - component:default/traefik
+    - resource:default/data-volume
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: prometheus
+  description: Metrics collection and querying
+  annotations:
+    homelab.dev/tier: observability
+    homelab.dev/criticality: high
+    homelab.dev/runbook: docs/homelab-operations-runbook.md
+  links:
+    - url: https://prometheus.homelabdev.space
+      title: Service URL
+    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/observability
+      title: Source Directory
+    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/operations-checklist.md
+      title: Ops Checklist
 spec:
   type: service
   lifecycle: production
@@ -96,27 +171,63 @@ kind: Component
 metadata:
   name: grafana
   description: Dashboards and reporting
+  annotations:
+    homelab.dev/tier: observability
+    homelab.dev/criticality: medium
+    homelab.dev/runbook: docs/homelab-operations-runbook.md
   links:
     - url: https://grafana.homelabdev.space
-      title: Grafana
+      title: Service URL
+    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/observability
+      title: Source Directory
+    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/chaos-engineering.md
+      title: Chaos Operations
 spec:
   type: service
   lifecycle: production
   owner: group:platform
   system: homelab
   dependsOn:
-    - component:default/traefik
-    - component:default/loki
     - component:default/prometheus
+    - component:default/loki
+    - resource:default/data-volume
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: prometheus
-  description: Metrics collection and querying
+  name: loki
+  description: Log aggregation backend
+  annotations:
+    homelab.dev/tier: observability
+    homelab.dev/criticality: medium
+    homelab.dev/runbook: docs/homelab-operations-runbook.md
   links:
-    - url: https://prometheus.homelabdev.space
-      title: Prometheus
+    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/observability
+      title: Source Directory
+    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/homelab-operations-runbook.md
+      title: Runbook
+spec:
+  type: service
+  lifecycle: production
+  owner: group:platform
+  system: homelab
+  dependsOn:
+    - resource:default/data-volume
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: jaeger
+  description: Distributed tracing backend and UI
+  annotations:
+    homelab.dev/tier: observability
+    homelab.dev/criticality: medium
+    homelab.dev/runbook: docs/homelab-operations-runbook.md
+  links:
+    - url: https://jaeger.homelabdev.space
+      title: Service URL
+    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/observability
+      title: Source Directory
 spec:
   type: service
   lifecycle: production
@@ -129,8 +240,17 @@ spec:
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: loki
-  description: Log aggregation backend
+  name: minio
+  description: Object storage for artifacts and backups
+  annotations:
+    homelab.dev/tier: platform
+    homelab.dev/criticality: high
+    homelab.dev/runbook: docs/homelab-operations-runbook.md
+  links:
+    - url: https://minio.homelabdev.space
+      title: Service URL
+    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/traefik
+      title: Source Directory
 spec:
   type: service
   lifecycle: production
@@ -145,9 +265,17 @@ kind: Component
 metadata:
   name: vaultwarden
   description: Secrets and credentials management
+  annotations:
+    homelab.dev/tier: security
+    homelab.dev/criticality: high
+    homelab.dev/runbook: docs/homelab-operations-runbook.md
   links:
     - url: https://vault.homelabdev.space
-      title: Vaultwarden
+      title: Service URL
+    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/vaultwarden-admin-user-guide.md
+      title: Vaultwarden Guide
+    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/homelab-operations-runbook.md
+      title: Runbook
 spec:
   type: service
   lifecycle: production
@@ -162,9 +290,17 @@ kind: Component
 metadata:
   name: backstage
   description: Developer portal and service catalog
+  annotations:
+    homelab.dev/tier: developer-experience
+    homelab.dev/criticality: medium
+    homelab.dev/runbook: docs/homelab-operations-runbook.md
   links:
     - url: https://backstage.homelabdev.space
-      title: Backstage Portal
+      title: Service URL
+    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/backstage
+      title: Source Directory
+    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/backstage-dev-portal.md
+      title: Backstage Guide
 spec:
   type: website
   lifecycle: production
@@ -180,9 +316,17 @@ kind: Component
 metadata:
   name: goalert
   description: On-call scheduling and escalation management
+  annotations:
+    homelab.dev/tier: reliability
+    homelab.dev/criticality: high
+    homelab.dev/runbook: docs/homelab-operations-runbook.md
   links:
     - url: https://goalert.homelabdev.space
-      title: GoAlert
+      title: Service URL
+    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/goalert
+      title: Source Directory
+    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/homelab-operations-runbook.md
+      title: Runbook
 spec:
   type: service
   lifecycle: production
@@ -190,6 +334,7 @@ spec:
   system: homelab
   dependsOn:
     - component:default/traefik
+    - component:default/prometheus
     - resource:default/data-volume
 ---
 apiVersion: backstage.io/v1alpha1
