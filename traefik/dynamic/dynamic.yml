@@ -105,6 +105,14 @@ http:
       middlewares:
         - authelia
 
+    goalert:
+      rule: "Host(`goalert.homelabdev.space`)"
+      service: goalert
+      entryPoints:
+        - websecure
+      tls:
+        certResolver: letsencrypt
+
   middlewares:
     authelia:
       forwardAuth:
@@ -151,3 +159,8 @@ http:
       loadBalancer:
         servers:
           - url: "http://backstage:7007"
+
+    goalert:
+      loadBalancer:
+        servers:
+          - url: "http://goalert:8081"

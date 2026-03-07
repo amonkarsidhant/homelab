@@ -1,0 +1,172 @@
+groups:
+  - name: vm-services
+    rules:
+      - alert: ServiceDownTraefik
+        expr: absent(container_last_seen{name=~"/?traefik"})
+        for: 2m
+        labels:
+          severity: critical
+          service: traefik
+        annotations:
+          summary: Traefik container is down
+          details: The traefik container is not present in cAdvisor metrics for 2 minutes.
+
+      - alert: ServiceDownGitea
+        expr: absent(container_last_seen{name=~"/?gitea"})
+        for: 2m
+        labels:
+          severity: critical
+          service: gitea
+        annotations:
+          summary: Gitea container is down
+          details: The gitea container is not present in cAdvisor metrics for 2 minutes.
+
+      - alert: ServiceDownActRunner
+        expr: absent(container_last_seen{name=~"/?act-runner"})
+        for: 2m
+        labels:
+          severity: critical
+          service: act-runner
+        annotations:
+          summary: Act Runner container is down
+          details: The act-runner container is not present in cAdvisor metrics for 2 minutes.
+
+      - alert: ServiceDownAuthelia
+        expr: absent(container_last_seen{name=~"/?authelia"})
+        for: 2m
+        labels:
+          severity: critical
+          service: authelia
+        annotations:
+          summary: Authelia container is down
+          details: The authelia container is not present in cAdvisor metrics for 2 minutes.
+
+      - alert: ServiceDownVaultwarden
+        expr: absent(container_last_seen{name=~"/?vaultwarden"})
+        for: 2m
+        labels:
+          severity: critical
+          service: vaultwarden
+        annotations:
+          summary: Vaultwarden container is down
+          details: The vaultwarden container is not present in cAdvisor metrics for 2 minutes.
+
+      - alert: ServiceDownPrometheus
+        expr: absent(container_last_seen{name=~"/?prometheus"})
+        for: 2m
+        labels:
+          severity: critical
+          service: prometheus
+        annotations:
+          summary: Prometheus container is down
+          details: The prometheus container is not present in cAdvisor metrics for 2 minutes.
+
+      - alert: ServiceDownGrafana
+        expr: absent(container_last_seen{name=~"/?grafana"})
+        for: 2m
+        labels:
+          severity: critical
+          service: grafana
+        annotations:
+          summary: Grafana container is down
+          details: The grafana container is not present in cAdvisor metrics for 2 minutes.
+
+      - alert: ServiceDownLoki
+        expr: absent(container_last_seen{name=~"/?loki"})
+        for: 2m
+        labels:
+          severity: critical
+          service: loki
+        annotations:
+          summary: Loki container is down
+          details: The loki container is not present in cAdvisor metrics for 2 minutes.
+
+      - alert: ServiceDownPromtail
+        expr: absent(container_last_seen{name=~"/?promtail"})
+        for: 2m
+        labels:
+          severity: critical
+          service: promtail
+        annotations:
+          summary: Promtail container is down
+          details: The promtail container is not present in cAdvisor metrics for 2 minutes.
+
+      - alert: ServiceDownJaeger
+        expr: absent(container_last_seen{name=~"/?jaeger"})
+        for: 2m
+        labels:
+          severity: critical
+          service: jaeger
+        annotations:
+          summary: Jaeger container is down
+          details: The jaeger container is not present in cAdvisor metrics for 2 minutes.
+
+      - alert: ServiceDownMinio
+        expr: absent(container_last_seen{name=~"/?minio"})
+        for: 2m
+        labels:
+          severity: critical
+          service: minio
+        annotations:
+          summary: MinIO container is down
+          details: The minio container is not present in cAdvisor metrics for 2 minutes.
+
+      - alert: ServiceDownBackstage
+        expr: absent(container_last_seen{name=~"/?backstage"})
+        for: 2m
+        labels:
+          severity: critical
+          service: backstage
+        annotations:
+          summary: Backstage container is down
+          details: The backstage container is not present in cAdvisor metrics for 2 minutes.
+
+      - alert: ServiceDownBackstagePostgres
+        expr: absent(container_last_seen{name=~"/?backstage-postgres"})
+        for: 2m
+        labels:
+          severity: critical
+          service: backstage-postgres
+        annotations:
+          summary: Backstage Postgres container is down
+          details: The backstage-postgres container is not present in cAdvisor metrics for 2 minutes.
+
+      - alert: ServiceDownCodeServer
+        expr: absent(container_last_seen{name=~"/?code-server"})
+        for: 2m
+        labels:
+          severity: critical
+          service: code-server
+        annotations:
+          summary: code-server container is down
+          details: The code-server container is not present in cAdvisor metrics for 2 minutes.
+
+      - alert: ServiceDownMailserver
+        expr: absent(container_last_seen{name=~"/?mailserver"})
+        for: 2m
+        labels:
+          severity: critical
+          service: mailserver
+        annotations:
+          summary: Mailserver container is down
+          details: The mailserver container is not present in cAdvisor metrics for 2 minutes.
+
+      - alert: ServiceDownGoAlert
+        expr: absent(container_last_seen{name=~"/?goalert"})
+        for: 2m
+        labels:
+          severity: critical
+          service: goalert
+        annotations:
+          summary: GoAlert container is down
+          details: The goalert container is not present in cAdvisor metrics for 2 minutes.
+
+      - alert: ServiceDownGoAlertPostgres
+        expr: absent(container_last_seen{name=~"/?goalert-postgres"})
+        for: 2m
+        labels:
+          severity: critical
+          service: goalert-postgres
+        annotations:
+          summary: GoAlert Postgres container is down
+          details: The goalert-postgres container is not present in cAdvisor metrics for 2 minutes.

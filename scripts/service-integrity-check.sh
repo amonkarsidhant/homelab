@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-CONTAINERS=(traefik minio prometheus grafana loki jaeger gitea act-runner authelia vaultwarden code-server mailserver promtail backstage backstage-postgres)
+CONTAINERS=(traefik minio prometheus grafana loki jaeger gitea act-runner authelia vaultwarden code-server mailserver promtail backstage backstage-postgres goalert goalert-postgres cadvisor alertmanager)
 GITEA_REPO_PATH="${GITEA_REPO_PATH:-/data/git/repositories/sidhant/homelab.git}"
 
 BAD_COUNT=0
