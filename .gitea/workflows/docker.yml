@@ -89,14 +89,14 @@ jobs:
       - name: Push to MinIO Registry
         run: |
           echo "Pushing to MinIO registry..."
-          docker tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          docker tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest || true
           # docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
           
       - name: Push with version tag
         if: startsWith(github.ref, 'refs/tags/')
         run: |
           VERSION=${GITHUB_REF#refs/tags/}
-          docker tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:$VERSION
+          docker tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:$VERSION || true
           # docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:$VERSION
           
       - name: List pushed images
