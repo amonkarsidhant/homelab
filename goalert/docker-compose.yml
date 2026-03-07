@@ -1,0 +1,34 @@
+services:
+  goalert:
+    image: goalert/goalert:v0.34.1
+    container_name: goalert
+    restart: unless-stopped
+    depends_on:
+      goalert-postgres:
+        condition: service_healthy
+    environment:
+      GOALERT_DB_URL: postgres://goalert:${GOALERT_DB_PASSWORD}@goalert-postgres:5432/goalert?sslmode=disable
+      GOALERT_DATA_ENCRYPTION_KEY: ${GOALERT_DATA_ENCRYPTION_KEY}
+      GOALERT_PUBLIC_URL: https://goalert.homelabdev.space
+      GOALERT_LISTEN: 0.0.0.0:8081
+
+  goalert-postgres:
+    image: postgres:17-alpine
+    container_name: goalert-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: goalert
+      POSTGRES_USER: goalert
+      POSTGRES_PASSWORD: ${GOALERT_DB_PASSWORD}
+    volumes:
+      - /mnt/data/goalert-postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U goalert -d goalert"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+networks:
+  default:
+    name: traefik_default
+    external: true

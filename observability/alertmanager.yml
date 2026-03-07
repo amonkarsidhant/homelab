@@ -1,0 +1,25 @@
+global:
+  resolve_timeout: 5m
+
+route:
+  receiver: goalert
+  group_by:
+    - alertname
+    - severity
+  group_wait: 15s
+  group_interval: 1m
+  repeat_interval: 1h
+
+receivers:
+  - name: goalert
+    webhook_configs:
+      - url: "http://goalert:8081/api/v2/prometheusalertmanager/incoming?token=${GOALERT_PROM_ALERT_TOKEN}"
+        send_resolved: true
+
+inhibit_rules:
+  - source_matchers:
+      - severity = critical
+    target_matchers:
+      - severity = warning
+    equal:
+      - alertname

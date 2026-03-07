@@ -176,6 +176,23 @@ spec:
     - resource:default/data-volume
 ---
 apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: goalert
+  description: On-call scheduling and escalation management
+  links:
+    - url: https://goalert.homelabdev.space
+      title: GoAlert
+spec:
+  type: service
+  lifecycle: production
+  owner: group:platform
+  system: homelab
+  dependsOn:
+    - component:default/traefik
+    - resource:default/data-volume
+---
+apiVersion: backstage.io/v1alpha1
 kind: API
 metadata:
   name: homelab-integrity-check

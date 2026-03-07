@@ -68,63 +68,18 @@ jobs:
             echo 'Code deployed!'
           "
 
-      - name: Setup VM Services
+      - name: Orchestrate VM deploy
         run: |
-          echo "=== Setting up VM services ==="
+          echo "=== Running unified deploy orchestrator ==="
           ssh ${{ env.VM_USER }}@${{ env.VM_HOST }} "
-            cd ${{ env.APP_DIR }} && \
-            
-            # Create required directories on extra volume
-            sudo mkdir -p /mnt/data/{traefik,gitea,act-runner,prometheus,grafana,loki,jaeger,minio,authelia,mailserver,backstage,backstage-postgres}
-            sudo chown -R 65534:65534 /mnt/data/prometheus /mnt/data/grafana 2>/dev/null || true
-            
-            # Create Docker network if not exists
-            docker network create traefik_default 2>/dev/null || true
-            
-            # Link or copy service files to correct locations
-            echo 'Setting up service files...'
-            
-            # Traefik
-            mkdir -p /home/sidhant/traefik
-            cp -r ${{ env.APP_DIR }}/traefik/* /home/sidhant/traefik/ 2>/dev/null || true
-            
-            # Gitea
-            mkdir -p /home/sidhant/gitea
-            cp ${{ env.APP_DIR }}/gitea/docker-compose.yml /home/sidhant/gitea/
-            
-            # Act Runner
-            mkdir -p /home/sidhant/act-runner
-            cp ${{ env.APP_DIR }}/act-runner/docker-compose.yml /home/sidhant/act-runner/
-
-            # Backstage
-            mkdir -p /home/sidhant/backstage
-            cp ${{ env.APP_DIR }}/backstage/docker-compose.yml /home/sidhant/backstage/
-            cp ${{ env.APP_DIR }}/backstage/app-config.yaml /home/sidhant/backstage/
-            cp ${{ env.APP_DIR }}/backstage/app-config.production.yaml /home/sidhant/backstage/
-            rm -rf /home/sidhant/backstage/catalog
-            cp -r ${{ env.APP_DIR }}/backstage/catalog /home/sidhant/backstage/catalog
-
-            if [ ! -f /home/sidhant/backstage/.env ]; then
-              POSTGRES_PASSWORD=$(openssl rand -hex 24)
-              BACKEND_SECRET=$(openssl rand -hex 32)
-              printf 'POSTGRES_PASSWORD=%s\nBACKEND_SECRET=%s\n' "$POSTGRES_PASSWORD" "$BACKEND_SECRET" > /home/sidhant/backstage/.env
-              chmod 600 /home/sidhant/backstage/.env
-            fi
-            
-            echo 'Service files set up!'
+            APP_DIR='${{ env.APP_DIR }}' VM_USER='${{ env.VM_USER }}' bash '${{ env.APP_DIR }}/scripts/vm-deploy-orchestrator.sh' deploy
           "
 
-      - name: Start Services
+      - name: Drift check
         run: |
-          echo "=== Starting services ==="
+          echo "=== Running config drift check ==="
           ssh ${{ env.VM_USER }}@${{ env.VM_HOST }} "
-            cd /home/sidhant/traefik && docker-compose up -d
-            cd /home/sidhant/gitea && docker-compose up -d
-            cd /home/sidhant/act-runner && docker-compose up -d || true
-            cd /home/sidhant/backstage && docker-compose up -d
-            
-            echo '=== Docker Containers ==='
-            docker ps
+            APP_DIR='${{ env.APP_DIR }}' bash '${{ env.APP_DIR }}/scripts/config-drift-check.sh' check
           "
 
       - name: Verify deployment

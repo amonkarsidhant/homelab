@@ -77,6 +77,15 @@ http:
       tls:
         certResolver: letsencrypt
 
+    gitea-git-http:
+      rule: "Host(`gitea.homelabdev.space`) && (PathRegexp(`^/.+/.+/info/refs$`) || PathRegexp(`^/.+/.+/git-upload-pack$`) || PathRegexp(`^/.+/.+/git-receive-pack$`))"
+      service: gitea
+      entryPoints:
+        - websecure
+      priority: 111
+      tls:
+        certResolver: letsencrypt
+
     code:
       rule: "Host(`code.homelabdev.space`)"
       service: code
@@ -104,6 +113,14 @@ http:
         certResolver: letsencrypt
       middlewares:
         - authelia
+
+    goalert:
+      rule: "Host(`goalert.homelabdev.space`)"
+      service: goalert
+      entryPoints:
+        - websecure
+      tls:
+        certResolver: letsencrypt
 
   middlewares:
     authelia:
@@ -151,3 +168,8 @@ http:
       loadBalancer:
         servers:
           - url: "http://backstage:7007"
+
+    goalert:
+      loadBalancer:
+        servers:
+          - url: "http://goalert:8081"
