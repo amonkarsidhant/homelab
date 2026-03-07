@@ -11,9 +11,21 @@ log() {
 
 ensure_prereqs() {
   log "Ensuring data directories and Docker network"
-  sudo mkdir -p /mnt/data/{traefik,gitea,act-runner,prometheus,grafana,loki,jaeger,minio,authelia,mailserver,backstage,backstage-postgres,goalert-postgres,alertmanager}
-  sudo chown -R 65534:65534 /mnt/data/prometheus /mnt/data/grafana 2>/dev/null || true
-  sudo chown -R "$VM_USER":"$VM_USER" /mnt/data
+
+  if command -v sudo >/dev/null 2>&1 && sudo -n true >/dev/null 2>&1; then
+    sudo mkdir -p /mnt/data/{traefik,gitea,act-runner,prometheus,grafana,loki,jaeger,minio,authelia,mailserver,backstage,backstage-postgres,goalert-postgres,alertmanager}
+    sudo chown -R 65534:65534 /mnt/data/prometheus /mnt/data/grafana 2>/dev/null || true
+    sudo chown -R "$VM_USER":"$VM_USER" /mnt/data
+  else
+    log "Passwordless sudo unavailable; using existing /mnt/data layout"
+    mkdir -p /mnt/data/{traefik,gitea,act-runner,prometheus,grafana,loki,jaeger,minio,authelia,mailserver,backstage,backstage-postgres,goalert-postgres,alertmanager} 2>/dev/null || true
+  fi
+
+  if [ ! -d /mnt/data ]; then
+    log "ERROR: /mnt/data is not available and cannot be initialized without sudo"
+    exit 1
+  fi
+
   docker network create traefik_default >/dev/null 2>&1 || true
 }
 
