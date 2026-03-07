@@ -48,6 +48,16 @@ require_backstage_catalog_files() {
   return 1
 }
 
+require_backstage_template_files() {
+  if docker exec backstage sh -lc 'test -s /app/catalog/templates/homelab-service/template.yaml && test -s /app/catalog/templates/homelab-service/skeleton/catalog-info.yaml.njk'; then
+    log "OK backstage template files mounted"
+    return 0
+  fi
+
+  log "ERROR backstage template files missing in container"
+  return 1
+}
+
 require_backstage_catalog_entity_in_source() {
   local entity_name="$1"
   if grep -q "name: ${entity_name}" "$LIVE_BASE/backstage/catalog/all.yaml"; then
@@ -107,9 +117,9 @@ copy_file() {
 copy_dir() {
   local src="$1"
   local dst="$2"
-  rm -rf "$dst"
-  mkdir -p "$(dirname "$dst")"
-  cp -r "$src" "$dst"
+  mkdir -p "$dst"
+  rm -rf "$dst"/*
+  cp -r "$src"/. "$dst"/
 }
 
 sync_service_files() {
@@ -169,11 +179,11 @@ ensure_runtime_env() {
 
 start_services() {
   log "Starting services"
-  (cd "$LIVE_BASE/traefik" && docker compose up -d traefik minio)
+  (cd "$LIVE_BASE/traefik" && docker compose up -d --remove-orphans traefik minio)
   (cd "$LIVE_BASE/gitea" && docker compose up -d)
   (cd "$LIVE_BASE/act-runner" && docker compose up -d)
   (cd "$LIVE_BASE/observability" && docker compose up -d prometheus grafana loki jaeger promtail cadvisor alertmanager)
-  (cd "$LIVE_BASE/backstage" && docker compose up -d)
+  (cd "$LIVE_BASE/backstage" && docker compose up -d --force-recreate backstage)
   (cd "$LIVE_BASE/goalert" && docker compose up -d)
 }
 
@@ -231,7 +241,9 @@ verify_deploy() {
 
   echo "=== Backstage Catalog Assertions ==="
   require_backstage_catalog_files || failures=$((failures + 1))
+  require_backstage_template_files || failures=$((failures + 1))
   require_backstage_catalog_entity_in_source "homelab-operations-hub" || failures=$((failures + 1))
+  require_backstage_catalog_entity_in_source "homelab-service-onboarding-template" || failures=$((failures + 1))
   require_no_backstage_catalog_missing_file_warnings || failures=$((failures + 1))
 
   if [ "$failures" -gt 0 ]; then

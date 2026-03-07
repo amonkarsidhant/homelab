@@ -357,6 +357,8 @@ metadata:
       title: Week 2-4 Roadmap
     - url: https://gitea.homelabdev.space/sidhant/homelab/actions
       title: Actions Dashboard
+    - url: https://backstage.homelabdev.space/create
+      title: Create Templates
 spec:
   type: website
   lifecycle: production

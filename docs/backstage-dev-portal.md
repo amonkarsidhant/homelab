@@ -65,6 +65,14 @@ These annotations help keep reliability and operational ownership visible in the
 - Source: `backstage/catalog/templates/homelab-service/template.yaml`
 - Purpose: generate a standardized `catalog-info.yaml` for new homelab services with required readiness metadata.
 
+Usage:
+
+1. Open `https://backstage.homelabdev.space/create`
+2. Select **Homelab Service Onboarding**
+3. Fill service metadata and links
+4. Copy generated `catalog-info.yaml` into your target service repository
+5. Register the component in Backstage Catalog
+
 ## Guest Access Policy
 
 - Guest auth is allowed temporarily for homelab usability.
