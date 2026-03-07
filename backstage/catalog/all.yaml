@@ -338,6 +338,35 @@ spec:
     - resource:default/data-volume
 ---
 apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: homelab-operations-hub
+  description: Curated operations entry point for day-2 workflows
+  annotations:
+    homelab.dev/tier: operations
+    homelab.dev/criticality: medium
+    homelab.dev/runbook: docs/homelab-operations-runbook.md
+  links:
+    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/homelab-operations-runbook.md
+      title: Runbook
+    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/operations-checklist.md
+      title: Ops Checklist
+    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/week2-reliability-hardening.md
+      title: Week 2 Plan
+    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/week2-4-roadmap.md
+      title: Week 2-4 Roadmap
+    - url: https://gitea.homelabdev.space/sidhant/homelab/actions
+      title: Actions Dashboard
+spec:
+  type: website
+  lifecycle: production
+  owner: group:platform
+  system: homelab
+  dependsOn:
+    - component:default/gitea
+    - component:default/backstage
+---
+apiVersion: backstage.io/v1alpha1
 kind: API
 metadata:
   name: homelab-integrity-check

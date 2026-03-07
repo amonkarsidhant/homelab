@@ -98,6 +98,7 @@ main() {
   cd "$REPO_DIR"
   check_bash_syntax
   check_compose_ownership
+  "$REPO_DIR/scripts/backstage-catalog-validate.sh"
 
   if [[ "$errors" -gt 0 ]]; then
     printf 'Preflight failed with %d overlap error(s).\n' "$errors"

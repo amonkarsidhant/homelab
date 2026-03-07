@@ -49,6 +49,8 @@ Week 2 focuses on operational reliability in CI/CD and runtime compose ownership
 - Added `scripts/ci-preflight.sh` and wired it into `.gitea/workflows/ci.yml` lint stage to fail early on compose ownership overlap and shell syntax issues.
 - Normalized `backstage/catalog/all.yaml` with core service annotations (`tier`, `criticality`, `runbook`) and stronger operations/source links.
 - Strengthened `scripts/vm-deploy-orchestrator.sh` verification to assert expected containers and key Traefik routes before declaring deploy success.
+- Added `scripts/backstage-catalog-validate.sh` and included it in preflight checks to enforce catalog metadata consistency.
+- Added `homelab-operations-hub` catalog component so operators have a visible curated entry point in Backstage.
 
 ## Completion Criteria
 

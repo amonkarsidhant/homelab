@@ -45,7 +45,7 @@ Backstage is exposed through Traefik with Authelia forward auth:
 Current catalog includes:
 
 - System: `homelab`
-- Components: `traefik`, `gitea`, `act-runner`, `authelia`, `prometheus`, `grafana`, `loki`, `jaeger`, `minio`, `vaultwarden`, `backstage`, `goalert`
+- Components: `traefik`, `gitea`, `act-runner`, `authelia`, `prometheus`, `grafana`, `loki`, `jaeger`, `minio`, `vaultwarden`, `backstage`, `goalert`, `homelab-operations-hub`
 - Resources: `azure-vm`, `data-volume`, `cloudflare-dns`
 - API: `homelab-integrity-check`
 
@@ -58,6 +58,12 @@ Week 2 introduces consistent custom annotations in component entities:
 - `homelab.dev/runbook`
 
 These annotations help keep reliability and operational ownership visible in the catalog.
+
+## Guest Access Policy
+
+- Guest auth is allowed temporarily for homelab usability.
+- Traefik + Authelia still gate entry before Backstage guest identity is used.
+- Guest mode should remain read-focused; Week 3 will move to stricter authenticated RBAC.
 
 ## Adding a New Service to Catalog
 

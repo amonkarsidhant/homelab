@@ -20,6 +20,7 @@ Homelab infrastructure repo for Gitea, CI/CD, observability, auth, and operation
 - VM deploy orchestrator: `scripts/vm-deploy-orchestrator.sh`
 - Config drift check: `scripts/config-drift-check.sh`
 - CI preflight checks: `scripts/ci-preflight.sh`
+- Backstage catalog validator: `scripts/backstage-catalog-validate.sh`
 - Chaos control CLI: `scripts/chaos/chaosctl.sh`
 - Chaos reporting installer: `scripts/chaos/install-grafana-reporting-dashboard.sh`
 - Weekly chaos drill installer: `scripts/chaos/install-weekly-drill.sh`
