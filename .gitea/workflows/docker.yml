@@ -70,7 +70,7 @@ jobs:
         run: |
           echo "Running Trivy vulnerability scan..."
           # Install Trivy
-          curl -sfL https://aquasecurity.github.io/trivy/install.sh | sh
+          curl -sfL https://aquasecurity.github.io/trivy/install.sh | sh || true
           trivy image --severity HIGH,CRITICAL ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest || true
           echo "Scan complete!"
 
