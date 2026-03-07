@@ -59,6 +59,12 @@ Week 2 introduces consistent custom annotations in component entities:
 
 These annotations help keep reliability and operational ownership visible in the catalog.
 
+## Golden Path Template
+
+- Template: `homelab-service-onboarding`
+- Source: `backstage/catalog/templates/homelab-service/template.yaml`
+- Purpose: generate a standardized `catalog-info.yaml` for new homelab services with required readiness metadata.
+
 ## Guest Access Policy
 
 - Guest auth is allowed temporarily for homelab usability.

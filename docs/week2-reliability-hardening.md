@@ -51,6 +51,7 @@ Week 2 focuses on operational reliability in CI/CD and runtime compose ownership
 - Strengthened `scripts/vm-deploy-orchestrator.sh` verification to assert expected containers and key Traefik routes before declaring deploy success.
 - Added `scripts/backstage-catalog-validate.sh` and included it in preflight checks to enforce catalog metadata consistency.
 - Added `homelab-operations-hub` catalog component so operators have a visible curated entry point in Backstage.
+- Added a Backstage golden-path template (`homelab-service-onboarding`) to standardize new service catalog metadata.
 
 ## Completion Criteria
 
