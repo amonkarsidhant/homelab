@@ -48,6 +48,7 @@ Week 2 focuses on operational reliability in CI/CD and runtime compose ownership
 - Existing orchestrator startup flow already starts observability from `observability/docker-compose.yml`.
 - Added `scripts/ci-preflight.sh` and wired it into `.gitea/workflows/ci.yml` lint stage to fail early on compose ownership overlap and shell syntax issues.
 - Normalized `backstage/catalog/all.yaml` with core service annotations (`tier`, `criticality`, `runbook`) and stronger operations/source links.
+- Strengthened `scripts/vm-deploy-orchestrator.sh` verification to assert expected containers and key Traefik routes before declaring deploy success.
 
 ## Completion Criteria
 
