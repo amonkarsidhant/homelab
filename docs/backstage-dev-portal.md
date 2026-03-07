@@ -81,6 +81,12 @@ Usage:
 
 This provides a consistent CI identity contract while we prepare a dedicated Gitea CI plugin/card integration.
 
+## Cortex-Inspired Scorecard
+
+- Generated report: `docs/backstage-scorecard.md`
+- Generator: `scripts/backstage-scorecard.sh`
+- Enforcement: run in `scripts/ci-preflight.sh` so high-critical production components must keep score >= 0.80.
+
 ## Guest Access Policy
 
 - Guest auth is allowed temporarily for homelab usability.

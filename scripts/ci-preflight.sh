@@ -99,6 +99,7 @@ main() {
   check_bash_syntax
   check_compose_ownership
   "$REPO_DIR/scripts/backstage-catalog-validate.sh"
+  "$REPO_DIR/scripts/backstage-scorecard.sh" "$REPO_DIR/docs/backstage-scorecard.md"
 
   if [[ "$errors" -gt 0 ]]; then
     printf 'Preflight failed with %d overlap error(s).\n' "$errors"

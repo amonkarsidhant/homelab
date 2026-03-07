@@ -12,6 +12,7 @@ Homelab infrastructure repo for Gitea, CI/CD, observability, auth, and operation
 - Week 1 automation foundation: `docs/week1-automation-foundation.md`
 - Week 2 reliability hardening: `docs/week2-reliability-hardening.md`
 - Week 2-4 roadmap: `docs/week2-4-roadmap.md`
+- Backstage Cortex-inspired portal plan: `docs/backstage-cortex-inspired-portal.md`
 
 ## Key Scripts
 - Integrity check: `scripts/service-integrity-check.sh`
@@ -21,6 +22,7 @@ Homelab infrastructure repo for Gitea, CI/CD, observability, auth, and operation
 - Config drift check: `scripts/config-drift-check.sh`
 - CI preflight checks: `scripts/ci-preflight.sh`
 - Backstage catalog validator: `scripts/backstage-catalog-validate.sh`
+- Backstage scorecard generator: `scripts/backstage-scorecard.sh`
 - Chaos control CLI: `scripts/chaos/chaosctl.sh`
 - Chaos reporting installer: `scripts/chaos/install-grafana-reporting-dashboard.sh`
 - Weekly chaos drill installer: `scripts/chaos/install-weekly-drill.sh`

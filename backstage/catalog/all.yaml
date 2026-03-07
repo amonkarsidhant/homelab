@@ -155,6 +155,8 @@ metadata:
       title: Service URL
     - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/observability
       title: Source Directory
+    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/homelab-operations-runbook.md
+      title: Runbook
     - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/operations-checklist.md
       title: Ops Checklist
 spec:
@@ -251,6 +253,8 @@ metadata:
       title: Service URL
     - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/traefik
       title: Source Directory
+    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/homelab-operations-runbook.md
+      title: Runbook
 spec:
   type: service
   lifecycle: production
@@ -272,6 +276,8 @@ metadata:
   links:
     - url: https://vault.homelabdev.space
       title: Service URL
+    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/traefik
+      title: Source Directory
     - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/vaultwarden-admin-user-guide.md
       title: Vaultwarden Guide
     - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/homelab-operations-runbook.md
@@ -362,6 +368,8 @@ metadata:
       title: CI/CD (Gitea Actions)
     - url: https://backstage.homelabdev.space/create
       title: Create Templates
+    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/backstage-scorecard.md
+      title: Service Scorecard
 spec:
   type: website
   lifecycle: production
