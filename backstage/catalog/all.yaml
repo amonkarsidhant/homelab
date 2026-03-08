@@ -46,25 +46,26 @@ metadata:
     homelab.dev/criticality: high
     homelab.dev/runbook: docs/homelab-operations-runbook.md
     homelab.dev/gitea-repo: sidhant/homelab
+    github.com/project-slug: sidhant/homelab
   links:
-    - url: https://traefik.homelabdev.space:8080
-      title: Service URL
-    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/traefik
-      title: Source Directory
-    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/homelab-operations-runbook.md
-      title: Runbook
-    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/operations-checklist.md
-      title: Ops Checklist
-    - url: https://gitea.homelabdev.space/sidhant/homelab/actions
-      title: CI/CD (Gitea Actions)
+  - url: https://traefik.homelabdev.space:8080
+    title: Service URL
+  - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/traefik
+    title: Source Directory
+  - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/homelab-operations-runbook.md
+    title: Runbook
+  - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/operations-checklist.md
+    title: Ops Checklist
+  - url: https://gitea.homelabdev.space/sidhant/homelab/actions
+    title: CI/CD (Gitea Actions)
 spec:
   type: service
   lifecycle: production
   owner: group:platform
   system: homelab
   dependsOn:
-    - resource:default/azure-vm
-    - resource:default/cloudflare-dns
+  - resource:default/azure-vm
+  - resource:default/cloudflare-dns
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
@@ -76,25 +77,26 @@ metadata:
     homelab.dev/criticality: high
     homelab.dev/runbook: docs/homelab-operations-runbook.md
     homelab.dev/gitea-repo: sidhant/homelab
+    github.com/project-slug: sidhant/homelab
   links:
-    - url: https://gitea.homelabdev.space
-      title: Service URL
-    - url: https://gitea.homelabdev.space/sidhant/homelab
-      title: Homelab Repository
-    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/gitea
-      title: Source Directory
-    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/homelab-operations-runbook.md
-      title: Runbook
-    - url: https://gitea.homelabdev.space/sidhant/homelab/actions
-      title: CI/CD (Gitea Actions)
+  - url: https://gitea.homelabdev.space
+    title: Service URL
+  - url: https://gitea.homelabdev.space/sidhant/homelab
+    title: Homelab Repository
+  - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/gitea
+    title: Source Directory
+  - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/homelab-operations-runbook.md
+    title: Runbook
+  - url: https://gitea.homelabdev.space/sidhant/homelab/actions
+    title: CI/CD (Gitea Actions)
 spec:
   type: service
   lifecycle: production
   owner: group:platform
   system: homelab
   dependsOn:
-    - component:default/traefik
-    - resource:default/data-volume
+  - component:default/traefik
+  - resource:default/data-volume
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
@@ -106,24 +108,25 @@ metadata:
     homelab.dev/criticality: high
     homelab.dev/runbook: docs/homelab-operations-runbook.md
     homelab.dev/gitea-repo: sidhant/homelab
+    github.com/project-slug: sidhant/homelab
   links:
-    - url: https://gitea.homelabdev.space/admin/actions/runners
-      title: Runner Admin
-    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/act-runner
-      title: Source Directory
-    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/homelab-operations-runbook.md
-      title: Runbook
-    - url: https://gitea.homelabdev.space/sidhant/homelab/actions
-      title: CI/CD (Gitea Actions)
+  - url: https://gitea.homelabdev.space/admin/actions/runners
+    title: Runner Admin
+  - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/act-runner
+    title: Source Directory
+  - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/homelab-operations-runbook.md
+    title: Runbook
+  - url: https://gitea.homelabdev.space/sidhant/homelab/actions
+    title: CI/CD (Gitea Actions)
 spec:
   type: service
   lifecycle: production
   owner: group:platform
   system: homelab
   dependsOn:
-    - component:default/gitea
-    - component:default/traefik
-    - resource:default/data-volume
+  - component:default/gitea
+  - component:default/traefik
+  - resource:default/data-volume
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
@@ -135,23 +138,24 @@ metadata:
     homelab.dev/criticality: high
     homelab.dev/runbook: docs/homelab-operations-runbook.md
     homelab.dev/gitea-repo: sidhant/homelab
+    github.com/project-slug: sidhant/homelab
   links:
-    - url: https://auth.homelabdev.space
-      title: Service URL
-    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/traefik
-      title: Source Directory
-    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/homelab-operations-runbook.md
-      title: Runbook
-    - url: https://gitea.homelabdev.space/sidhant/homelab/actions
-      title: CI/CD (Gitea Actions)
+  - url: https://auth.homelabdev.space
+    title: Service URL
+  - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/traefik
+    title: Source Directory
+  - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/homelab-operations-runbook.md
+    title: Runbook
+  - url: https://gitea.homelabdev.space/sidhant/homelab/actions
+    title: CI/CD (Gitea Actions)
 spec:
   type: service
   lifecycle: production
   owner: group:platform
   system: homelab
   dependsOn:
-    - component:default/traefik
-    - resource:default/data-volume
+  - component:default/traefik
+  - resource:default/data-volume
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
@@ -163,25 +167,26 @@ metadata:
     homelab.dev/criticality: high
     homelab.dev/runbook: docs/homelab-operations-runbook.md
     homelab.dev/gitea-repo: sidhant/homelab
+    github.com/project-slug: sidhant/homelab
   links:
-    - url: https://prometheus.homelabdev.space
-      title: Service URL
-    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/observability
-      title: Source Directory
-    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/homelab-operations-runbook.md
-      title: Runbook
-    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/operations-checklist.md
-      title: Ops Checklist
-    - url: https://gitea.homelabdev.space/sidhant/homelab/actions
-      title: CI/CD (Gitea Actions)
+  - url: https://prometheus.homelabdev.space
+    title: Service URL
+  - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/observability
+    title: Source Directory
+  - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/homelab-operations-runbook.md
+    title: Runbook
+  - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/operations-checklist.md
+    title: Ops Checklist
+  - url: https://gitea.homelabdev.space/sidhant/homelab/actions
+    title: CI/CD (Gitea Actions)
 spec:
   type: service
   lifecycle: production
   owner: group:platform
   system: homelab
   dependsOn:
-    - component:default/traefik
-    - resource:default/data-volume
+  - component:default/traefik
+  - resource:default/data-volume
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
@@ -193,26 +198,27 @@ metadata:
     homelab.dev/criticality: medium
     homelab.dev/runbook: docs/homelab-operations-runbook.md
     homelab.dev/gitea-repo: sidhant/homelab
+    github.com/project-slug: sidhant/homelab
   links:
-    - url: https://grafana.homelabdev.space
-      title: Service URL
-    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/observability
-      title: Source Directory
-    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/homelab-operations-runbook.md
-      title: Runbook
-    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/chaos-engineering.md
-      title: Chaos Operations
-    - url: https://gitea.homelabdev.space/sidhant/homelab/actions
-      title: CI/CD (Gitea Actions)
+  - url: https://grafana.homelabdev.space
+    title: Service URL
+  - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/observability
+    title: Source Directory
+  - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/homelab-operations-runbook.md
+    title: Runbook
+  - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/chaos-engineering.md
+    title: Chaos Operations
+  - url: https://gitea.homelabdev.space/sidhant/homelab/actions
+    title: CI/CD (Gitea Actions)
 spec:
   type: service
   lifecycle: production
   owner: group:platform
   system: homelab
   dependsOn:
-    - component:default/prometheus
-    - component:default/loki
-    - resource:default/data-volume
+  - component:default/prometheus
+  - component:default/loki
+  - resource:default/data-volume
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
@@ -224,20 +230,21 @@ metadata:
     homelab.dev/criticality: medium
     homelab.dev/runbook: docs/homelab-operations-runbook.md
     homelab.dev/gitea-repo: sidhant/homelab
+    github.com/project-slug: sidhant/homelab
   links:
-    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/observability
-      title: Source Directory
-    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/homelab-operations-runbook.md
-      title: Runbook
-    - url: https://gitea.homelabdev.space/sidhant/homelab/actions
-      title: CI/CD (Gitea Actions)
+  - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/observability
+    title: Source Directory
+  - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/homelab-operations-runbook.md
+    title: Runbook
+  - url: https://gitea.homelabdev.space/sidhant/homelab/actions
+    title: CI/CD (Gitea Actions)
 spec:
   type: service
   lifecycle: production
   owner: group:platform
   system: homelab
   dependsOn:
-    - resource:default/data-volume
+  - resource:default/data-volume
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
@@ -249,23 +256,24 @@ metadata:
     homelab.dev/criticality: medium
     homelab.dev/runbook: docs/homelab-operations-runbook.md
     homelab.dev/gitea-repo: sidhant/homelab
+    github.com/project-slug: sidhant/homelab
   links:
-    - url: https://jaeger.homelabdev.space
-      title: Service URL
-    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/observability
-      title: Source Directory
-    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/homelab-operations-runbook.md
-      title: Runbook
-    - url: https://gitea.homelabdev.space/sidhant/homelab/actions
-      title: CI/CD (Gitea Actions)
+  - url: https://jaeger.homelabdev.space
+    title: Service URL
+  - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/observability
+    title: Source Directory
+  - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/homelab-operations-runbook.md
+    title: Runbook
+  - url: https://gitea.homelabdev.space/sidhant/homelab/actions
+    title: CI/CD (Gitea Actions)
 spec:
   type: service
   lifecycle: production
   owner: group:platform
   system: homelab
   dependsOn:
-    - component:default/traefik
-    - resource:default/data-volume
+  - component:default/traefik
+  - resource:default/data-volume
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
@@ -277,23 +285,24 @@ metadata:
     homelab.dev/criticality: high
     homelab.dev/runbook: docs/homelab-operations-runbook.md
     homelab.dev/gitea-repo: sidhant/homelab
+    github.com/project-slug: sidhant/homelab
   links:
-    - url: https://minio.homelabdev.space
-      title: Service URL
-    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/traefik
-      title: Source Directory
-    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/homelab-operations-runbook.md
-      title: Runbook
-    - url: https://gitea.homelabdev.space/sidhant/homelab/actions
-      title: CI/CD (Gitea Actions)
+  - url: https://minio.homelabdev.space
+    title: Service URL
+  - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/traefik
+    title: Source Directory
+  - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/homelab-operations-runbook.md
+    title: Runbook
+  - url: https://gitea.homelabdev.space/sidhant/homelab/actions
+    title: CI/CD (Gitea Actions)
 spec:
   type: service
   lifecycle: production
   owner: group:platform
   system: homelab
   dependsOn:
-    - component:default/traefik
-    - resource:default/data-volume
+  - component:default/traefik
+  - resource:default/data-volume
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
@@ -305,25 +314,26 @@ metadata:
     homelab.dev/criticality: high
     homelab.dev/runbook: docs/homelab-operations-runbook.md
     homelab.dev/gitea-repo: sidhant/homelab
+    github.com/project-slug: sidhant/homelab
   links:
-    - url: https://vault.homelabdev.space
-      title: Service URL
-    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/traefik
-      title: Source Directory
-    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/vaultwarden-admin-user-guide.md
-      title: Vaultwarden Guide
-    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/homelab-operations-runbook.md
-      title: Runbook
-    - url: https://gitea.homelabdev.space/sidhant/homelab/actions
-      title: CI/CD (Gitea Actions)
+  - url: https://vault.homelabdev.space
+    title: Service URL
+  - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/traefik
+    title: Source Directory
+  - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/vaultwarden-admin-user-guide.md
+    title: Vaultwarden Guide
+  - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/homelab-operations-runbook.md
+    title: Runbook
+  - url: https://gitea.homelabdev.space/sidhant/homelab/actions
+    title: CI/CD (Gitea Actions)
 spec:
   type: service
   lifecycle: production
   owner: group:platform
   system: homelab
   dependsOn:
-    - component:default/traefik
-    - resource:default/data-volume
+  - component:default/traefik
+  - resource:default/data-volume
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
@@ -335,26 +345,27 @@ metadata:
     homelab.dev/criticality: medium
     homelab.dev/runbook: docs/homelab-operations-runbook.md
     homelab.dev/gitea-repo: sidhant/homelab
+    github.com/project-slug: sidhant/homelab
   links:
-    - url: https://backstage.homelabdev.space
-      title: Service URL
-    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/backstage
-      title: Source Directory
-    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/backstage-dev-portal.md
-      title: Backstage Guide
-    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/homelab-operations-runbook.md
-      title: Runbook
-    - url: https://gitea.homelabdev.space/sidhant/homelab/actions
-      title: CI/CD (Gitea Actions)
+  - url: https://backstage.homelabdev.space
+    title: Service URL
+  - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/backstage
+    title: Source Directory
+  - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/backstage-dev-portal.md
+    title: Backstage Guide
+  - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/homelab-operations-runbook.md
+    title: Runbook
+  - url: https://gitea.homelabdev.space/sidhant/homelab/actions
+    title: CI/CD (Gitea Actions)
 spec:
   type: website
   lifecycle: production
   owner: group:platform
   system: homelab
   dependsOn:
-    - component:default/traefik
-    - component:default/gitea
-    - resource:default/data-volume
+  - component:default/traefik
+  - component:default/gitea
+  - resource:default/data-volume
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
@@ -366,24 +377,25 @@ metadata:
     homelab.dev/criticality: high
     homelab.dev/runbook: docs/homelab-operations-runbook.md
     homelab.dev/gitea-repo: sidhant/homelab
+    github.com/project-slug: sidhant/homelab
   links:
-    - url: https://goalert.homelabdev.space
-      title: Service URL
-    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/goalert
-      title: Source Directory
-    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/homelab-operations-runbook.md
-      title: Runbook
-    - url: https://gitea.homelabdev.space/sidhant/homelab/actions
-      title: CI/CD (Gitea Actions)
+  - url: https://goalert.homelabdev.space
+    title: Service URL
+  - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/goalert
+    title: Source Directory
+  - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/homelab-operations-runbook.md
+    title: Runbook
+  - url: https://gitea.homelabdev.space/sidhant/homelab/actions
+    title: CI/CD (Gitea Actions)
 spec:
   type: service
   lifecycle: production
   owner: group:platform
   system: homelab
   dependsOn:
-    - component:default/traefik
-    - component:default/prometheus
-    - resource:default/data-volume
+  - component:default/traefik
+  - component:default/prometheus
+  - resource:default/data-volume
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
@@ -395,33 +407,34 @@ metadata:
     homelab.dev/criticality: medium
     homelab.dev/runbook: docs/homelab-operations-runbook.md
     homelab.dev/gitea-repo: sidhant/homelab
+    github.com/project-slug: sidhant/homelab
   links:
-    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs
-      title: Source Directory
-    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/homelab-operations-runbook.md
-      title: Runbook
-    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/operations-checklist.md
-      title: Ops Checklist
-    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/week2-reliability-hardening.md
-      title: Week 2 Plan
-    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/week2-4-roadmap.md
-      title: Week 2-4 Roadmap
-    - url: https://gitea.homelabdev.space/sidhant/homelab/actions
-      title: Actions Dashboard
-    - url: https://gitea.homelabdev.space/sidhant/homelab/actions
-      title: CI/CD (Gitea Actions)
-    - url: https://backstage.homelabdev.space/create
-      title: Create Templates
-    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/backstage-scorecard.md
-      title: Service Scorecard
+  - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs
+    title: Source Directory
+  - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/homelab-operations-runbook.md
+    title: Runbook
+  - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/operations-checklist.md
+    title: Ops Checklist
+  - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/week2-reliability-hardening.md
+    title: Week 2 Plan
+  - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/week2-4-roadmap.md
+    title: Week 2-4 Roadmap
+  - url: https://gitea.homelabdev.space/sidhant/homelab/actions
+    title: Actions Dashboard
+  - url: https://gitea.homelabdev.space/sidhant/homelab/actions
+    title: CI/CD (Gitea Actions)
+  - url: https://backstage.homelabdev.space/create
+    title: Create Templates
+  - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/backstage-scorecard.md
+    title: Service Scorecard
 spec:
   type: website
   lifecycle: production
   owner: group:platform
   system: homelab
   dependsOn:
-    - component:default/gitea
-    - component:default/backstage
+  - component:default/gitea
+  - component:default/backstage
 ---
 apiVersion: backstage.io/v1alpha1
 kind: API
@@ -433,18 +446,10 @@ spec:
   lifecycle: production
   owner: group:platform
   system: homelab
-  definition: |
-    openapi: 3.0.0
-    info:
-      title: Homelab Integrity Check
-      version: 1.0.0
-    paths:
-      /scripts/service-integrity-check.sh:
-        get:
-          summary: Executes integrity checks and reports BAD/WARN counts
-          responses:
-            '200':
-              description: Integrity result output
+  definition: "openapi: 3.0.0\ninfo:\n  title: Homelab Integrity Check\n  version:\
+    \ 1.0.0\npaths:\n  /scripts/service-integrity-check.sh:\n    get:\n      summary:\
+    \ Executes integrity checks and reports BAD/WARN counts\n      responses:\n  \
+    \      '200':\n          description: Integrity result output\n"
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Location
