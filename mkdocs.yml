@@ -1,0 +1,20 @@
+site_name: 'HomeLab Platform'
+site_description: 'Azure VM homelab for delivery, observability, and security'
+
+nav:
+  - Home: index.md
+  - Operations:
+    - Runbook: homelab-operations-runbook.md
+    - Operations Checklist: operations-checklist.md
+    - Week 2-4 Roadmap: week2-4-roadmap.md
+  - Backstage:
+    - Dev Portal Guide: backstage-dev-portal.md
+    - Service Scorecard: backstage-scorecard.md
+    - Cortex-Inspired Portal: backstage-cortex-inspired-portal.md
+  - Week Planning:
+    - Week 1: week1-automation-foundation.md
+    - Week 2: week2-reliability-hardening.md
+
+plugins:
+  - techdocs-core
+
