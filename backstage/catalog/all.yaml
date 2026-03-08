@@ -3,6 +3,8 @@ kind: System
 metadata:
   name: homelab
   description: Azure VM homelab platform for delivery, observability, and security
+  annotations:
+    backstage.io/techdocs-ref: dir:.
 spec:
   owner: group:platform
 ---
@@ -408,6 +410,7 @@ metadata:
     homelab.dev/runbook: docs/homelab-operations-runbook.md
     homelab.dev/gitea-repo: sidhant/homelab
     github.com/project-slug: sidhant/homelab
+    backstage.io/techdocs-ref: dir:.
   links:
   - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs
     title: Source Directory
