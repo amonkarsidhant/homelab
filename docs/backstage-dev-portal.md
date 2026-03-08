@@ -49,6 +49,36 @@ Current catalog includes:
 - Resources: `azure-vm`, `data-volume`, `cloudflare-dns`
 - API: `homelab-integrity-check`
 
+## CI/CD Integration
+
+### Current State (Stock Backstage Image)
+
+The Backstage instance currently uses the stock `ghcr.io/backstage/backstage:latest` image which includes:
+- GitHub Actions plugin (for GitHub.com)
+- Basic catalog features
+- TechDocs, Templates, Search
+
+**The CI/CD tab is currently non-functional** because:
+1. The stock GitHub Actions plugin expects GitHub.com API endpoints
+2. Our Gitea Actions workflows are not exposed through GitHub-compatible APIs
+3. A custom Gitea Actions plugin would be needed for full integration
+
+### Workaround: Links Section
+
+All components have a **"CI/CD (Gitea Actions)"** link in the Links section:
+- Click the component
+- Go to the "Overview" or "Links" section
+- Click "CI/CD (Gitea Actions)" to view workflows in Gitea
+
+### Future Enhancement
+
+To populate the CI/CD tab, we need to either:
+1. **Build a custom Gitea Actions backend plugin** that fetches workflow runs from Gitea's API
+2. **Migrate to a custom Backstage app** with the Gitea plugin installed
+3. **Use a proxy/adapter** to translate Gitea API responses to GitHub Actions format
+
+This is tracked in the Week 3-4 roadmap as "Gitea Actions CI/CD plugin/card" work.
+
 ## Service Readiness Metadata Convention
 
 Week 2 introduces consistent custom annotations in component entities:

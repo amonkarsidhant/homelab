@@ -31,6 +31,9 @@ integrations:
   gitea:
     - host: gitea.homelabdev.space
       baseUrl: https://gitea.homelabdev.space
+  github:
+    - host: gitea.homelabdev.space
+      apiBaseUrl: https://gitea.homelabdev.space/api/v1
 
 auth:
   providers:
