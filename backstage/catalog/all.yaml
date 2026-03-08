@@ -45,6 +45,7 @@ metadata:
     homelab.dev/tier: platform
     homelab.dev/criticality: high
     homelab.dev/runbook: docs/homelab-operations-runbook.md
+    homelab.dev/gitea-repo: sidhant/homelab
   links:
     - url: https://traefik.homelabdev.space:8080
       title: Service URL
@@ -54,6 +55,8 @@ metadata:
       title: Runbook
     - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/operations-checklist.md
       title: Ops Checklist
+    - url: https://gitea.homelabdev.space/sidhant/homelab/actions
+      title: CI/CD (Gitea Actions)
 spec:
   type: service
   lifecycle: production
@@ -72,6 +75,7 @@ metadata:
     homelab.dev/tier: platform
     homelab.dev/criticality: high
     homelab.dev/runbook: docs/homelab-operations-runbook.md
+    homelab.dev/gitea-repo: sidhant/homelab
   links:
     - url: https://gitea.homelabdev.space
       title: Service URL
@@ -81,6 +85,8 @@ metadata:
       title: Source Directory
     - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/homelab-operations-runbook.md
       title: Runbook
+    - url: https://gitea.homelabdev.space/sidhant/homelab/actions
+      title: CI/CD (Gitea Actions)
 spec:
   type: service
   lifecycle: production
@@ -99,6 +105,7 @@ metadata:
     homelab.dev/tier: platform
     homelab.dev/criticality: high
     homelab.dev/runbook: docs/homelab-operations-runbook.md
+    homelab.dev/gitea-repo: sidhant/homelab
   links:
     - url: https://gitea.homelabdev.space/admin/actions/runners
       title: Runner Admin
@@ -106,6 +113,8 @@ metadata:
       title: Source Directory
     - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/homelab-operations-runbook.md
       title: Runbook
+    - url: https://gitea.homelabdev.space/sidhant/homelab/actions
+      title: CI/CD (Gitea Actions)
 spec:
   type: service
   lifecycle: production
@@ -125,6 +134,7 @@ metadata:
     homelab.dev/tier: platform
     homelab.dev/criticality: high
     homelab.dev/runbook: docs/homelab-operations-runbook.md
+    homelab.dev/gitea-repo: sidhant/homelab
   links:
     - url: https://auth.homelabdev.space
       title: Service URL
@@ -132,6 +142,8 @@ metadata:
       title: Source Directory
     - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/homelab-operations-runbook.md
       title: Runbook
+    - url: https://gitea.homelabdev.space/sidhant/homelab/actions
+      title: CI/CD (Gitea Actions)
 spec:
   type: service
   lifecycle: production
@@ -150,6 +162,7 @@ metadata:
     homelab.dev/tier: observability
     homelab.dev/criticality: high
     homelab.dev/runbook: docs/homelab-operations-runbook.md
+    homelab.dev/gitea-repo: sidhant/homelab
   links:
     - url: https://prometheus.homelabdev.space
       title: Service URL
@@ -159,6 +172,8 @@ metadata:
       title: Runbook
     - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/operations-checklist.md
       title: Ops Checklist
+    - url: https://gitea.homelabdev.space/sidhant/homelab/actions
+      title: CI/CD (Gitea Actions)
 spec:
   type: service
   lifecycle: production
@@ -177,13 +192,18 @@ metadata:
     homelab.dev/tier: observability
     homelab.dev/criticality: medium
     homelab.dev/runbook: docs/homelab-operations-runbook.md
+    homelab.dev/gitea-repo: sidhant/homelab
   links:
     - url: https://grafana.homelabdev.space
       title: Service URL
     - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/observability
       title: Source Directory
+    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/homelab-operations-runbook.md
+      title: Runbook
     - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/chaos-engineering.md
       title: Chaos Operations
+    - url: https://gitea.homelabdev.space/sidhant/homelab/actions
+      title: CI/CD (Gitea Actions)
 spec:
   type: service
   lifecycle: production
@@ -203,11 +223,14 @@ metadata:
     homelab.dev/tier: observability
     homelab.dev/criticality: medium
     homelab.dev/runbook: docs/homelab-operations-runbook.md
+    homelab.dev/gitea-repo: sidhant/homelab
   links:
     - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/observability
       title: Source Directory
     - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/homelab-operations-runbook.md
       title: Runbook
+    - url: https://gitea.homelabdev.space/sidhant/homelab/actions
+      title: CI/CD (Gitea Actions)
 spec:
   type: service
   lifecycle: production
@@ -225,11 +248,16 @@ metadata:
     homelab.dev/tier: observability
     homelab.dev/criticality: medium
     homelab.dev/runbook: docs/homelab-operations-runbook.md
+    homelab.dev/gitea-repo: sidhant/homelab
   links:
     - url: https://jaeger.homelabdev.space
       title: Service URL
     - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/observability
       title: Source Directory
+    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/homelab-operations-runbook.md
+      title: Runbook
+    - url: https://gitea.homelabdev.space/sidhant/homelab/actions
+      title: CI/CD (Gitea Actions)
 spec:
   type: service
   lifecycle: production
@@ -248,6 +276,7 @@ metadata:
     homelab.dev/tier: platform
     homelab.dev/criticality: high
     homelab.dev/runbook: docs/homelab-operations-runbook.md
+    homelab.dev/gitea-repo: sidhant/homelab
   links:
     - url: https://minio.homelabdev.space
       title: Service URL
@@ -255,6 +284,8 @@ metadata:
       title: Source Directory
     - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/homelab-operations-runbook.md
       title: Runbook
+    - url: https://gitea.homelabdev.space/sidhant/homelab/actions
+      title: CI/CD (Gitea Actions)
 spec:
   type: service
   lifecycle: production
@@ -273,6 +304,7 @@ metadata:
     homelab.dev/tier: security
     homelab.dev/criticality: high
     homelab.dev/runbook: docs/homelab-operations-runbook.md
+    homelab.dev/gitea-repo: sidhant/homelab
   links:
     - url: https://vault.homelabdev.space
       title: Service URL
@@ -282,6 +314,8 @@ metadata:
       title: Vaultwarden Guide
     - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/homelab-operations-runbook.md
       title: Runbook
+    - url: https://gitea.homelabdev.space/sidhant/homelab/actions
+      title: CI/CD (Gitea Actions)
 spec:
   type: service
   lifecycle: production
@@ -300,6 +334,7 @@ metadata:
     homelab.dev/tier: developer-experience
     homelab.dev/criticality: medium
     homelab.dev/runbook: docs/homelab-operations-runbook.md
+    homelab.dev/gitea-repo: sidhant/homelab
   links:
     - url: https://backstage.homelabdev.space
       title: Service URL
@@ -307,6 +342,10 @@ metadata:
       title: Source Directory
     - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/backstage-dev-portal.md
       title: Backstage Guide
+    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/homelab-operations-runbook.md
+      title: Runbook
+    - url: https://gitea.homelabdev.space/sidhant/homelab/actions
+      title: CI/CD (Gitea Actions)
 spec:
   type: website
   lifecycle: production
@@ -326,6 +365,7 @@ metadata:
     homelab.dev/tier: reliability
     homelab.dev/criticality: high
     homelab.dev/runbook: docs/homelab-operations-runbook.md
+    homelab.dev/gitea-repo: sidhant/homelab
   links:
     - url: https://goalert.homelabdev.space
       title: Service URL
@@ -333,6 +373,8 @@ metadata:
       title: Source Directory
     - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/homelab-operations-runbook.md
       title: Runbook
+    - url: https://gitea.homelabdev.space/sidhant/homelab/actions
+      title: CI/CD (Gitea Actions)
 spec:
   type: service
   lifecycle: production
@@ -354,6 +396,8 @@ metadata:
     homelab.dev/runbook: docs/homelab-operations-runbook.md
     homelab.dev/gitea-repo: sidhant/homelab
   links:
+    - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs
+      title: Source Directory
     - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/homelab-operations-runbook.md
       title: Runbook
     - url: https://gitea.homelabdev.space/sidhant/homelab/src/branch/main/docs/operations-checklist.md
