@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unified Assurance Platform - Worldline</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/white.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0a192f;
+            --secondary: #172a45;
+            --accent: #64ffda;
+            --accent-blue: #4a9eff;
+            --accent-green: #00c896;
+            --accent-orange: #ff9f43;
+            --accent-purple: #8c5fd4;
+        }
+        
+        .reveal { font-family: 'Inter', sans-serif; }
+        .reveal .slides section { text-align: left; padding: 30px; }
+        
+        .title-slide {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%) !important;
+            text-align: center !important;
+        }
+        .title-slide h1 { color: white !important; font-size: 2.8em !important; margin-top: 80px; }
+        .title-slide p { color: #a0a8c0 !important; font-size: 1.3em !important; margin-top: 20px; }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-top: 40px;
+        }
+        .stat-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 30px 20px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .stat-value {
+            font-size: 2.8em;
+            font-weight: 700;
+            color: var(--accent);
+            display: block;
+        }
+        .stat-label {
+            color: #a0a8c0;
+            font-size: 0.9em;
+            margin-top: 10px;
+            display: block;
+            line-height: 1.4;
+        }
+        
+        .transform-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 15px;
+            margin-top: 30px;
+        }
+        .transform-table tr { background: white; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+        .transform-table td { padding: 20px 25px; }
+        .transform-table td:first-child { 
+            border-radius: 12px 0 0 12px; 
+            color: var(--accent-green);
+            font-weight: 600;
+            width: 45%;
+            border-right: 2px solid #f0f0f0;
+        }
+        .transform-table td:last-child { border-radius: 0 12px 12px 0; color: #444; }
+        
+        .pillars-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin-top: 30px;
+        }
+        .pillar-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+            border-left: 4px solid;
+        }
+        .pillar-card:nth-child(1) { border-color: var(--accent-blue); }
+        .pillar-card:nth-child(2) { border-color: var(--accent-green); }
+        .pillar-card:nth-child(3) { border-color: var(--accent-orange); }
+        .pillar-card:nth-child(4) { border-color: var(--accent-purple); }
+        
+        .pillar-header {
+            font-weight: 700;
+            font-size: 1.1em;
+            margin-bottom: 8px;
+            color: var(--primary);
+        }
+        .pillar-hrs {
+            font-size: 0.85em;
+            color: #666;
+            margin-bottom: 12px;
+        }
+        .pillar-card ul { margin: 0; padding-left: 18px; }
+        .pillar-card li { font-size: 0.85em; color: #555; margin-bottom: 4px; }
+        
+        .agentic-section {
+            background: white;
+            border-radius: 16px;
+            padding: 35px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+            margin-top: 20px;
+        }
+        .agentic-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 25px;
+        }
+        .agentic-item h4 {
+            color: var(--accent-blue);
+            margin-bottom: 8px;
+            font-size: 1em;
+        }
+        .agentic-item p, .agentic-item li {
+            font-size: 0.85em;
+            color: #555;
+            line-height: 1.5;
+        }
+        
+        .value-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-top: 50px;
+        }
+        .value-card {
+            text-align: center;
+            padding: 30px 15px;
+        }
+        .value-card .stat-value { color: var(--accent-green); font-size: 2.4em; }
+        
+        .next-steps {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            padding: 40px;
+            color: white;
+            margin-top: 30px;
+        }
+        .next-steps h3 { color: white !important; margin-bottom: 25px; }
+        .step-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+        .step-num {
+            background: white;
+            color: var(--primary);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin-right: 18px;
+            flex-shrink: 0;
+        }
+        .step-content h4 { color: white; margin: 0 0 4px 0; font-size: 1.1em; }
+        .step-content p { color: rgba(255,255,255,0.8); margin: 0; font-size: 0.95em; }
+        
+        .closing-slide {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%) !important;
+            text-align: center !important;
+        }
+        .closing-slide h2 { color: white !important; border: none !important; font-size: 2.4em !important; }
+        .closing-slide p { color: #a0a8c0 !important; font-size: 1.4em !important; }
+        
+        .industry-badges {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        .badge {
+            background: white;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <!-- Slide 1: Title -->
+            <section class="title-slide">
+                <h1>Unified Assurance Platform</h1>
+                <p>Quality + Security + Resilience as Code</p>
+                <p style="font-size: 1em; opacity: 0.7;">Executive Business Case | Worldline</p>
+            </section>
+            
+            <!-- Slide 2: Executive Summary -->
+            <section>
+                <h2>Executive Summary</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="stat-value">€9.09M</span>
+                        <span class="stat-label">Annual P&L Benefit<br>(at 100% adoption)</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-value">122,400</span>
+                        <span class="stat-label">Hours Reclaimed<br>per year</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-value">72</span>
+                        <span class="stat-label">FTE Equivalent<br>(liberated capacity)</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-value">€680K</span>
+                        <span class="stat-label">Annual OPEX<br>(at 100% adoption)</span>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Slide 3: The Transformation -->
+            <section>
+                <h2>The Transformation</h2>
+                <table class="transform-table">
+                    <tr>
+                        <td>▸ From Optional → Default Assurance</td>
+                        <td>Standardized CI/CD guardrails with governed exceptions</td>
+                    </tr>
+                    <tr>
+                        <td>▸ Manual Regression → Automated Verification</td>
+                        <td>Expand reliable automation, reduce late-cycle rework</td>
+                    </tr>
+                    <tr>
+                        <td>▸ Find Issues Late → Prevent Early</td>
+                        <td>SAST/SCA/DAST fail gates close observed gaps</td>
+                    </tr>
+                    <tr>
+                        <td>▸ Reactive Reliability → Proactive Resilience</td>
+                        <td>Guard-railed stress/load/chaos pre-prod</td>
+                    </tr>
+                    <tr>
+                        <td>▸ Manual Evidence → Automated Evidence Packs</td>
+                        <td>Repeatable release attestations from pipelines</td>
+                    </tr>
+                </table>
+            </section>
+            
+            <!-- Slide 4: The 4 Pillars -->
+            <section>
+                <h2>The 4 Pillars of Assurance</h2>
+                <div class="pillars-grid">
+                    <div class="pillar-card">
+                        <div class="pillar-header">Pillar 1: CI/CD Guardrails</div>
+                        <div class="pillar-hrs">42,840 hrs/yr = 25 FTEs</div>
+                        <ul>
+                            <li>SAST/SCA/DAST enforcement</li>
+                            <li>Container/IaC scanning</li>
+                            <li>Fail-gates with exceptions</li>
+                            <li>Standardized policy as code</li>
+                        </ul>
+                    </div>
+                    <div class="pillar-card">
+                        <div class="pillar-header">Pillar 2: Automated Verification</div>
+                        <div class="pillar-hrs">48,960 hrs/yr = 29 FTEs</div>
+                        <ul>
+                            <li>Test industrialization</li>
+                            <li>Release safety gates</li>
+                            <li>Fewer rollbacks/hotfixes</li>
+                            <li>Defect escape prevention</li>
+                        </ul>
+                    </div>
+                    <div class="pillar-card">
+                        <div class="pillar-header">Pillar 3: Automated Evidence Packs</div>
+                        <div class="pillar-hrs">18,360 hrs/yr = 11 FTEs</div>
+                        <ul>
+                            <li>Release attestation</li>
+                            <li>Audit-by-design</li>
+                            <li>Compliance as by-product</li>
+                            <li>Evidence pack automation</li>
+                        </ul>
+                    </div>
+                    <div class="pillar-card">
+                        <div class="pillar-header">Pillar 4: Resilience Validation</div>
+                        <div class="pillar-hrs">12,240 hrs/yr = 7 FTEs</div>
+                        <ul>
+                            <li>Load/stress testing</li>
+                            <li>Chaos engineering</li>
+                            <li>DR/BC pre-prod validation</li>
+                            <li>External dependency reduction</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Slide 5: Agentic QE -->
+            <section>
+                <h2>Agentic QE: The AI Enabler</h2>
+                <div class="agentic-section">
+                    <div class="agentic-grid">
+                        <div class="agentic-item">
+                            <h4>What is Agentic QE?</h4>
+                            <p>60+ AI-powered QE agents that auto-generate tests, find coverage gaps, detect flaky tests, and learn codebase patterns over time.</p>
+                            <p style="margin-top:10px;"><strong>Platform Support:</strong> Claude Code, Cursor, Cline, Copilot, and 7+ other coding agents</p>
+                        </div>
+                        <div class="agentic-item">
+                            <h4>Key Capabilities</h4>
+                            <ul>
+                                <li>Test generation (unit, integration, e2e)</li>
+                                <li>Coverage gap analysis with risk-weighting</li>
+                                <li>Self-healing test automation</li>
+                                <li>Multi-agent orchestration</li>
+                                <li>Intelligent model routing (cost optimization)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="industry-badges">
+                        <div class="badge">Amdocs</div>
+                        <div class="badge">Tech Mahindra</div>
+                        <div class="badge">Cognizant</div>
+                        <div class="badge">Narwal.ai</div>
+                    </div>
+                    <p style="text-align:center;color:#666;font-size:0.9em;">Gartner predicts 33% of enterprise apps will have agentic AI by 2028</p>
+                </div>
+            </section>
+            
+            <!-- Slide 6: Value Breakdown -->
+            <section>
+                <h2>Value Breakdown</h2>
+                <div class="value-grid">
+                    <div class="stat-card value-card">
+                        <span class="stat-value">€4.68M</span>
+                        <span class="stat-label">Productivity/Capacity<br>(2% time reclaimed)</span>
+                    </div>
+                    <div class="stat-card value-card">
+                        <span class="stat-value">€4.41M</span>
+                        <span class="stat-label">Hard Avoidance<br>(incidents, vuln, audit)</span>
+                    </div>
+                    <div class="stat-card value-card">
+                        <span class="stat-value">34 hrs</span>
+                        <span class="stat-label">Per Developer<br>Per Year Reclaimed</span>
+                    </div>
+                    <div class="stat-card value-card">
+                        <span class="stat-value">€38.24</span>
+                        <span class="stat-label">Hourly Rate<br>(€65k / 1,700 hrs)</span>
+                    </div>
+                </div>
+                <div style="background:#f8f9fa;padding:25px;border-radius:12px;margin-top:40px;">
+                    <h4 style="margin:0 0 15px 0;color:var(--primary);">Value by Adoption Level</h4>
+                    <div style="display:flex;justify-content:space-around;text-align:center;">
+                        <div><strong>25%</strong><br><span style="color:var(--accent-green);font-size:1.3em;">€2.27M</span></div>
+                        <div><strong>50%</strong><br><span style="color:var(--accent-green);font-size:1.3em;">€4.54M</span></div>
+                        <div><strong>75%</strong><br><span style="color:var(--accent-green);font-size:1.3em;">€6.82M</span></div>
+                        <div><strong>100%</strong><br><span style="color:var(--accent-green);font-size:1.3em;">€9.09M</span></div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Slide 7: Next Steps -->
+            <section>
+                <h2>Recommended Next Steps</h2>
+                <div class="next-steps">
+                    <div class="step-item">
+                        <div class="step-num">1</div>
+                        <div class="step-content">
+                            <h4>Phase 1 (3 months): Pilot</h4>
+                            <p>Deploy Agentic QE on 2 payment platform projects</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-num">2</div>
+                        <div class="step-content">
+                            <h4>Phase 2 (6 months): Deploy</h4>
+                            <p>Unified CI/CD guardrails, measure adoption, expand coverage</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-num">3</div>
+                        <div class="step-content">
+                            <h4>Phase 3 (12 months): Scale</h4>
+                            <p>Full rollout across all product lines, achieve 100% adoption target</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Slide 8: Closing -->
+            <section class="closing-slide">
+                <h2>Ready to Transform Assurance?</h2>
+                <p>From optional quality to mandatory, automated confidence</p>
+            </section>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            slideNumber: 'c/t',
+            transition: 'slide',
+            transitionSpeed: 'default',
+            backgroundTransition: 'fade',
+            center: true,
+            width: 1280,
+            height: 720
+        });
+    </script>
+</body>
+</html>
