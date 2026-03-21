@@ -1,22 +1,93 @@
-site_name: 'HomeLab Platform'
-site_description: 'Azure VM homelab for delivery, observability, and security'
+site_name: Homelab
+site_description: Homelab documentation — operations, architecture, backup, and rebuild guides
+site_url: https://amonkarsidhant.github.io/homelab
 
-docs_dir: docs
+repo_name: amonkarsidhant/homelab
+repo_url: https://github.com/amonkarsidhant/homelab
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - search.suggest
+    - search.highlight
+    - content.tabs.link
+    - navigation.top
+    - toc.follow
+  font:
+    text: Inter
+    code: JetBrains Mono
+
+plugins:
+  - search
+  - glightbox
+  - git-revision-date-localized:
+      enabled: true
+  - minify:
+      minify_html: true
+      minify_js: true
+      minify_css: true
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - admonition
+  - pymdownx.details
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/amonkarsidhant
+    - icon: fontawesome/brands/gitea
+      link: https://gitea.homelabdev.space
 
 nav:
   - Home: index.md
-  - Operations:
-    - Runbook: homelab-operations-runbook.md
+  - 🚀 Quick Start: quickstart.md
+  - 📦 Services: services.md
+  - 🛠️ Operations:
+    - Operations Runbook: homelab-operations-runbook.md
     - Operations Checklist: operations-checklist.md
+    - Architecture: homelab-architecture.md
+  - 🔒 Security & Reliability:
+    - Chaos Engineering: chaos-engineering.md
+    - Week 2 Hardening: week2-reliability-hardening.md
+  - 🔄 Automation:
+    - Week 1 Foundation: week1-automation-foundation.md
     - Week 2-4 Roadmap: week2-4-roadmap.md
-  - Backstage:
-    - Dev Portal Guide: backstage-dev-portal.md
-    - Service Scorecard: backstage-scorecard.md
-    - Cortex-Inspired Portal: backstage-cortex-inspired-portal.md
-  - Week Planning:
-    - Week 1: week1-automation-foundation.md
-    - Week 2: week2-reliability-hardening.md
-
-plugins:
-  - techdocs-core
-
+    - Backstage Dev Portal: backstage-dev-portal.md
+    - Backstage Scorecard: backstage-scorecard.md
+    - Backstage Portal Design: backstage-cortex-inspired-portal.md
+  - 💾 Backup & Recovery:
+    - Backup Guide: backup/backup-guide.md
+    - Pi + Mac Setup: backup/pi-mac-setup.md
+    - Rebuild Spec: rebuild/README.md
+    - Agent Rebuild Guide: rebuild/AGENT.md
+    - Per-Service Rebuild: rebuild/SERVICES.md
+    - Secrets Recovery: rebuild/SECRETS.md
+  - 🔑 Services:
+    - Vaultwarden Admin: vaultwarden-admin-user-guide.md
+  - 📊 Reference:
+    - Troubleshooting: troubleshooting.md
