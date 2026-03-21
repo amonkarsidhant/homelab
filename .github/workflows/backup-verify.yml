@@ -1,0 +1,40 @@
+name: Homelab Backup Verify
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: "0 6 * * *"  # Daily at 06:00 UTC
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout homelab
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify git integrity
+        run: |
+          git fsck --full
+          echo "Commits: $(git rev-list --count HEAD)"
+          echo "Files: $(git ls-files | wc -l)"
+
+      - name: List recent changes
+        run: |
+          echo "=== Last 5 commits ==="
+          git log --oneline -5
+          echo ""
+          echo "=== Changed services ==="
+          git diff --name-only HEAD~5..HEAD | grep -E 'docker-compose|compose.yml' || echo "No compose changes"
+
+      - name: Backup check
+        run: |
+          echo "=== Docker compose files ==="
+          find . -name 'docker-compose.yml' | head -10
+          echo ""
+          echo "=== Backup script ==="
+          ls -la scripts/backup/
