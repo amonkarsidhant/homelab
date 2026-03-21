@@ -1,0 +1,7 @@
+# Homelab critical HTTPS endpoints
+home.homelabdev.space
+auth.homelabdev.space
+chat.homelabdev.space
+ai.homelabdev.space
+gitea.homelabdev.space
+vault.homelabdev.space

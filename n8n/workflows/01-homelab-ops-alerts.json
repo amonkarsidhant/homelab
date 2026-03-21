@@ -1,0 +1,211 @@
+{
+  "name": "Homelab Ops Alerts → Discord/Slack",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 5
+            }
+          ]
+        },
+        "issue": "Check homelab services status"
+      },
+      "id": "schedule-trigger",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "url": "http://act-runner:2376/info",
+        "options": {
+          "timeout": 5000
+        }
+      },
+      "id": "http-request-act",
+      "name": "Check Act Runner",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [450, 200]
+    },
+    {
+      "parameters": {
+        "url": "http://gitea:3000/api/v1/ping",
+        "options": {
+          "timeout": 5000
+        }
+      },
+      "id": "http-request-gitea",
+      "name": "Check Gitea",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "url": "http://prometheus:9090/-/healthy",
+        "options": {
+          "timeout": 5000
+        }
+      },
+      "id": "http-request-prometheus",
+      "name": "Check Prometheus",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [450, 400]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.status }}",
+              "operation": "notEqual",
+              "value2": "200"
+            }
+          ]
+        }
+      },
+      "id": "if-act-failed",
+      "name": "If Act Runner Failed",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [650, 200]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.message }}",
+              "operation": "notEqual",
+              "value2": "pong"
+            }
+          ]
+        }
+      },
+      "id": "if-gitea-failed",
+      "name": "If Gitea Failed",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.status }}",
+              "operation": "notEqual",
+              "value2": "200"
+            }
+          ]
+        }
+      },
+      "id": "if-prometheus-failed",
+      "name": "If Prometheus Failed",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [650, 400]
+    },
+    {
+      "parameters": {
+        "webhook": "https://discord.com/api/webhooks/1479135880819249172/b9P59Bs0f0oLMU1yKEngIgPLQdEXUmw9CnYa-m3O4R9lRhHVdkESYdqBEWAC0lkJvAw_",
+        "channel": "homelab-alerts",
+        "text": "🚨 **Homelab Alert**\n\n**Act Runner**: DOWN\nStatus: {{ $json.status }}\n\n_Time_: {{ $now }}",
+        "options": {}
+      },
+      "id": "discord-alert-act",
+      "name": "Alert: Act Runner Down",
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 1,
+      "position": [850, 150]
+    },
+    {
+      "parameters": {
+        "webhook": "https://discord.com/api/webhooks/1479135880819249172/b9P59Bs0f0oLMU1yKEngIgPLQdEXUmw9CnYa-m3O4R9lRhHVdkESYdqBEWAC0lkJvAw_",
+        "channel": "homelab-alerts",
+        "text": "🚨 **Homelab Alert**\n\n**Gitea**: DOWN\nMessage: {{ $json.message }}\n\n_Time_: {{ $now }}",
+        "options": {}
+      },
+      "id": "discord-alert-gitea",
+      "name": "Alert: Gitea Down",
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 1,
+      "position": [850, 300]
+    },
+    {
+      "parameters": {
+        "webhook": "https://discord.com/api/webhooks/1479135880819249172/b9P59Bs0f0oLMU1yKEngIgPLQdEXUmw9CnYa-m3O4R9lRhHVdkESYdqBEWAC0lkJvAw_",
+        "channel": "homelab-alerts",
+        "text": "🚨 **Homelab Alert**\n\n**Prometheus**: DOWN\nStatus: {{ $json.status }}\n\n_Time_: {{ $now }}",
+        "options": {}
+      },
+      "id": "discord-alert-prometheus",
+      "name": "Alert: Prometheus Down",
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 1,
+      "position": [850, 450]
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          { "node": "Check Act Runner", "type": "main", "index": 0 },
+          { "node": "Check Gitea", "type": "main", "index": 0 },
+          { "node": "Check Prometheus", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Check Act Runner": {
+      "main": [
+        [
+          { "node": "If Act Runner Failed", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Check Gitea": {
+      "main": [
+        [
+          { "node": "If Gitea Failed", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Check Prometheus": {
+      "main": [
+        [
+          { "node": "If Prometheus Failed", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "If Act Runner Failed": {
+      "main": [
+        [
+          { "node": "Alert: Act Runner Down", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "If Gitea Failed": {
+      "main": [
+        [
+          { "node": "Alert: Gitea Down", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "If Prometheus Failed": {
+      "main": [
+        [
+          { "node": "Alert: Prometheus Down", "type": "main", "index": 0 }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {},
+  "id": "1"
+}

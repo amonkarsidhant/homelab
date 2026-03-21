@@ -36,7 +36,13 @@ services:
     volumes:
       - /home/sidhant/backstage/app-config.yaml:/app/app-config.yaml:ro
       - /home/sidhant/backstage/app-config.production.yaml:/app/app-config.production.yaml:ro
-      - /home/sidhant/backstage/catalog:/app/catalog:ro
+      - /home/sidhant/backstage/catalog:/app/catalog
+      - /home/sidhant/homelab:/repo:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+      - techdocs-tmp:/tmp
+
+volumes:
+  techdocs-tmp:
 
 networks:
   default:

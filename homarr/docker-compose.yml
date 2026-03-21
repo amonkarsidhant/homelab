@@ -1,0 +1,18 @@
+services:
+  homarr:
+    image: ghcr.io/homarr-labs/homarr:latest
+    container_name: homarr
+    restart: unless-stopped
+    environment:
+      - TZ=UTC
+      - SECRET_ENCRYPTION_KEY=260033893e8c2e152d2fb1c9aae213bdc30efa1b0911723f56765b7390737c0f
+    volumes:
+      - ./appdata:/appdata
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - default
+
+networks:
+  default:
+    name: traefik_default
+    external: true

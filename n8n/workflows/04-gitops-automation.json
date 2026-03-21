@@ -1,0 +1,210 @@
+{
+  "name": "GitOps Automation - Repo Sync",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cron",
+              "cronExpression": "0 */6 * * *"
+            }
+          ]
+        }
+      },
+      "id": "schedule-trigger",
+      "name": "Every 6 Hours",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://gitea.homelabdev.space/api/v1/repos/sidhant/homelab",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "method": "GET",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "token {{$credentials.accessToken}}"
+            }
+          ]
+        }
+      },
+      "id": "get-homelab-repo",
+      "name": "Get Homelab Repo Info",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [450, 200]
+    },
+    {
+      "parameters": {
+        "url": "https://gitea.homelabdev.space/api/v1/repos/sidhant/homelab/actions/runs",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "method": "GET",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "token {{$credentials.accessToken}}"
+            }
+          ]
+        }
+      },
+      "id": "get-workflow-runs",
+      "name": "Get Workflow Runs",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [450, 400]
+    },
+    {
+      "parameters": {
+        "functionCode": "const runs = $input.first().json.workflow_runs || [];\nconst recentFails = runs.filter(r => r.conclusion === 'failure').slice(0, 5);\n\nreturn recentFails.map(r => ({\n  json: {\n    name: r.name,\n    conclusion: r.conclusion,\n    branch: r.head_branch,\n    url: r.html_url,\n    created_at: r.created_at\n  }\n}));"
+      },
+      "id": "filter-failed-runs",
+      "name": "Filter Failed Runs",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [650, 400]
+    },
+    {
+      "parameters": {
+        "command": "cd /home/sidhant/homelab && git fetch origin main && git diff --stat origin/main",
+        "addBody": false
+      },
+      "id": "check-git-diff",
+      "name": "Check Git Diff",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [650, 200]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $json.length }}",
+              "operation": "greater",
+              "value2": 0
+            }
+          ]
+        }
+      },
+      "id": "if-failed-runs",
+      "name": "If Failed Runs",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [850, 400]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.output }}",
+              "operation": "notContains",
+              "value2": "0 file"
+            }
+          ]
+        }
+      },
+      "id": "if-has-changes",
+      "name": "If Has Changes",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [850, 200]
+    },
+    {
+      "parameters": {
+        "webhook": "https://discord.com/api/webhooks/1479135880819249172/b9P59Bs0f0oLMU1yKEngIgPLQdEXUmw9CnYa-m3O4R9lRhHVdkESYdqBEWAC0lkJvAw_",
+        "channel": "homelab-alerts",
+        "text": "⚠️ **GitOps Alert**\n\n**Workflow Failures Detected:**\n{{ $json.map(r => `\\n- ${r.name} (${r.conclusion}) - ${r.branch}`).join(\"\\n\") }}\n\n[View Runs](https://gitea.homelabdev.space/sidhant/homelab/actions)\n\n_Time_: {{ $now }}",
+        "options": {}
+      },
+      "id": "discord-alert-failures",
+      "name": "Alert: Workflow Failures",
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 1,
+      "position": [1050, 500]
+    },
+    {
+      "parameters": {
+        "webhook": "https://discord.com/api/webhooks/1479135880819249172/b9P59Bs0f0oLMU1yKEngIgPLQdEXUmw9CnYa-m3O4R9lRhHVdkESYdqBEWAC0lkJvAw_",
+        "channel": "homelab-reports",
+        "text": "📝 **GitOps Update**\n\n**Pending Changes:**\n```\n{{ $json.output }}\n```\n\n_Run `git pull origin main` to sync._\n\n_Time_: {{ $now }}",
+        "options": {}
+      },
+      "id": "discord-notify-changes",
+      "name": "Notify: Pending Changes",
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 1,
+      "position": [1050, 200]
+    }
+  ],
+  "connections": {
+    "Every 6 Hours": {
+      "main": [
+        [
+          { "node": "Get Homelab Repo Info", "type": "main", "index": 0 },
+          { "node": "Get Workflow Runs", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Get Homelab Repo Info": {
+      "main": [
+        [
+          { "node": "Check Git Diff", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Get Workflow Runs": {
+      "main": [
+        [
+          { "node": "Filter Failed Runs", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Filter Failed Runs": {
+      "main": [
+        [
+          { "node": "If Failed Runs", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Check Git Diff": {
+      "main": [
+        [
+          { "node": "If Has Changes", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "If Failed Runs": {
+      "main": [
+        [
+          { "node": "Alert: Workflow Failures", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "If Has Changes": {
+      "main": [
+        [
+          { "node": "Notify: Pending Changes", "type": "main", "index": 0 }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "credentials": {
+    "httpHeaderAuth": {
+      "id": "1",
+      "name": "Gitea API Token"
+    }
+  },
+  "settings": {},
+  "id": "4"
+}

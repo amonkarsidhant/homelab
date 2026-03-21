@@ -1,0 +1,217 @@
+{
+  "name": "Daily Homelab Status Report",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cron",
+              "cronExpression": "0 8 * * 1"
+            }
+          ]
+        }
+      },
+      "id": "schedule-trigger",
+      "name": "Weekly Monday 8AM",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "command": "docker ps --format '{{.Names}}\t{{.Status}}'",
+        "addBody": false
+      },
+      "id": "get-container-status",
+      "name": "Get Container Status",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [450, 200]
+    },
+    {
+      "parameters": {
+        "command": "df -h / | tail -1 | awk '{print $5 \" used\"}'",
+        "addBody": false
+      },
+      "id": "get-disk-usage",
+      "name": "Get Disk Usage",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [450, 350]
+    },
+    {
+      "parameters": {
+        "command": "free -h | grep Mem | awk '{print $3 \"/\" $2}'",
+        "addBody": false
+      },
+      "id": "get-memory-usage",
+      "name": "Get Memory Usage",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [450, 500]
+    },
+    {
+      "parameters": {
+        "command": "uptime | sed 's/.*up /Up: /' | sed 's/,.*load/ | Load/'",
+        "addBody": false
+      },
+      "id": "get-uptime",
+      "name": "Get Uptime",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [450, 650]
+    },
+    {
+      "parameters": {
+        "command": "curl -s -o /dev/null -w '%{http_code}' -H 'Host: gitea.homelabdev.space' https://127.0.0.1",
+        "addBody": false
+      },
+      "id": "check-gitea-http",
+      "name": "Check Gitea HTTP",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [450, 800]
+    },
+    {
+      "parameters": {
+        "command": "curl -s -o /dev/null -w '%{http_code}' -H 'Host: backstage.homelabdev.space' https://127.0.0.1",
+        "addBody": false
+      },
+      "id": "check-backstage-http",
+      "name": "Check Backstage HTTP",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [450, 950]
+    },
+    {
+      "parameters": {
+        "command": "curl -s -o /dev/null -w '%{http_code}' -H 'Host: prometheus.homelabdev.space' https://127.0.0.1",
+        "addBody": false
+      },
+      "id": "check-prometheus-http",
+      "name": "Check Prometheus HTTP",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [450, 1100]
+    },
+    {
+      "parameters": {
+        "command": "curl -s -o /dev/null -w '%{http_code}' -H 'Host: grafana.homelabdev.space' https://127.0.0.1",
+        "addBody": false
+      },
+      "id": "check-grafana-http",
+      "name": "Check Grafana HTTP",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [450, 1250]
+    },
+    {
+      "parameters": {
+        "command": "curl -s -o /dev/null -w '%{http_code}' -H 'Host: goalert.homelabdev.space' https://127.0.0.1",
+        "addBody": false
+      },
+      "id": "check-goalert-http",
+      "name": "Check GoAlert HTTP",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [450, 1400]
+    },
+    {
+      "parameters": {
+        "webhook": "https://discord.com/api/webhooks/1479135880819249172/b9P59Bs0f0oLMU1yKEngIgPLQdEXUmw9CnYa-m3O4R9lRhHVdkESYdqBEWAC0lkJvAw_",
+        "channel": "homelab-reports",
+        "text": "📊 **Weekly Homelab Status Report** - {{ $now.format(\"YYYY-MM-DD\") }}\n\n**System Status:**\n- Uptime: {{ $json.uptime }}\n- Memory: {{ $json.memory }}\n- Disk: {{ $json.disk }}\n\n**Service HTTP Checks:**\n- Gitea: {{ $json.gitea_http }}\n- Backstage: {{ $json.backstage_http }}\n- Prometheus: {{ $json.prometheus_http }}\n- Grafana: {{ $json.grafana_http }}\n- GoAlert: {{ $json.goalert_http }}\n\n**Container Status:**\n```\n{{ $json.containers }}\n```\n\n_Report generated: {{ $now }}_",
+        "options": {}
+      },
+      "id": "discord-report",
+      "name": "Send Discord Report",
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 1,
+      "position": [850, 800]
+    }
+  ],
+  "connections": {
+    "Weekly Monday 8AM": {
+      "main": [
+        [
+          { "node": "Get Container Status", "type": "main", "index": 0 },
+          { "node": "Get Disk Usage", "type": "main", "index": 0 },
+          { "node": "Get Memory Usage", "type": "main", "index": 0 },
+          { "node": "Get Uptime", "type": "main", "index": 0 },
+          { "node": "Check Gitea HTTP", "type": "main", "index": 0 },
+          { "node": "Check Backstage HTTP", "type": "main", "index": 0 },
+          { "node": "Check Prometheus HTTP", "type": "main", "index": 0 },
+          { "node": "Check Grafana HTTP", "type": "main", "index": 0 },
+          { "node": "Check GoAlert HTTP", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Get Container Status": {
+      "main": [
+        [
+          { "node": "Send Discord Report", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Get Disk Usage": {
+      "main": [
+        [
+          { "node": "Send Discord Report", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Get Memory Usage": {
+      "main": [
+        [
+          { "node": "Send Discord Report", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Get Uptime": {
+      "main": [
+        [
+          { "node": "Send Discord Report", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Check Gitea HTTP": {
+      "main": [
+        [
+          { "node": "Send Discord Report", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Check Backstage HTTP": {
+      "main": [
+        [
+          { "node": "Send Discord Report", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Check Prometheus HTTP": {
+      "main": [
+        [
+          { "node": "Send Discord Report", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Check Grafana HTTP": {
+      "main": [
+        [
+          { "node": "Send Discord Report", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Check GoAlert HTTP": {
+      "main": [
+        [
+          { "node": "Send Discord Report", "type": "main", "index": 0 }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {},
+  "id": "3"
+}

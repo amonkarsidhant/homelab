@@ -9,7 +9,6 @@ http:
         certResolver: letsencrypt
       middlewares:
         - authelia
-
     grafana:
       rule: "Host(`grafana.homelabdev.space`)"
       service: grafana
@@ -19,7 +18,6 @@ http:
         certResolver: letsencrypt
       middlewares:
         - authelia
-
     prometheus:
       rule: "Host(`prometheus.homelabdev.space`)"
       service: prometheus
@@ -29,7 +27,6 @@ http:
         certResolver: letsencrypt
       middlewares:
         - authelia
-
     jaeger:
       rule: "Host(`jaeger.homelabdev.space`)"
       service: jaeger
@@ -39,7 +36,24 @@ http:
         certResolver: letsencrypt
       middlewares:
         - authelia
-
+    loki:
+      rule: "Host(`loki.homelabdev.space`)"
+      service: loki
+      entryPoints:
+        - websecure
+      tls:
+        certResolver: letsencrypt
+      middlewares:
+        - authelia
+    cadvisor:
+      rule: "Host(`cadvisor.homelabdev.space`)"
+      service: cadvisor
+      entryPoints:
+        - websecure
+      tls:
+        certResolver: letsencrypt
+      middlewares:
+        - authelia
     gitea:
       rule: "Host(`gitea.homelabdev.space`)"
       service: gitea
@@ -49,7 +63,6 @@ http:
         certResolver: letsencrypt
       middlewares:
         - authelia
-
     gitea-actions:
       rule: "Host(`gitea.homelabdev.space`) && PathPrefix(`/api/actions`)"
       service: gitea
@@ -58,7 +71,6 @@ http:
       priority: 100
       tls:
         certResolver: letsencrypt
-
     gitea-api:
       rule: "Host(`gitea.homelabdev.space`) && PathPrefix(`/api`)"
       service: gitea
@@ -67,7 +79,6 @@ http:
       priority: 105
       tls:
         certResolver: letsencrypt
-
     gitea-git:
       rule: "Host(`gitea.homelabdev.space`) && PathRegexp(`^/.+/.+\\.git($|/.*)`)"
       service: gitea
@@ -76,7 +87,6 @@ http:
       priority: 110
       tls:
         certResolver: letsencrypt
-
     gitea-git-http:
       rule: "Host(`gitea.homelabdev.space`) && (PathRegexp(`^/.+/.+/info/refs$`) || PathRegexp(`^/.+/.+/git-upload-pack$`) || PathRegexp(`^/.+/.+/git-receive-pack$`))"
       service: gitea
@@ -85,7 +95,15 @@ http:
       priority: 111
       tls:
         certResolver: letsencrypt
-
+    alertmanager:
+      rule: "Host(`alertmanager.homelabdev.space`)"
+      service: alertmanager
+      entryPoints:
+        - websecure
+      tls:
+        certResolver: letsencrypt
+      middlewares:
+        - authelia
     code:
       rule: "Host(`code.homelabdev.space`)"
       service: code
@@ -95,7 +113,6 @@ http:
         certResolver: letsencrypt
       middlewares:
         - authelia
-
     vault:
       rule: "Host(`vault.homelabdev.space`)"
       service: vault
@@ -103,7 +120,6 @@ http:
         - websecure
       tls:
         certResolver: letsencrypt
-
     backstage:
       rule: "Host(`backstage.homelabdev.space`)"
       service: backstage
@@ -113,7 +129,6 @@ http:
         certResolver: letsencrypt
       middlewares:
         - authelia
-
     goalert:
       rule: "Host(`goalert.homelabdev.space`)"
       service: goalert
@@ -121,6 +136,60 @@ http:
         - websecure
       tls:
         certResolver: letsencrypt
+    n8n:
+      rule: "Host(`n8n.homelabdev.space`)"
+      service: n8n
+      entryPoints:
+        - websecure
+      tls:
+        certResolver: letsencrypt
+      middlewares:
+        - authelia
+    excalidraw:
+      rule: "Host(`excalidraw.homelabdev.space`)"
+      service: excalidraw
+      entryPoints:
+        - websecure
+      tls:
+        certResolver: letsencrypt
+      middlewares:
+        - authelia
+    drawio:
+      rule: "Host(`drawio.homelabdev.space`)"
+      service: drawio
+      entryPoints:
+        - websecure
+      tls:
+        certResolver: letsencrypt
+      middlewares:
+        - authelia
+    homarr:
+      rule: "Host(`home.homelabdev.space`)"
+      service: homarr
+      entryPoints:
+        - websecure
+      tls:
+        certResolver: letsencrypt
+      middlewares:
+        - authelia
+    ai:
+      rule: "Host(`ai.homelabdev.space`)"
+      service: ai
+      entryPoints:
+        - websecure
+      tls:
+        certResolver: letsencrypt
+      middlewares:
+        - authelia
+    chat:
+      rule: "Host(`chat.homelabdev.space`)"
+      service: chat
+      entryPoints:
+        - websecure
+      tls:
+        certResolver: letsencrypt
+      middlewares:
+        - authelia
 
   middlewares:
     authelia:
@@ -133,43 +202,71 @@ http:
       loadBalancer:
         servers:
           - url: "http://minio:9000"
-
     grafana:
       loadBalancer:
         servers:
           - url: "http://grafana:3000"
-
     prometheus:
       loadBalancer:
         servers:
           - url: "http://prometheus:9090"
-
     jaeger:
       loadBalancer:
         servers:
           - url: "http://jaeger:16686"
-
+    loki:
+      loadBalancer:
+        servers:
+          - url: "http://loki:3100"
+    cadvisor:
+      loadBalancer:
+        servers:
+          - url: "http://cadvisor:8080"
     gitea:
       loadBalancer:
         servers:
           - url: "http://gitea:3000"
-
     code:
       loadBalancer:
         servers:
           - url: "http://code-server:8080"
-
     vault:
       loadBalancer:
         servers:
           - url: "http://vaultwarden:80"
-
     backstage:
       loadBalancer:
         servers:
           - url: "http://backstage:7007"
-
     goalert:
       loadBalancer:
         servers:
           - url: "http://goalert:8081"
+    n8n:
+      loadBalancer:
+        servers:
+          - url: "http://n8n:5678"
+    excalidraw:
+      loadBalancer:
+        servers:
+          - url: "http://excalidraw:80"
+    drawio:
+      loadBalancer:
+        servers:
+          - url: "http://drawio:8080"
+    homarr:
+      loadBalancer:
+        servers:
+          - url: "http://homarr:7575"
+    ai:
+      loadBalancer:
+        servers:
+          - url: "http://litellm:4000"
+    chat:
+      loadBalancer:
+        servers:
+          - url: "http://open-webui:8080"
+    alertmanager:
+      loadBalancer:
+        servers:
+          - url: "http://alertmanager:9093"

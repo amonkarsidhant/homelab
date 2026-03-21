@@ -26,3 +26,5 @@ Homelab infrastructure repo for Gitea, CI/CD, observability, auth, and operation
 - Chaos control CLI: `scripts/chaos/chaosctl.sh`
 - Chaos reporting installer: `scripts/chaos/install-grafana-reporting-dashboard.sh`
 - Weekly chaos drill installer: `scripts/chaos/install-weekly-drill.sh`
+- Overnight autonomous agent runner: `scripts/autonomous/overnight-agent-runner.sh`
+- Overnight cron installer: `scripts/autonomous/install-cron.sh`

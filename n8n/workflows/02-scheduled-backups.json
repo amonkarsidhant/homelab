@@ -1,0 +1,115 @@
+{
+  "name": "Scheduled Backups",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cron",
+              "cronExpression": "0 2 * * *"
+            }
+          ]
+        }
+      },
+      "id": "schedule-trigger",
+      "name": "Daily 2AM Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "command": "pg_dump -U postgres -h backstage-postgres backstage > /backups/backstage-$(date +%Y%m%d).sql",
+        "addBody": false
+      },
+      "id": "execute-backup-command",
+      "name": "Backup Backstage DB",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [450, 200]
+    },
+    {
+      "parameters": {
+        "command": "tar -czf /backups/gitea-repos-$(date +%Y%m%d).tar.gz /mnt/data/gitea/gitea-repositories",
+        "addBody": false
+      },
+      "id": "backup-gitea",
+      "name": "Backup Gitea Repos",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [450, 350]
+    },
+    {
+      "parameters": {
+        "command": "tar -czf /backups/observability-$(date +%Y%m%d).tar.gz /mnt/data/prometheus /mnt/data/loki /mnt/data/grafana",
+        "addBody": false
+      },
+      "id": "backup-observability",
+      "name": "Backup Observability Data",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [450, 500]
+    },
+    {
+      "parameters": {
+        "command": "find /backups -name \"*.sql\" -mtime +7 -delete && find /backups -name \"*.tar.gz\" -mtime +7 -delete",
+        "addBody": false
+      },
+      "id": "cleanup-old-backups",
+      "name": "Cleanup Old Backups (>7 days)",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [650, 350]
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "table": "backups",
+        "columns": "name, timestamp, size, status",
+        "values": "={{ $json.name }}, =NOW(), ={{ $json.size }}, ={{ $json.status }}",
+        "options": {}
+      },
+      "id": "log-backup-record",
+      "name": "Log Backup Record",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 1.1,
+      "position": [850, 300]
+    }
+  ],
+  "connections": {
+    "Daily 2AM Trigger": {
+      "main": [
+        [
+          { "node": "Backup Backstage DB", "type": "main", "index": 0 },
+          { "node": "Backup Gitea Repos", "type": "main", "index": 0 },
+          { "node": "Backup Observability Data", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Backup Backstage DB": {
+      "main": [
+        [
+          { "node": "Cleanup Old Backups (>7 days)", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Backup Gitea Repos": {
+      "main": [
+        [
+          { "node": "Cleanup Old Backups (>7 days)", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Backup Observability Data": {
+      "main": [
+        [
+          { "node": "Cleanup Old Backups (>7 days)", "type": "main", "index": 0 }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {},
+  "id": "2"
+}

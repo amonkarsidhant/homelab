@@ -1,0 +1,29 @@
+{
+  "theme": "dark",
+  "language": "en",
+  "timeFormat": "24h",
+  "layout": "tiles",
+  "iconSize": "large",
+  "colorPrimary": "#5865F2",
+  "colorAccent": "#57F287",
+  "searchEngine": "duckduckgo",
+   "groups": [
+     { "name": "Development", "icon": "mdi:code-braces" },
+     { "name": "AI & Automation", "icon": "mdi:robot" },
+     { "name": "Observability", "icon": "mdi:eye" },
+     { "name": "Design & Docs", "icon": "mdi:draw" },
+     { "name": "Utilities", "icon": "mdi:tools" },
+     { "name": "Support", "icon": "mdi:help-circle" }
+   ],
+   "widgets": [
+     {
+       "type": "iframewidget",
+       "title": "Weather (London)",
+       "url": "https://www.weatherwidget.io/widget/weather-widget.html?city=London&units=metric&theme=dark",
+       "height": 300,
+       "width": "100%"
+     }
+   ],
+   "customCss": "/* Premium glassmorphism */\n:root {\n  --app-card-background: rgba(255, 255, 255, 0.06);\n  --app-card-hover-background: rgba(255, 255, 255, 0.1);\n}\nbody {\n  background: linear-gradient(135deg, #0f1020 0%, #1a1c2e 50%, #0f1020 100%);\n  background-attachment: fixed;\n}\n.app-card, .widget {\n  transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);\n  border-radius: 18px;\n  backdrop-filter: blur(16px) saturate(120%);\n  border: 1px solid rgba(255, 255, 255, 0.08);\n  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);\n}\n.app-card:hover {\n  transform: translateY(-6px) scale(1.02);\n  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);\n  border-color: rgba(88, 101, 242, 0.4);\n}\n.widget {\n  padding: 16px;\n}",
+   "customJs": "const fmt = new Intl.DateTimeFormat(undefined, { hour: '2-digit', minute: '2-digit', second: '2-digit' }); setInterval(() => { document.querySelectorAll('.local-time').forEach(el => el.textContent = fmt.format(new Date())); }, 1000);"
+}

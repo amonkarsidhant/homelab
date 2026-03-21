@@ -11,6 +11,7 @@ COMPOSE_FILES=(
   "act-runner/docker-compose.yml"
   "backstage/docker-compose.yml"
   "goalert/docker-compose.yml"
+  "n8n/docker-compose.yml"
 )
 
 declare -A service_owner
@@ -94,10 +95,25 @@ check_compose_ownership() {
   done
 }
 
+check_backstage_techdocs_source() {
+  printf '==> Checking Backstage TechDocs source files\n'
+
+  if [[ ! -s "$REPO_DIR/backstage/catalog/mkdocs.yml" ]]; then
+    printf 'ERROR: missing backstage/catalog/mkdocs.yml\n'
+    errors=$((errors + 1))
+  fi
+
+  if [[ ! -s "$REPO_DIR/backstage/catalog/docs/index.md" ]]; then
+    printf 'ERROR: missing backstage/catalog/docs/index.md\n'
+    errors=$((errors + 1))
+  fi
+}
+
 main() {
   cd "$REPO_DIR"
   check_bash_syntax
   check_compose_ownership
+  check_backstage_techdocs_source
   "$REPO_DIR/scripts/backstage-catalog-validate.sh"
   "$REPO_DIR/scripts/backstage-scorecard.sh" "$REPO_DIR/docs/backstage-scorecard.md"
 

@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: n8n
+    restart: unless-stopped
+    ports:
+      - "5678:5678"
+    environment:
+      - N8N_HOST=0.0.0.0
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=https
+      - WEBHOOK_URL=https://n8n.homelabdev.space
+      - GENERIC_TIMEZONE=UTC
+      - N8N_EXECUTIONS_MODE=regular
+      - N8N_METRICS=true
+      - N8N_API_KEY=n8n_api_key_12345
+    volumes:
+      - n8n-data:/home/node/.n8n
+    networks:
+      - default
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:5678/healthz"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  n8n-data:
+    driver: local
+
+networks:
+  default:
+    name: traefik_default
+    external: true

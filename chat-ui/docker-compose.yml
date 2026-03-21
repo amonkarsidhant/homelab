@@ -1,0 +1,21 @@
+services:
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: open-webui
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      - OPENAI_API_BASE_URL=http://litellm:4000/v1
+      - WEBUI_NAME=Homelab AI Chat
+      - WEBUI_AUTH=False
+      - DEFAULT_MODELS=nvidia-fast
+    volumes:
+      - /mnt/data/open-webui:/app/backend/data
+    networks:
+      - default
+
+networks:
+  default:
+    name: traefik_default
+    external: true

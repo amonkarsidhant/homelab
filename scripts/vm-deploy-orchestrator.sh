@@ -48,6 +48,16 @@ require_backstage_catalog_files() {
   return 1
 }
 
+require_backstage_techdocs_source_files() {
+  if [ -s /app/catalog/mkdocs.yml ] && [ -s /app/catalog/docs/index.md ]; then
+    log "OK backstage TechDocs source files available to Docker at /app/catalog"
+    return 0
+  fi
+
+  log "ERROR backstage TechDocs source files missing at /app/catalog"
+  return 1
+}
+
 require_backstage_template_files() {
   if docker exec backstage sh -lc 'test -s /app/catalog/templates/homelab-service/template.yaml && test -s /app/catalog/templates/homelab-service/skeleton/catalog-info.yaml.njk'; then
     log "OK backstage template files mounted"
@@ -143,9 +153,12 @@ sync_service_files() {
   copy_file "$APP_DIR/backstage/app-config.yaml" "$LIVE_BASE/backstage/app-config.yaml"
   copy_file "$APP_DIR/backstage/app-config.production.yaml" "$LIVE_BASE/backstage/app-config.production.yaml"
   copy_dir "$APP_DIR/backstage/catalog" "$LIVE_BASE/backstage/catalog"
+  docker run --rm -v "$LIVE_BASE/backstage/catalog:/src:ro" -v /app/catalog:/dst alpine sh -c "cp -a /src/. /dst/"
 
   copy_file "$APP_DIR/goalert/docker-compose.yml" "$LIVE_BASE/goalert/docker-compose.yml"
   copy_file "$APP_DIR/goalert/.env.example" "$LIVE_BASE/goalert/.env.example"
+
+  copy_file "$APP_DIR/n8n/docker-compose.yml" "$LIVE_BASE/n8n/docker-compose.yml"
 
   copy_file "$APP_DIR/scripts/service-integrity-check.sh" "$LIVE_BASE/scripts/service-integrity-check.sh"
   chmod +x "$LIVE_BASE/scripts/service-integrity-check.sh"
@@ -185,6 +198,7 @@ start_services() {
   (cd "$LIVE_BASE/observability" && docker compose up -d prometheus grafana loki jaeger promtail cadvisor alertmanager)
   (cd "$LIVE_BASE/backstage" && docker compose up -d --force-recreate backstage)
   (cd "$LIVE_BASE/goalert" && docker compose up -d)
+  (cd "$LIVE_BASE/n8n" && docker compose up -d)
 }
 
 seed_goalert_admin() {
@@ -213,6 +227,7 @@ verify_deploy() {
     backstage
     goalert-postgres
     goalert
+    n8n
   )
 
   log "Verifying deployment"
@@ -242,6 +257,7 @@ verify_deploy() {
   echo "=== Backstage Catalog Assertions ==="
   require_backstage_catalog_files || failures=$((failures + 1))
   require_backstage_template_files || failures=$((failures + 1))
+  require_backstage_techdocs_source_files || failures=$((failures + 1))
   require_backstage_catalog_entity_in_source "homelab-operations-hub" || failures=$((failures + 1))
   require_backstage_catalog_entity_in_source "homelab-service-onboarding-template" || failures=$((failures + 1))
   require_no_backstage_catalog_missing_file_warnings || failures=$((failures + 1))

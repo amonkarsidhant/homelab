@@ -49,6 +49,19 @@ Current catalog includes:
 - Resources: `azure-vm`, `data-volume`, `cloudflare-dns`
 - API: `homelab-integrity-check`
 
+## TechDocs Pattern (Repeatable)
+
+Use this pattern for stock Backstage + `generator.runIn: docker` deployments:
+
+1. Keep TechDocs source inside `backstage/catalog/`:
+   - `backstage/catalog/mkdocs.yml`
+   - `backstage/catalog/docs/index.md`
+2. Set entity annotation to `backstage.io/techdocs-ref: dir:.` in `backstage/catalog/all.yaml`.
+3. Keep catalog loaded from `/app/catalog/all.yaml` in `backstage/app-config.yaml`.
+4. Ensure host path `/app/catalog` is synced from `/home/sidhant/backstage/catalog` before/at deploy.
+
+Why this works: the Docker-based TechDocs generator mounts `/app/catalog` from the host daemon context, so `mkdocs.yml` and `docs/` must exist at that exact host path.
+
 ## CI/CD Integration
 
 ### Current State (Stock Backstage Image)

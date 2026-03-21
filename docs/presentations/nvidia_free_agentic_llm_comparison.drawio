@@ -1,0 +1,34 @@
+<mxfile host="app.diagrams.net" modified="2026-03-20T00:00:00.000Z" agent="codex" version="24.7.17" type="device">
+  <diagram id="nvidia-free-agentic" name="NVIDIA Free Agentic LLMs">
+    <mxGraphModel dx="1600" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title" value="NVIDIA Free Endpoint Models - Agentic SWE Comparison (Practical)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0F172A;fontColor=#FFFFFF;strokeColor=#1E293B;fontSize=20;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="40" width="1490" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="note" value="Important: NVIDIA does not publish endpoint-specific benchmark tables for free-tier variants.&#xa;Numbers below are practical ranking + public model-family signals, not official NVIDIA endpoint scores." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF9C3;strokeColor=#CA8A04;fontColor=#713F12;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="80" y="125" width="1490" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="table" value="&lt;b&gt;Rank&lt;/b&gt; | &lt;b&gt;Model (NVIDIA free endpoint)&lt;/b&gt; | &lt;b&gt;Agentic SWE fit&lt;/b&gt; | &lt;b&gt;Benchmark availability&lt;/b&gt; | &lt;b&gt;Recommendation&lt;/b&gt;&#xa;1 | step-3.5-flash | Best overall balance (speed + coding + reliability) | No endpoint-specific public score | Use as default agent model&#xa;2 | qwen3.5-122b-a10b | Strong reasoning/coding, slower than Step | Model-family benchmarks available; endpoint-specific not public | Use for deep analysis tasks&#xa;3 | nvidia-reasoning (DeepSeek-R1 based) | Excellent reasoning, high latency | Public DeepSeek-R1 benchmark papers exist; endpoint-specific not public | Use for hard reasoning, not chat loops&#xa;4 | minimax-m2.1 | Fast conversational model, weaker SWE depth | Limited transparent SWE benchmark data | Use for lightweight helper tasks" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#334155;fontColor=#0F172A;fontSize=14;align=left;verticalAlign=top;spacing=10;" vertex="1" parent="1">
+          <mxGeometry x="80" y="220" width="1490" height="360" as="geometry"/>
+        </mxCell>
+        <mxCell id="flowtitle" value="Best Setup for Agentic Workflows" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E0F2FE;strokeColor=#0284C7;fontColor=#0C4A6E;fontSize=16;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="610" width="1490" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="box1" value="Default: step-3.5-flash" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DBEAFE;strokeColor=#2563EB;fontColor=#1E3A8A;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="120" y="690" width="300" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="box2" value="Escalate hard tasks: qwen3.5-122b-a10b" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontColor=#14532D;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="500" y="690" width="360" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="box3" value="Reasoning-only bursts: nvidia-reasoning" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE7F3;strokeColor=#DB2777;fontColor=#831843;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="940" y="690" width="340" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="box4" value="Utility: minimax-m2.1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#64748B;fontColor=#334155;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="1320" y="690" width="250" height="80" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

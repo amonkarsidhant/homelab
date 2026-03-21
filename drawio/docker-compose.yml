@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  drawio:
+    image: jgraph/drawio:latest
+    container_name: drawio
+    restart: unless-stopped
+
+    environment:
+      - TZ=Europe/London
+      - MEM_LIMIT=512m
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.drawio.rule=Host(`drawio.homelabdev.space`)"
+      - "traefik.http.routers.drawio.entrypoints=websecure"
+      - "traefik.http.routers.drawio.tls=true"
+      - "traefik.http.routers.drawio.middlewares=authelia@file"
+      - "traefik.http.services.drawio.loadbalancer.server.port=8080"
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:8080/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  default:
+    name: traefik_default
+    external: true

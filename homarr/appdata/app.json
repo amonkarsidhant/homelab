@@ -1,0 +1,121 @@
+[
+  {
+    "name": "Gitea",
+    "url": "https://gitea.homelabdev.space",
+    "icon": "mdi:git",
+    "description": "Self-hosted Git service",
+    "tags": ["Development"]
+  },
+  {
+    "name": "Backstage",
+    "url": "https://backstage.homelabdev.space",
+    "icon": "mdi:rocket",
+    "description": "Developer portal",
+    "tags": ["Development"]
+  },
+  {
+    "name": "VS Code",
+    "url": "https://code.homelabdev.space",
+    "icon": "mdi:microsoft-visual-studio-code",
+    "description": "Code server (VS Code in browser)",
+    "tags": ["Development"]
+  },
+  {
+    "name": "N8N",
+    "url": "https://n8n.homelabdev.space",
+    "icon": "mdi:robot",
+    "description": "Workflow automation",
+    "tags": ["AI & Automation"]
+  },
+  {
+    "name": "AI Gateway",
+    "url": "https://ai.homelabdev.space",
+    "icon": "mdi:brain",
+    "description": "NVIDIA/ LiteLLM models",
+    "tags": ["AI & Automation"]
+  },
+  {
+    "name": "Grafana",
+    "url": "https://grafana.homelabdev.space",
+    "icon": "mdi:chart-bar",
+    "description": "Metrics dashboards",
+    "tags": ["Observability"]
+  },
+  {
+    "name": "Prometheus",
+    "url": "https://prometheus.homelabdev.space",
+    "icon": "mdi:chart-line",
+    "description": "Monitoring system",
+    "tags": ["Observability"]
+  },
+  {
+    "name": "Alertmanager",
+    "url": "https://alertmanager.homelabdev.space",
+    "icon": "mdi:bell",
+    "description": "Alert notifications",
+    "tags": ["Observability"]
+  },
+   {
+     "name": "Jaeger",
+     "url": "https://jaeger.homelabdev.space",
+     "icon": "mdi:map-marker-path",
+     "description": "Distributed tracing",
+     "tags": ["Observability"]
+   },
+   {
+     "name": "Loki",
+     "url": "https://loki.homelabdev.space",
+     "icon": "mdi:file-tree",
+     "description": "Log aggregation",
+     "tags": ["Observability"]
+   },
+   {
+     "name": "cAdvisor",
+     "url": "https://cadvisor.homelabdev.space",
+     "icon": "mdi:gauge",
+     "description": "Container metrics",
+     "tags": ["Observability"]
+   },
+   {
+     "name": "Excalidraw",
+    "url": "https://excalidraw.homelabdev.space",
+    "icon": "mdi:Pencil",
+    "description": "Collaborative sketching",
+    "tags": ["Design & Docs"]
+  },
+  {
+    "name": "Draw.io",
+    "url": "https://drawio.homelabdev.space",
+    "icon": "mdi:draw",
+    "description": "Diagram editor",
+    "tags": ["Design & Docs"]
+  },
+  {
+    "name": "Homarr",
+    "url": "https://home.homelabdev.space",
+    "icon": "mdi:home",
+    "description": "Dashboard home",
+    "tags": ["Utilities"]
+  },
+  {
+    "name": "Vaultwarden",
+    "url": "https://vault.homelabdev.space",
+    "icon": "mdi:lock",
+    "description": "Password manager",
+    "tags": ["Utilities"]
+  },
+  {
+    "name": "MinIO",
+    "url": "https://minio.homelabdev.space",
+    "icon": "mdi:cloud",
+    "description": "Object storage",
+    "tags": ["Utilities"]
+  },
+  {
+    "name": "GoAlert",
+    "url": "https://goalert.homelabdev.space",
+    "icon": "mdi:alert-circle",
+    "description": "On-call scheduling",
+    "tags": ["Support"]
+  }
+]
