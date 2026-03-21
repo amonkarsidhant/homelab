@@ -1,126 +1,126 @@
 # Homelab
 
-> **A production-grade homelab running 14 services on a single Azure VM — fully documented, automatically backed up, and rebuildable from scratch in ~2 hours.**
+<p align="center">
+  <img src="https://www.docker.com/wp-content/uploads/2022/03/vertical-logo-monochromatic.png" alt="Docker" width="100" />
+</p>
+
+> **A production-grade homelab running 18 services on a single VM — fully documented, automatically backed up, and rebuildable from scratch in ~2 hours.**
+
+<p align="center">
+  <a href="https://github.com/amonkarsidhant/homelab/actions"><img src="https://img.shields.io/github/actions/workflow/status/amonkarsidhant/homelab/ci.yml?branch=main&style=for-the-badge" alt="CI status" /></a>
+  <a href="https://github.com/amonkarsidhant/homelab/blob/main/LICENSE"><img src="https://img.shields.io/github/license/amonkarsidhant/homelab?style=for-the-badge" alt="MIT License" /></a>
+  <a href="https://github.com/amonkarsidhant/homelab/commits/main"><img src="https://img.shields.io/github/last-commit/amonkarsidhant/homelab?style=for-the-badge" alt="Last commit" /></a>
+  <a href="https://github.com/amonkarsidhant/homelab/pulls"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen?style=for-the-badge" alt="PRs welcome" /></a>
+  <a href="https://github.com/amonkarsidhant/homelab/network"><img src="https://img.shields.io/github/forks/amonkarsidhant/homelab?style=for-the-badge" alt="Forks" /></a>
+  <a href="https://github.com/amonkarsidhant/homelab/stargazers"><img src="https://img.shields.io/github/stars/amonkarsidhant/homelab?style=for-the-badge" alt="Stars" /></a>
+</p>
 
 ---
 
-## What This Is
+## 🎯 What You Get
 
-A self-hosted infrastructure stack providing enterprise-grade DevOps, security, and AI tooling — running on commodity hardware in your living room. Everything from git hosting and CI/CD pipelines to password management, on-call alerting, AI chat, and a full developer portal.
+A **self-hosted infrastructure stack** with enterprise-grade DevOps, security, and AI tooling — all running on a single VM.
 
-**Azure VM** · Ubuntu 22.04 LTS · Docker + Traefik · 14 services
-
----
-
-## Services
-
-| # | Service | URL | Purpose |
-|---|---------|-----|---------|
-| 1 | **Traefik** | — | Reverse proxy + automatic TLS (Let's Encrypt) |
-| 2 | **Authelia** | auth.homelabdev.space | SSO provider for all protected services |
-| 3 | **Gitea** | gitea.homelabdev.space | Self-hosted Git hosting |
-| 4 | **Act Runner** | — | GitHub Actions-compatible CI/CD runner |
-| 5 | **Prometheus** | observability.homelabdev.space | Metrics collection |
-| 6 | **Grafana** | observability.homelabdev.space | Dashboards + alerting |
-| 7 | **Loki** | — | Log aggregation |
-| 8 | **Jaeger** | — | Distributed tracing |
-| 9 | **Alertmanager** | — | Alert routing + deduplication |
-| 10 | **Backstage** | backstage.homelabdev.space | Developer portal + service catalog |
-| 11 | **Goalert** | goalert.homelabdev.space | On-call alerting + incident management |
-| 12 | **n8n** | ai.homelabdev.space | Workflow automation |
-| 13 | **Vaultwarden** | vault.homelabdev.space | Password + secrets manager |
-| 14 | **Code Server** | code.homelabdev.space | Cloud IDE (VS Code in browser) |
-| 15 | **Homarr** | home.homelabdev.space | Dashboard |
-| 16 | **Open WebUI** | chat.homelabdev.space | AI chat (LiteLLM-powered) |
-| 17 | **LiteLLM** | localhost:4000 | AI gateway (15+ model providers) |
-| 18 | **Mailserver** | mail.homelabdev.space | Email receiving + relay |
+| Layer | Services |
+|-------|----------|
+| 🛡️ **Security & Auth** | Authelia, Vaultwarden |
+| 🔄 **Source & CI** | Gitea, Act Runner |
+| 📊 **Observability** | Prometheus, Grafana, Loki, Jaeger, Alertmanager |
+| 🏗️ **Developer Experience** | Backstage, Code Server, Homarr |
+| ⚡ **Automation** | n8n, Traefik |
+| ✉️ **Communication** | Mailserver |
+| 🤖 **AI** | Open WebUI + LiteLLM gateway |
 
 ---
 
-## Quick Start
+## 🚀 Quick Start
 
-### Clone and Explore
 ```bash
 git clone https://github.com/amonkarsidhant/homelab.git ~/homelab
 cd ~/homelab
-```
-
-### Check Service Health
-```bash
 bash scripts/service-integrity-check.sh
 ```
 
-### View Architecture
-```bash
-cat docs/homelab-architecture.md
+---
+
+## 🌐 Services at a Glance
+
+| Service | URL | Status | Purpose |
+|---------|-----|--------|---------|
+| [Traefik](traefik/) | — | ✅ | Reverse proxy + automatic TLS |
+| [Authelia](authelia/) | auth.homelabdev.space | ✅ | SSO provider |
+| [Gitea](gitea/) | gitea.homelabdev.space | ✅ | Git hosting |
+| [Act Runner](act-runner/) | — | ✅ | CI/CD runner |
+| [Prometheus](observability/) | — | ✅ | Metrics |
+| [Grafana](observability/) | observability.homelabdev.space | ✅ | Dashboards |
+| [Loki](observability/) | — | ✅ | Logs |
+| [Jaeger](observability/) | — | ✅ | Traces |
+| [Alertmanager](observability/) | — | ✅ | Alerts |
+| [Backstage](backstage/) | backstage.homelabdev.space | ✅ | Dev portal |
+| [Goalert](goalert/) | goalert.homelabdev.space | ✅ | On-call |
+| [n8n](n8n/) | ai.homelabdev.space | ✅ | Workflows |
+| [Vaultwarden](vaultwarden/) | vault.homelabdev.space | ✅ | Passwords |
+| [Code Server](code-server/) | code.homelabdev.space | ✅ | Cloud IDE |
+| [Homarr](homarr/) | home.homelabdev.space | ✅ | Dashboard |
+| [Open WebUI](chat-ui/) | chat.homelabdev.space | ✅ | AI chat |
+| [LiteLLM](ai-gateway/) | localhost:4000 | ✅ | AI gateway |
+| [Mailserver](mailserver/) | mail.homelabdev.space | ✅ | Email |
+
+---
+
+## 🏗️ Architecture
+
+```
+     Internet
+         │
+    [ Traefik ] — TLS termination, routing
+         │
+    ┌────┴────┬──────────┬─────────────┬──────────┬─────────┐
+    │         │          │             │          │         │
+[Authelia] [Gitea]  [Backstage]  [Goalert]  [n8n]  [Vaultwarden]
+    │         │          │             │          │         │
+    └─────────┴──────────┴─────────────┴──────────┴─────────┘
+         │
+    [ n8n ]  [ Homarr ]  [ Code Server ]  [ Open WebUI ]  [ Mailserver ]
+         │
+    [ Observability Stack ]
+    Prometheus · Grafana · Loki · Jaeger · Alertmanager
 ```
 
 ---
 
-## Rebuild from Scratch
+## 📚 Documentation
 
-**If the VM dies, rebuild everything from this repo in ~2 hours.**
+### 🛠️ Operations
+- 📖 [Homelab Operations Runbook](docs/homelab-operations-runbook.md)
+- ✅ [Operations Checklist](docs/operations-checklist.md)
+- 🏛️ [Homelab Architecture](docs/homelab-architecture.md)
 
-👉 Read: [`docs/rebuild/README.md`](docs/rebuild/README.md)
+### 🔒 Security & Reliability
+- 🧪 [Chaos Engineering](docs/chaos-engineering.md)
+- 🛡️ [Week 2 Reliability Hardening](docs/week2-reliability-hardening.md)
 
-The rebuild system includes:
-- `BOOTSTRAP.sh` — one-shot VM setup script
-- `docs/rebuild/AGENT.md` — AI agent instructions for autonomous rebuild
-- `docs/rebuild/SERVICES.md` — per-service step-by-step guides
-- `docs/rebuild/SECRETS.md` — secrets checklist + recovery guide
-- `.env-template/` — env file templates for all 14 services
+### 🔧 Automation & CI/CD
+- 🛠️ [Week 1 Automation Foundation](docs/week1-automation-foundation.md)
+- 🗺️ [Week 2-4 Roadmap](docs/week2-4-roadmap.md)
+- 🎭 [Backstage Dev Portal Guide](docs/backstage-dev-portal.md)
+- 📋 [Backstage Service Catalog Design](docs/backstage-cortex-inspired-portal.md)
 
----
-
-## Documentation
-
-### Operations
-| Document | Description |
-|----------|-------------|
-| [`docs/homelab-operations-runbook.md`](docs/homelab-operations-runbook.md) | Day-to-day operations guide |
-| [`docs/operations-checklist.md`](docs/operations-checklist.md) | Pre-flight + health checklists |
-| [`docs/homelab-architecture.md`](docs/homelab-architecture.md) | System architecture + data flows |
-
-### Security & Compliance
-| Document | Description |
-|----------|-------------|
-| [`docs/chaos-engineering.md`](docs/chaos-engineering.md) | Chaos engineering program |
-| [`docs/week2-reliability-hardening.md`](docs/week2-reliability-hardening.md) | Reliability hardening |
-
-### Automation
-| Document | Description |
-|----------|-------------|
-| [`docs/week1-automation-foundation.md`](docs/week1-automation-foundation.md) | Initial automation setup |
-| [`docs/week2-4-roadmap.md`](docs/week2-4-roadmap.md) | Build roadmap |
-| [`docs/backstage-dev-portal.md`](docs/backstage-dev-portal.md) | Backstage setup + usage |
-| [`docs/backstage-cortex-inspired-portal.md`](docs/backstage-cortex-inspired-portal.md) | Service catalog design |
-
-### Services
-| Document | Description |
-|----------|-------------|
-| [`docs/vaultwarden-admin-user-guide.md`](docs/vaultwarden-admin-user-guide.md) | Vaultwarden admin guide |
-
-### Backup & Recovery
-| Document | Description |
-|----------|-------------|
-| [`docs/backup/backup-guide.md`](docs/backup/backup-guide.md) | Backup system guide |
-| [`docs/backup/pi-mac-setup.md`](docs/backup/pi-mac-setup.md) | Pi + Mac backup target setup |
-
-### Rebuild (Disaster Recovery)
-| Document | Description |
-|----------|-------------|
-| [`docs/rebuild/README.md`](docs/rebuild/README.md) | Master rebuild spec |
-| [`docs/rebuild/AGENT.md`](docs/rebuild/AGENT.md) | AI agent rebuild guide |
-| [`docs/rebuild/SERVICES.md`](docs/rebuild/SERVICES.md) | Per-service rebuild steps |
-| [`docs/rebuild/SECRETS.md`](docs/rebuild/SECRETS.md) | Secrets recovery guide |
+### 💾 Backup & Disaster Recovery
+- 📦 [Backup System Guide](docs/backup/backup-guide.md)
+- 🖥️ [Pi + Mac Backup Targets Setup](docs/backup/pi-mac-setup.md)
+- 🔄 [Complete Rebuild Specification](docs/rebuild/README.md)
+- 🤖 [AI Agent Rebuild Guide](docs/rebuild/AGENT.md)
+- 🧩 [Per-Service Rebuild Steps](docs/rebuild/SERVICES.md)
+- 🔑 [Secrets Recovery Guide](docs/rebuild/SECRETS.md)
 
 ---
 
-## Scripts
+## 🔧 Key Scripts
 
 ### Health & Integrity
 ```bash
-bash scripts/service-integrity-check.sh      # Full integrity check
+bash scripts/service-integrity-check.sh      # Full system integrity check
 bash scripts/health-check.sh                # Container health snapshot
 bash scripts/config-drift-check.sh          # Repo vs live config drift
 bash scripts/config-drift-check.sh baseline # Set drift baseline
@@ -132,140 +132,136 @@ bash scripts/autonomous/overnight-agent-runner.sh  # Run all overnight agents
 bash scripts/autonomous/install-cron.sh             # Install overnight schedule
 ```
 
-### CI/CD
+### CI/CD & DevOps
 ```bash
 bash scripts/ci-preflight.sh                # Pre-commit checks
-bash scripts/vm-deploy-orchestrator.sh     # VM deployment
+bash scripts/vm-deploy-orchestrator.sh     # VM provisioning
 ```
 
 ### Chaos Engineering
 ```bash
 bash scripts/chaos/chaosctl.sh             # Chaos control CLI
-bash scripts/chaos/install-grafana-reporting-dashboard.sh  # Install Grafana dashboard
+bash scripts/chaos/install-grafana-reporting-dashboard.sh  # Install dashboard
 bash scripts/chaos/install-weekly-drill.sh              # Schedule weekly drill
 ```
 
-### Backstage
-```bash
-bash scripts/backstage-catalog-validate.sh  # Validate catalog entities
-bash scripts/backstage-scorecard.sh          # Generate quality scorecard
-```
-
 ---
 
-## Backup System
+## 💾 Backup System
 
-Automated overnight backups run via systemd timer. Backups are:
-- **Encrypted** with GPG (secrets volumes)
-- **Pushed to GitHub** (git mirror, automatic)
-- **Synced to Raspberry Pi** (LAN, 24/7)
-- **Synced to MacBook** (LAN, secondary)
+**Automated nightly backups** with 3-layer redundancy:
+
+- 🔐 Encrypted tarballs (GPG) of all configs + secrets
+- ☁️ GitHub mirror push on every change
+- 🏠 Raspberry Pi sync (LAN, always-on)
+- 💻 MacBook sync (LAN, secondary)
 
 ```bash
-# Run backup manually
 BACKUP_PASSPHRASE="your-passphrase" bash scripts/backup/backup-runner.sh
-
-# Restore from backup
 BACKUP_PASSPHRASE="your-passphrase" bash scripts/backup/restore.sh ~/backups/homelab-backup-YYYYMMDD-HHMMSS.tar.gz.gpg
 ```
 
-See [`docs/backup/backup-guide.md`](docs/backup/backup-guide.md) for full setup.
+Full backup docs: [docs/backup/backup-guide.md](docs/backup/backup-guide.md)
 
 ---
 
-## Architecture
+## 🧪 Testing & Quality
 
-```
-                        ┌─────────────────────────────────────────┐
-Internet ─────────────►│  Traefik (443/80)                      │
-                        │  Let's Encrypt via Cloudflare DNS-01   │
-                        └──────────┬────────────────────────────────┘
-                                   │路由
-     ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐
-     │Authelia  │  │  Gitea   │  │Backstage │  │ Goalert  │  │  n8n     │
-     │(SSO)     │  │  (Git)   │  │(Portal)  │  │(On-call) │  │(Workflow)│
-     └──────────┘  └──────────┘  └──────────┘  └──────────┘  └──────────┘
-     ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐
-     │Vaultwarden│ │Code-Server│ │Homarr    │  │Open WebUI│  │Mailserver│
-     │(Passwords)│  │(IDE)     │  │(Dashboard)│  │(AI Chat) │  │(Email)   │
-     └──────────┘  └──────────┘  └──────────┘  └──────────┘  └──────────┘
-
-     ┌──────────────────────────────────────────────────────────────────────┐
-     │  Observability: Prometheus · Grafana · Loki · Jaeger · Alertmanager │
-     └──────────────────────────────────────────────────────────────────────┘
-
-                        ┌─────────────────────────────────────────┐
-  GitHub ◄──────────────│  Act Runner (CI/CD)                      │
-                        │  Gitea webhooks → trigger pipelines       │
-                        └─────────────────────────────────────────┘
-```
+- 🌙 **Overnight Autonomous Agents** — integrity, drift, health, TLS monitoring
+- 🤖 **GitHub Actions** — automated verification
+- 🌪️ **Chaos Engineering** — weekly drills
+- 🧬 **Mutation Testing** — test suite effectiveness (optional)
 
 ---
 
-## Repository Structure
+## 🗂️ Repository Structure
 
 ```
 homelab/
 ├── BOOTSTRAP.sh              # One-shot VM rebuild script
-├── .env-template/           # Env file templates for all services
-├── traefik/                 # Reverse proxy + TLS
-├── authelia/                # SSO provider
-├── gitea/                   # Git hosting
-├── act-runner/              # CI/CD runner
-├── observability/           # Prometheus, Grafana, Loki, Jaeger, Alertmanager
-│   └── grafana-provisioning/  # Pre-built dashboards + datasources
-├── backstage/               # Developer portal
-│   └── catalog/             # Backstage entity catalog
-├── goalert/                 # On-call alerting
-├── n8n/                     # Workflow automation
-│   └── workflows/           # n8n workflow JSONs
-├── vaultwarden/             # Password manager
-├── code-server/             # Cloud IDE
-├── mailserver/              # Email server
-├── homarr/                  # Dashboard (appdata + config)
-├── chat-ui/                 # Open WebUI (AI chat)
-├── ai-gateway/              # LiteLLM AI gateway
-├── scripts/                 # Operational scripts
-│   ├── autonomous/          # Overnight agent system
-│   ├── backup/              # Backup + restore scripts
+├── .env-template/            # Templates for 14 service envs
+├── traefik/                  # Reverse proxy + TLS
+├── authelia/                 # SSO provider
+├── gitea/                    # Git hosting
+├── act-runner/               # CI/CD runner
+├── observability/            # Metrics, logs, traces, alerts
+│   └── grafana-provisioning/ # Dashboards + datasources
+├── backstage/                # Developer portal
+│   └── catalog/              # Backstage entity catalog
+├── goalert/                  # On-call alerting
+├── n8n/                      # Workflow automation
+│   └── workflows/            # n8n workflow JSONs
+├── vaultwarden/              # Password manager
+├── code-server/              # Cloud IDE
+├── mailserver/               # Email server
+├── homarr/                   # Dashboard (appdata + config)
+├── chat-ui/                  # Open WebUI (AI chat)
+├── ai-gateway/               # LiteLLM AI gateway
+├── scripts/                  # Operational scripts
+│   ├── autonomous/           # Overnight agent system
+│   ├── backup/               # Backup + restore
 │   └── chaos/               # Chaos engineering tools
-├── docs/                    # Documentation
-│   ├── rebuild/              # Disaster recovery docs
-│   ├── backup/              # Backup system docs
+├── docs/                     # Documentation
+│   ├── rebuild/              # Disaster recovery
+│   ├── backup/               # Backup system docs
 │   └── chaos-reports/       # Weekly chaos drill reports
 └── .github/
-    └── workflows/           # GitHub Actions workflows
+    └── workflows/            # GitHub Actions workflows
 ```
 
 ---
 
-## Tech Stack
+## 🛠️ Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
-| OS | Ubuntu 22.04 LTS |
-| Container Runtime | Docker + Docker Compose |
-| Reverse Proxy | Traefik v3 |
-| TLS | Let's Encrypt (Cloudflare DNS-01) |
-| SSO | Authelia |
-| Git | Gitea |
-| CI/CD | Act Runner |
-| Monitoring | Prometheus + Grafana |
-| Logs | Loki + Promtail |
-| Tracing | Jaeger |
-| Alerting | Alertmanager + Goalert |
-| Developer Portal | Backstage |
-| Workflow Automation | n8n |
-| Password Management | Vaultwarden |
-| Cloud IDE | Code Server |
-| AI Chat | Open WebUI + LiteLLM |
-| Email | Docker Mailserver |
-| Dashboard | Homarr |
-| VPN | Tailscale |
+| Category | Technologies |
+|----------|--------------|
+| **OS** | Ubuntu 22.04 LTS |
+| **Containers** | Docker + Docker Compose |
+| **Proxy** | Traefik v3 |
+| **TLS** | Let's Encrypt (Cloudflare DNS-01) |
+| **SSO** | Authelia |
+| **Git** | Gitea |
+| **CI/CD** | Act Runner |
+| **Monitoring** | Prometheus + Grafana |
+| **Logging** | Loki + Promtail |
+| **Tracing** | Jaeger |
+| **Alerting** | Alertmanager + Goalert |
+| **Dev Portal** | Backstage |
+| **Automation** | n8n |
+| **Secrets** | Vaultwarden |
+| **IDE** | Code Server |
+| **AI** | Open WebUI + LiteLLM |
+| **Email** | Docker Mailserver |
+| **Dashboard** | Homarr |
 
 ---
 
-## Contact
+## 🤝 Contributing
 
-- GitHub Issues: [github.com/amonkarsidhant/homelab/issues](https://github.com/amonkarsidhant/homelab/issues)
-- Gitea: [gitea.homelabdev.space](https://gitea.homelabdev.space)
+1. Fork the repo
+2. Create a feature branch (`git checkout -b feature/my-feature`)
+3. Commit changes (`git commit -am 'Add my feature'`)
+4. Push to the branch (`git push origin feature/my-feature`)
+5. Open a Pull Request
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+---
+
+## 📄 License
+
+MIT © [amonkarsidhant](https://github.com/amonkarsidhant)
+
+---
+
+## 📞 Support
+
+- **GitHub Issues**: [github.com/amonkarsidhant/homelab/issues](https://github.com/amonkarsidhant/homelab/issues)
+- **Gitea (internal)**: [gitea.homelabdev.space](https://gitea.homelabdev.space)
+- **Documentation**: [`docs/`](docs/)
+
+---
+
+## 🙏 Acknowledgments
+
+Built with amazing open-source software and run on an Azure VM. Special thanks to the Traefik, Authelia, Gitea, n8n, Backstage, and Open WebUI communities.
