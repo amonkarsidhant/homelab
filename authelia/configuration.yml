@@ -1,0 +1,227 @@
+server:
+  address: tcp://0.0.0.0:9091/
+
+log:
+  level: info
+
+session:
+  domain: homelabdev.space
+  secret: ffb254957ac1e4c984c666a334a734ac1745e2e0ef79addd0328843a1224a64a
+  cookies:
+    - domain: homelabdev.space
+      authelia_url: https://auth.homelabdev.space
+      default_target_url: https://home.homelabdev.space
+
+storage:
+  encryption_key: 1c37cfe8dc96263b990e1c17cfef984770ea86de332e257261b6cea228d570a8
+  local:
+    path: /config/db.sqlite3
+
+notifier:
+  filesystem:
+    filename: /config/notification.txt
+
+authentication_backend:
+  file:
+    path: /config/users.yml
+
+access_control:
+  default_policy: deny
+
+  rules:
+
+    # Authelia itself — bypass all
+    - domain: "auth.homelabdev.space"
+      policy: bypass
+
+    # Health checks — bypass
+    - domain: "health.homelabdev.space"
+      policy: bypass
+
+    # Public services — no auth required
+    - domain: "mail.homelabdev.space"
+      policy: bypass
+
+    # Admin-only services — only admins group
+    - domain: "vault.homelabdev.space"
+      policy: two_factor
+      subject:
+        - group:admins
+
+    - domain: "admin.homelabdev.space"
+      policy: two_factor
+      subject:
+        - group:admins
+
+    # Developer-only services
+    - domain: "code.homelabdev.space"
+      policy: one_factor
+      subject:
+        - group:developers
+        - group:admins
+
+    - domain: "ai.homelabdev.space"
+      policy: one_factor
+      subject:
+        - group:developers
+        - group:admins
+
+    - domain: "goalert.homelabdev.space"
+      policy: one_factor
+      subject:
+        - group:users
+        - group:admins
+
+    # All authenticated users — default for remaining services
+    - domain: "gitea.homelabdev.space"
+      policy: one_factor
+      subject:
+        - group:users
+        - group:admins
+
+    - domain: "backstage.homelabdev.space"
+      policy: one_factor
+      subject:
+        - group:developers
+        - group:admins
+
+    - domain: "home.homelabdev.space"
+      policy: one_factor
+      subject:
+        - group:users
+        - group:admins
+
+    - domain: "chat.homelabdev.space"
+      policy: one_factor
+      subject:
+        - group:users
+        - group:admins
+
+    # Observability — developers and admins
+    - domain: "observability.homelabdev.space"
+      policy: one_factor
+      subject:
+        - group:developers
+        - group:admins
+
+    # Catch-all — authenticated users only
+    - domain: "*.homelabdev.space"
+      policy: one_factor
+      subject:
+        - group:users
+        - group:admins
+
+identity_providers:
+  oidc:
+    issuer: auth.homelabdev.space
+    jwks:
+      - key: |
+          -----BEGIN PRIVATE KEY-----
+          MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC3XgeGc5Et1YpW
+          jifvSQZDvaL7os/xrt6Ol7s21Oq2ayTn9yoPGTrjemk70FCkvEJJaARP8q3nhFc0
+          ApNbCsLU3EDglSdqOVppTMOZyc+TOHmkMgP+l3l9ayn0ScbHRDxhyYKuCxPFxjgA
+          cWDiDH5ZjkuDrit4qDM6Bha9QmonK1z0g/4zneIGBvIJhA1I9reSDWL1GKahJQAJ
+          pSaajO/xIxdf5Rmquez3B15PHGtFjFLS/fl0QgOcK7RujrNanCX2OESYMdoV+K2X
+          eFAcaIRg5k+IF6/0GYZix4HR372uEOpRGqVNS1M0jqU2NYJegJX8YgRFI5bEDArU
+          07SYPwLFAgMBAAECggEAHULn1ASasRP/1raqOETwtzwqp1nQsbpsYRhlA4fAKdqY
+          wdyfLVgjHdxxsR4Z1GQHdvPepkxthIHJsa7MiY2C0FmSj9Q1fT3IR//8Qc0i7xUm
+          0jU6DnVpKYLBp+5jBncE5Lz1ueTiI6AxXR66rW/9dLigo9OWM9OxkwuYMt0HmBbN
+          NLcWky6ogZPlZPF64TPmY3dAi+B5ruGGaxsXUwLP3AEmiuyhzwuUF3G5eOc7YGV+
+          kO99UBG5cBrghfA4wpdlj6fJHfb8ZgzJfwNKMjlJF4PbaZ8A8JdG2pSQ14qPIOpY
+          a5AVC63LmtqwSjDxFlExUrvrqLzHqcbqFIrdcFhoqQKBgQD8LhWvvCV8LvkBASWt
+          IvE5Q27WfQMPr0pINn3YmYSyBH7rSnAV0RGHvZxxcpNZqRDvNf8ffvhme+JQn0yU
+          HJ3J/MWgpgxMdS+66/Fk9a5fC+4vsu+vGiNc7VmxgzVbXD3LJKLxQp5gCG0UUuAC
+          LS4k1c2UIhdYXX4n/HeKNKKpbQKBgQC6JRl8/9hoxYx7kktr5lWYqUiP9D5n27C3
+          3t28p9YL1YV0+OFq4yCl0mlUf9fpoQN9QYfyvB+tGjVWyqsyQp9M3SkphIrr0EGL
+          kPea91mQriBjA4ndssKqx+3Jvpa8b+J5QxwlTv4D2DTNaEtak1Bh4+nTt4EFE8K7
+          avY4WUv/uQKBgQDqpSbgobxvVHW1DZA1DXJOygPz59ZVXdFMaAeo5w+lZLGD1Xt9
+          kU8ycqeCmA2rO7jaG/ALKmWPVm46fj8PAaGANIbe+CIxcki7MJcoTcG2Bq/WCjUj
+          RLrq2J7AoUmgfK+yuaAzxL0AtlZotsRgwhFRjO8AisgWHMgqBKxmGJvR8QKBgQCm
+          XuhUB5uVsRMpkwzkCH9yrcLUHxnz27Ar9v66UkwGUbYxYQygaxZP/yrzQjxpbObg
+          ecSXWDr7jVQlGYk/p7oXigfzOqqrr3wV0ODtWaxsmqUJuizrwI0q9Px792NkUp/Z
+          f/jVA7AXIZO4D0JiVw5eH8Vq3DVto0bGGgitPmqlyQKBgDDwJkMCwNXWKBMx1gO3
+          tI/+DvcxNZZsZoMleiMmDxmjn6ZHgvA2EkjxBeJZAgSbTbXhMxv/zNq+OfF+SXYw
+          gsy2tFed5d/0BodZaADetrgBWlB+hKy0UvM9p9/qNi2SQnbImdMqgsBs2Vbbjt75
+          Fh04v+mCajyqbx+w4Z+MXSgb
+          -----END PRIVATE KEY-----
+    access_token_lifespan: 5m
+    id_token_lifespan: 6m
+    refresh_token_lifespan: 1h
+    clients:
+      - id: gitea
+        description: Gitea Git Hosting
+        secret: 98bdefe4be8f6ac9657685a99b41901e16e55e838b2ce418d6131db0ef93cf65
+        redirect_uris:
+          - https://gitea.homelabdev.space/user/auth/oidc
+        scopes:
+          - openid
+          - profile
+          - email
+        policy: one_factor
+
+      - id: grafana
+        description: Grafana Dashboards
+        secret: b09f4db607785a434c72a43423873220a90930c13f5329eaccdcb3180e6a56cf
+        redirect_uris:
+          - https://observability.homelabdev.space/login
+        scopes:
+          - openid
+          - profile
+          - email
+        policy: one_factor
+
+      - id: backstage
+        description: Backstage Developer Portal
+        secret: feb0e159ef2292e2c3e67d86102ca0dbe3548899aba1a57ed189af7883437449
+        redirect_uris:
+          - https://backstage.homelabdev.space/api/auth/oidc-callback
+          - http://localhost:7007/api/auth/oidc-callback
+        scopes:
+          - openid
+          - profile
+          - email
+        policy: one_factor
+
+      - id: n8n
+        description: n8n Workflow Automation
+        secret: 875a0c2d850d833218c8c4f1197204595075c0c9eb5d39ba59bb0033e829ad11
+        redirect_uris:
+          - https://ai.homelabdev.space/rest/oauth2-oidc-sso/callback
+        scopes:
+          - openid
+          - profile
+          - email
+        policy: one_factor
+
+      - id: vaultwarden
+        description: Vaultwarden Password Manager
+        secret: 22450b49c25f704ec8231d3a06bbb7d74eef484b98f61fe479bf79a96300733f
+        redirect_uris:
+          - https://vault.homelabdev.space/oauth2-oidc-root
+        scopes:
+          - openid
+          - profile
+          - email
+        policy: two_factor
+
+      - id: homarr
+        description: Homarr Dashboard
+        secret: 6ed17c0eb9c13c1378f1215f18c5c09132af0232bb9bd10780c2aed2488d835f
+        redirect_uris:
+          - https://home.homelabdev.space/auth/oidc-callback
+        scopes:
+          - openid
+          - profile
+          - email
+        policy: one_factor
+
+      - id: goalert
+        description: Goalert On-Call
+        secret: 891a3576bd015a77869e90827437008acb6afdb3f5322a49c23c6a209342048e
+        redirect_uris:
+          - https://goalert.homelabdev.space/auth/oidc-callback
+        scopes:
+          - openid
+          - profile
+          - email
+        policy: one_factor

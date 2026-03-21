@@ -120,6 +120,9 @@ http:
         - websecure
       tls:
         certResolver: letsencrypt
+      middlewares:
+        - authelia
+        - rate-limit-intense
     backstage:
       rule: "Host(`backstage.homelabdev.space`)"
       service: backstage
@@ -190,12 +193,30 @@ http:
         certResolver: letsencrypt
       middlewares:
         - authelia
+        - rate-limit
 
   middlewares:
     authelia:
       forwardAuth:
         address: "http://authelia:9091/api/verify?rd=https://auth.homelabdev.space"
         trustForwardHeader: true
+
+    rate-limit:
+      rateLimit:
+        average: 100
+        burst: 50
+        period: 1m
+
+    rate-limit-intense:
+      rateLimit:
+        average: 20
+        burst: 10
+        period: 1m
+
+    chain-no-auth:
+      chain:
+        middlewares:
+          - rate-limit
 
   services:
     minio:
