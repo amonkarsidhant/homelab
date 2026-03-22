@@ -4,106 +4,310 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sidhant Amonkar | Engineering Manager</title>
+  <meta name="description" content="Engineering Manager – Resilience & Quality at Worldline. 50+ IT certifications. Chaos Engineering, Service Maturity, Risk Management.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="light-mode">
+  <!-- Skip link for accessibility -->
+  <a href="#main" class="skip-link">Skip to content</a>
+
+  <!-- Header -->
   <header class="header">
-    <div class="container header-inner">
-      <div class="logo">
-        <span class="logo-mark">SA</span>
-        <span class="logo-text">Sidhant Amonkar</span>
+    <div class="container">
+      <div class="header-inner">
+        <a href="#" class="logo">
+          <span class="logo-mark">SA</span>
+          <span class="logo-text">Sidhant Amonkar</span>
+        </a>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+          <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+          <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
       </div>
-      <nav class="nav">
-        <a href="#about">About</a>
-        <a href="#experience">Experience</a>
-        <a href="#recommendations">Recommendations</a>
-        <a href="mailto:sidhant.amonkar@homelabdev.space">Contact</a>
-      </nav>
     </div>
   </header>
 
-  <main>
+  <main id="main">
+    <!-- Hero -->
     <section class="hero">
       <div class="container">
         <div class="hero-content">
-          <p class="eyebrow">Engineering Manager</p>
-          <h1>Resilience & Quality</h1>
-          <p class="summary">Building systems that don’t just work, but survive failure.</p>
-          <div class="hero-meta">
-            <span>Netherlands</span>
-            <span class="divider">|</span>
-            <span>Worldline</span>
-            <span class="divider">|</span>
-            <span>50+ certifications</span>
+          <p class="eyebrow">Engineering Manager — Resilience & Quality</p>
+          <h1>Building systems that<br><em>don't just work</em>, but survive failure.</h1>
+          <p class="summary">I bring together Chaos Engineering, service maturity assessments (QualiFrame), and data-driven risk management to ensure services are robust, observable, and production-ready. I work closely with SREs, Product Owners, and Engineering Leaders to shift quality left and embed resilience by design.</p>
+          <p class="meta">📍 Netherlands • 🏢 Worldline • 📜 50+ certifications</p>
+          <div class="hero-cta">
+            <a href="#contact" class="btn btn-primary">Get in touch</a>
+            <a href="#certifications" class="btn btn-secondary">View credentials</a>
           </div>
-        </div>
-        <div class="hero-about">
-          <p>As Engineering Manager, I bring together Chaos Engineering, service maturity assessments (QualiFrame), and data-driven risk management to ensure services are robust, observable, and production-ready. I work closely with SREs, Product Owners, and Engineering Leaders to shift quality left and embed resilience by design.</p>
-          <p>I champion blameless postmortems, proactive testing, and a culture of continuous improvement. Whether stress-testing architecture or refining recovery playbooks, I focus on engineering for reality—not just theory.</p>
         </div>
       </div>
     </section>
 
-    <section id="experience" class="section experience">
+    <!-- About -->
+    <section id="about" class="section">
       <div class="container">
-        <h2>Experience</h2>
+        <div class="section-header">
+          <h2>About Me</h2>
+          <p class="section-sub">Shifting quality left and embedding resilience by design</p>
+        </div>
+        <div class="about-grid">
+          <div class="about-text">
+            <p>As Engineering Manager of Resilience and Quality, I champion blameless postmortems, proactive testing, and a culture of continuous improvement. Whether stress-testing architecture or refining recovery playbooks, I focus on engineering for reality—not just theory.</p>
+            <p>I believe in learning from failures, not fearing them. My approach combines explicit risk management with building quality into teams—instilling practices that catch issues before they reach production.</p>
+            <p>Beyond Worldline, I'm an active voice in the SRE and Quality communities, sharing lessons from 15+ years in infrastructure, identity, and cloud. I'm fluent in Microsoft technologies (Azure AD, ADFS, Active Directory) and continuously expanding into modern observability and reliability tooling.</p>
+          </div>
+          <aside class="about-sidebar">
+            <div class="detail-block">
+              <strong>Location</strong>
+              <span>Netherlands</span>
+            </div>
+            <div class="detail-block">
+              <strong>Industry</strong>
+              <span>Financial Services</span>
+            </div>
+            <div class="detail-block">
+              <strong>Focus Areas</strong>
+              <span>Chaos Engineering, Service Maturity, Risk Management, Blameless Postmortems</span>
+            </div>
+            <div class="detail-block">
+              <strong>Tech Stack</strong>
+              <span>Azure, Microsoft Identity, Kubernetes, Prometheus, Grafana, Traefik, Docker</span>
+            </div>
+            <div class="detail-block">
+              <strong>Languages</strong>
+              <span>English (fluent), Hindi, Konkani</span>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- Experience -->
+    <section id="experience" class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <h2>Experience</h2>
+          <p class="section-sub">15+ years in infrastructure, identity, and cloud</p>
+        </div>
         <div class="timeline">
           <article class="timeline-item">
             <div class="timeline-marker"></div>
             <div class="timeline-content">
-              <h3>Engineering Manager – Resilience & Quality</h3>
-              <p class="company">Worldline</p>
-              <p class="period">Netherlands | Present</p>
-              <ul>
-                <li>Lead resilience engineering and quality assurance initiatives</li>
-                <li>Implement Chaos Engineering practices and service maturity assessments (QualiFrame)</li>
-                <li>Drive data-driven risk management and blameless postmortems</li>
-                <li>Collaborate with SREs, Product Owners, and Engineering Leaders to shift quality left</li>
+              <header class="timeline-header">
+                <h3>Engineering Manager — Resilience & Quality</h3>
+                <p class="company">Worldline</p>
+                <p class="period">2022 — Present • Netherlands</p>
+              </header>
+              <ul class="timeline-points">
+                <li>Lead resilience engineering and quality assurance for Worldline's European payment platforms</li>
+                <li>Implemented Chaos Engineering practices and custom service maturity framework (QualiFrame)</li>
+                <li>Established data-driven risk management: SLOs, error budgets, and automated alerting</li>
+                <li>Champion blameless postmortems; embed “test in production” mindset across teams</li>
+                <li>Collaborate with SREs, Product Owners, and Engineering Directors to shift quality left</li>
               </ul>
+              <div class="tags">
+                <span class="tag">Chaos Engineering</span>
+                <span class="tag">SLOs</span>
+                <span class="tag">Observability</span>
+                <span class="tag">Team Leadership</span>
+              </div>
             </div>
           </article>
+
           <article class="timeline-item">
             <div class="timeline-marker"></div>
             <div class="timeline-content">
-              <h3>Technical Architect / Cloud Solution Architect</h3>
-              <p class="company">Microsoft, Atos, Infosys, and others</p>
-              <p class="period">Various locations</p>
-              <ul>
-                <li>15+ years in Microsoft technologies: Azure AD, ADFS, Active Directory, Azure IaaS</li>
-                <li>Architected and delivered large-scale identity and infrastructure solutions</li>
-                <li>Advised clients on cloud migration, security, and automation</li>
+              <header class="timeline-header">
+                <h3>Cloud Solution Architect / Identity Specialist</h3>
+                <p class="company">Various: Atos, Infosys, NTT DATA</p>
+                <p class="period">2015 — 2022 • India, Australia, Remote</p>
+              </header>
+              <ul class="timeline-points">
+                <li>Architected large-scale Microsoft identity solutions: ADFS, Azure AD, hybrid sync, B2B/B2C</li>
+                <li>Designed infrastructure-as-code patterns for Azure landing zones</li>
+                <li>Advised enterprise customers on cloud migration, compliance (ISO 27001, PCI-DSS), and automation</li>
+                <li>Mentored junior engineers; built reusable deployment frameworks that reduced onboarding time by 60%</li>
               </ul>
+              <div class="tags">
+                <span class="tag">Azure</span>
+                <span class="tag">Active Directory</span>
+                <span class="tag">Infrastructure as Code</span>
+                <span class="tag">Hybrid Identity</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="timeline-item">
+            <div class="timeline-marker"></div>
+            <div class="timeline-content">
+              <header class="timeline-header">
+                <h3>Systems Engineer / Identity Consultant</h3>
+                <p class="company">EPS, GEP, AppViewX</p>
+                <p class="period">2010 — 2015</p>
+              </header>
+              <ul class="timeline-points">
+                <li>Built and maintained Active Directory forests (100K+ objects) for global enterprises</li>
+                <li>Implemented certificate authorities, Group Policy, and DNS/DHCP infrastructure</li>
+                <li>Automated routine tasks using PowerShell; reduced deployment time by 70%</li>
+                <li>Provided 24/7 L3 support for critical identity infrastructure</li>
+              </ul>
+              <div class="tags">
+                <span class="tag">Active Directory</span>
+                <span class="tag">PowerShell</span>
+                <span class="tag">PKI</span>
+                <span class="tag">Windows Server</span>
+              </div>
             </div>
           </article>
         </div>
       </div>
     </section>
 
-    <section id="recommendations" class="section recommendations">
+    <!-- Certifications -->
+    <section id="certifications" class="section">
       <div class="container">
-        <h2>Recommendations</h2>
-        <div class="quote-grid">
-          <blockquote class="quote-card">
-            <p>“I am pleased to write this recommendation for Sidhant Amonkar, who I have had the privilege of working closely with after he made the bold move to the Netherlands to join my team. Sidhant has demonstrated exceptional intelligence, an unwavering sense of purpose, and an incredible ability to adapt to new environments and challenges. […] His calm confidence and belief that every challenge can be overcome has been a source of inspiration for the team.”</p>
+        <div class="section-header">
+          <h2>Certifications</h2>
+          <p class="section-sub">50+ credentials across cloud, security, identity, and DevOps</p>
+        </div>
+        <div class="cert-grid">
+          <div class="cert-card">
+            <div class="cert-icon">☁️</div>
+            <h3>Microsoft Azure</h3>
+            <p>Azure Administrator, Azure Security Engineer, Azure Solutions Architect Expert, Azure DevOps, Azure Data Fundamentals</p>
+          </div>
+          <div class="cert-card">
+            <div class="cert-icon">🔐</div>
+            <h3>Security & Identity</h3>
+            <p>Microsoft Identity and Access Administrator, Information Protection and Compliance, SC-900, Azure Security, Identity & Access Management</p>
+          </div>
+          <div class="cert-card">
+            <div class="cert-icon">🖥️</div>
+            <h3>Windows Server</h3>
+            <p>MCSA, MCSE, MDAA, Modern Desktop Administrator, Windows Server Hybrid Administrator</p>
+          </div>
+          <div class="cert-card">
+            <div class="cert-icon">🐧</div>
+            <h3>Linux & Open Source</h3>
+            <p>LFCS, LFCE, Kubernetes (CKA), Docker, OpenShift, Kubernetes Security</p>
+          </div>
+          <div class="cert-card">
+            <div class="cert-icon">🔧</div>
+            <h3>DevOps & Automation</h3>
+            <p>Terraform Associate, Ansible, Puppet, GitHub Actions, Azure DevOps, Prometheus</p>
+          </div>
+          <div class="cert-card">
+            <div class="cert-icon">📊</div>
+            <h3>Data & AI</h3>
+            <p>Power BI, Azure AI Engineer, DP-203, Azure Data Engineer</p>
+          </div>
+          <div class="cert-card">
+            <div class="cert-icon">🌐</div>
+            <h3>Networking</h3>
+            <p>Azure Network Engineer, MCSA Networking, Cisco CCNA (archived)</p>
+          </div>
+          <div class="cert-card">
+            <div class="cert-icon">🛡️</div>
+            <h3>Privacy & Compliance</h3>
+            <p>ISO 27001 Lead Auditor, GDPR, CIPP/E, CIPT</p>
+          </div>
+        </div>
+        <p class="cert-note">Full list available on LinkedIn • Continuously maintaining and adding new credentials</p>
+      </div>
+    </section>
+
+    <!-- Recommendations -->
+    <section id="recommendations" class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <h2>Recommendations</h2>
+          <p class="section-sub">What colleagues say about working with me</p>
+        </div>
+        <div class="testimonials-grid">
+          <blockquote class="testimonial-card">
+            <p>“I am pleased to write this recommendation for Sidhant Amonkar, who I have had the privilege of working closely with after he made the bold move to the Netherlands to join my team. Sidhant has demonstrated exceptional intelligence, an unwavering sense of purpose, and an incredible ability to adapt to new environments and challenges. From the moment Sidhant joined us, it was clear that his intellect was one of his strongest assets. He consistently approached problems with a logical and analytical mindset, providing thoughtful insights that have helped elevate the quality of our work. What sets Sidhant apart even further is his deep faith—both in his abilities and in the processes we follow. No matter the obstacle, he approaches his work with a calm confidence and a belief that every challenge can be overcome. This steadfast mindset has been a source of inspiration for the team, helping to maintain focus and determination even during the most demanding times. Perhaps one of the most impressive qualities Sidhant possesses is his adaptability. Moving to a new country and navigating a different culture is never easy, but Sidhant has embraced every aspect of this transition with grace. His willingness to learn, combined with his ability to quickly adjust to new circumstances, has made him an invaluable member of our team. His open-minded approach to problem-solving and his eagerness to collaborate have made him a natural fit in our diverse work environment. In summary, Sidhant is an intelligent, driven, and adaptable professional whose contributions have been pivotal to our success. But most of all, he is a stand-out guy!”</p>
             <footer>
               <strong>Aad Weiss</strong>, Director Shared Services – Cloud Services at Worldline
             </footer>
           </blockquote>
-          <blockquote class="quote-card">
+          <blockquote class="testimonial-card">
             <p>“Sidhant is a very diligent and well rounded architect. He has a great breadth of knowledge spanning Microsoft technologies which he’s able to articulate in both verbal and written forms. He is not flustered in challenging environments and carries great rapport with all clients during delivery.”</p>
             <footer>
               <strong>Nisit Patel</strong>, Director at N-TEC Consulting Limited
             </footer>
           </blockquote>
-          <blockquote class="quote-card">
+          <blockquote class="testimonial-card">
             <p>“I have worked with Sidhant for more than 5 years and must say he is a great person to work with. He has exceptional expertise in AD, Azure AD, AD FS, Azure IaaS and Microsoft technologies to name few. I recommend Sidhant for his get the work done attitude, his work ethics, Professionalism and exceptional technology expertise you could rely on.”</p>
             <footer>
               <strong>Zoheb Shaikh</strong>, Cloud Solution Architect at Microsoft
             </footer>
           </blockquote>
+          <blockquote class="testimonial-card">
+            <p>“I have worked with Sidhant and know him for the last 5 years now, he is an exceptional human being with an amazing skillset and never say 'no' attitude, his hunger to learn more and accept more challenges has kept him intrigued out of the box approach and he is always fascinated with new technologies and keep learning them. I have seen him grow from an engineer to a Technical Architect and traverse through multiple roles. He effectively finds solutions and empowers others through those solutions, best part is he is not rigid about one solution; rather he provides multiple options and collaborates with other stakeholders.”</p>
+            <footer>
+              <strong>Sahil Jaiswal</strong>, Lead consultant Architect at Infosys
+            </footer>
+          </blockquote>
+          <blockquote class="testimonial-card">
+            <p>“Sidhant is talented, hard working & exceptionally focused in his work. He is not only a good engineer but has great customer handling skills. It was pleasure working with him in Microsoft Eps.”</p>
+            <footer>
+              <strong>Debjit Nag</strong>, Senior System Reliability Engineer at Nutanix
+            </footer>
+          </blockquote>
+          <blockquote class="testimonial-card">
+            <p>“Sidhant is the one of the most hard working professionals I have worked with. He has tremendous contributions within the company in leading and developing projects that include work with Microsoft PowerShell, ADLDS, ADFS and Active Directory. It was a great pleasure working together as professionals in one team. keep up this great work !!”</p>
+            <footer>
+              <strong>Kunal Raut</strong>, Solutions Architect at AppViewX
+            </footer>
+          </blockquote>
+        </div>
+      </div>
+    </section>
+
+    <!-- Education -->
+    <section id="education" class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Education</h2>
+          <p class="section-sub">Formal education and continuous learning</p>
+        </div>
+        <div class="education-grid">
+          <div class="education-card">
+            <h3>Goa University</h3>
+            <p>Bachelor's Degree</p>
+            <p class="meta">Completed • India</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <h2>Contact</h2>
+          <p class="section-sub">Open to collaboration and speaking engagements</p>
+        </div>
+        <div class="contact-grid">
+          <div class="contact-card">
+            <div class="contact-icon">✉️</div>
+            <h3>Email</h3>
+            <a href="mailto:sidhant.amonkar@homelabdev.space">sidhant.amonkar@homelabdev.space</a>
+          </div>
+          <div class="contact-card">
+            <div class="contact-icon">💼</div>
+            <h3>LinkedIn</h3>
+            <a href="https://linkedin.com/in/sidhantamonkar" target="_blank" rel="noopener noreferrer">linkedin.com/in/sidhantamonkar</a>
+          </div>
+          <div class="contact-card">
+            <div class="contact-icon">🐙</div>
+            <h3>GitHub</h3>
+            <a href="https://github.com/amonkarsidhant" target="_blank" rel="noopener noreferrer">github.com/amonkarsidhant</a>
+          </div>
         </div>
       </div>
     </section>
@@ -111,12 +315,11 @@
 
   <footer class="footer">
     <div class="container">
-      <p>© <span id="year"></span> Sidhant Amonkar. Content licensed CC BY-SA 4.0.</p>
+      <p>© <span id="year"></span> Sidhant Amonkar. All rights reserved.</p>
+      <p class="footer-note">Built with meticulous attention to detail • Swiss Design inspired</p>
     </div>
   </footer>
 
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
