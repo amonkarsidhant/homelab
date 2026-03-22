@@ -30,4 +30,13 @@ local/
 vendor/
 node_modules/
 __pycache__/
-*.pyc
+*.pycdocs/
+
+# LinkedIn export data (personal info)
+docs/Profile.csv
+docs/Invitations.csv
+docs/Recommendations_Received.csv
+docs/Recommendations_Given.csv
+docs/Registration.csv
+docs/Basic_LinkedInDataExport_*.zip*
+docs/Articles/

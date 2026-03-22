@@ -1,6 +1,7 @@
 version: '3.8'
 
 services:
+  # App services (placeholder)
   app:
     image: minio.homelabdev.space/homelab/app:latest
     container_name: homelab-app
@@ -18,4 +19,26 @@ services:
       - "8081:8080"
     environment:
       - NODE_ENV=development
+
+  # Portfolio – Swiss Design static site
+  portfolio:
+    build: ./portfolio
+    container_name: portfolio
+    restart: unless-stopped
+    networks:
+      - default
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.portfolio.rule=Host(`portfolio.homelabdev.space`)"
+      - "traefik.http.routers.portfolio.entrypoints=websecure"
+      - "traefik.http.routers.portfolio.tls=true"
+      - "traefik.http.routers.portfolio.tls.certresolver=cloudflare"
+      - "traefik.http.middlewares.portfolio-rate-limit.ratelimit.average=100"
+      - "traefik.http.middlewares.portfolio-rate-limit.ratelimit.burst=50"
+      - "traefik.http.routers.portfolio.middlewares=authelia@file,portfolio-rate-limit@file"
+
+networks:
+  default:
+    name: traefik_default
+    external: true
 
