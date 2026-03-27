@@ -115,6 +115,14 @@ AI gateway providing unified access to 15+ LLM providers.
 
 - **Location**: `ai-gateway/`
 
+### Nestra Home OS (SaaS Bootstrap)
+Early-stage smart-home orchestration product stack.
+
+- **Web**: https://nestra.homelabdev.space
+- **API**: https://api.nestra.homelabdev.space
+- **Auth**: https://auth.nestra.homelabdev.space
+- **Location**: `nestra/`
+
 ## Communication
 
 ### Mailserver

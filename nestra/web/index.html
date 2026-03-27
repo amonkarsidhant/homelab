@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Nestra Home OS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=JetBrains+Mono:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <div class="grid"></div>
+    <header class="shell topbar">
+      <div class="brand">Nestra</div>
+      <nav>
+        <a href="#orchestration">Orchestration</a>
+        <a href="#guardrails">Guardrails</a>
+        <a href="#deployments">Deployments</a>
+      </nav>
+      <button class="ghost">Request Demo</button>
+    </header>
+
+    <main class="shell">
+      <section class="hero">
+        <p class="kicker">Ambient home intelligence for real households</p>
+        <h1>One intelligence layer across Matter, Home Assistant, and your device stack.</h1>
+        <p class="lead">
+          Nestra gives families and home brands a controllable, privacy-first home brain with
+          predictable automations and clear guardrails.
+        </p>
+        <div class="actions">
+          <button class="primary" id="trial">Start Build Track</button>
+          <button class="ghost">View API</button>
+        </div>
+      </section>
+
+      <section class="stats" id="orchestration">
+        <article>
+          <p>Connected homes</p>
+          <h2>128</h2>
+        </article>
+        <article>
+          <p>Automations run today</p>
+          <h2 id="runs">24,810</h2>
+        </article>
+        <article>
+          <p>Mean response latency</p>
+          <h2>74 ms</h2>
+        </article>
+      </section>
+
+      <section class="panels" id="guardrails">
+        <article class="panel">
+          <h3>Policy Guardrails</h3>
+          <ul>
+            <li>Quiet hours protect sleep routines</li>
+            <li>Critical actions require confirmation</li>
+            <li>Child profiles have restricted controls</li>
+          </ul>
+        </article>
+        <article class="panel">
+          <h3>Current Device Intent Queue</h3>
+          <ol>
+            <li>22:30: Shift EV charging to low tariff window</li>
+            <li>06:10: Warm hallway and kitchen zones</li>
+            <li>07:00: Open blinds after occupancy signal</li>
+          </ol>
+        </article>
+      </section>
+
+      <section class="panel full" id="deployments">
+        <h3>Deploy Anywhere</h3>
+        <p>
+          Start self-hosted at home. Upgrade to managed SaaS when you need remote fleet operations,
+          account management, and partner integrations.
+        </p>
+        <div class="chips">
+          <span>SaaS</span>
+          <span>Self-hosted</span>
+          <span>White-label</span>
+          <span>Matter-native</span>
+        </div>
+      </section>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,57 @@
+services:
+  nestra-web:
+    build:
+      context: ./web
+    container_name: nestra-web
+    restart: unless-stopped
+    networks:
+      - default
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.nestra-web.rule=Host(`nestra.homelabdev.space`)"
+      - "traefik.http.routers.nestra-web.entrypoints=websecure"
+      - "traefik.http.routers.nestra-web.tls=true"
+      - "traefik.http.routers.nestra-web.tls.certresolver=letsencrypt"
+      - "traefik.http.services.nestra-web.loadbalancer.server.port=80"
+
+  nestra-api:
+    build:
+      context: ./api
+    container_name: nestra-api
+    restart: unless-stopped
+    environment:
+      - APP_ENV=production
+      - CORS_ORIGIN=${CORS_ORIGIN:-https://nestra.homelabdev.space}
+    networks:
+      - default
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.nestra-api.rule=Host(`api.nestra.homelabdev.space`)"
+      - "traefik.http.routers.nestra-api.entrypoints=websecure"
+      - "traefik.http.routers.nestra-api.tls=true"
+      - "traefik.http.routers.nestra-api.tls.certresolver=letsencrypt"
+      - "traefik.http.services.nestra-api.loadbalancer.server.port=8000"
+
+  nestra-auth:
+    build:
+      context: ./auth
+    container_name: nestra-auth
+    restart: unless-stopped
+    environment:
+      - AUTH_ISSUER=https://auth.nestra.homelabdev.space
+      - AUTH_JWT_SECRET=${AUTH_JWT_SECRET:-change-me}
+      - AUTH_COOKIE_DOMAIN=.nestra.homelabdev.space
+    networks:
+      - default
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.nestra-auth.rule=Host(`auth.nestra.homelabdev.space`)"
+      - "traefik.http.routers.nestra-auth.entrypoints=websecure"
+      - "traefik.http.routers.nestra-auth.tls=true"
+      - "traefik.http.routers.nestra-auth.tls.certresolver=letsencrypt"
+      - "traefik.http.services.nestra-auth.loadbalancer.server.port=8000"
+
+networks:
+  default:
+    name: traefik_default
+    external: true
