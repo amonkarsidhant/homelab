@@ -5,6 +5,16 @@ agent: plan
 
 Analyze the Nestra repo for this task: $ARGUMENTS
 
+Load context from:
+- AGENTS.md
+- README.md
+- nestra/README.md
+- nestra/DEMO.md
+- nestra/docker-compose.yml
+- nestra/web/*
+- nestra/api/*
+- nestra/auth/*
+
 Do not modify code.
 
 Return:

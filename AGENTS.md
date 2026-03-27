@@ -132,6 +132,7 @@ For any feature larger than a trivial fix, respond in this order:
 ## Paths to inspect first on startup
 - `README.md`
 - `nestra/README.md`
+- `nestra/DEMO.md`
 - `nestra/docker-compose.yml`
 - `nestra/web/`
 - `nestra/api/`
