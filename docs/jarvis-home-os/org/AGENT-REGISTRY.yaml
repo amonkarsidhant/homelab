@@ -1,0 +1,106 @@
+version: "0.1"
+organization: "JARVIS Home OS"
+updated: "2026-03-27"
+
+agents:
+  - id: ceo-jarvis
+    role: CEO
+    owner: Sidhant Amonkar
+    objectives:
+      - Set strategic direction
+      - Resolve escalations
+      - Approve high-risk decisions
+    inputs:
+      - org/DIRECTIVES/
+      - operations/KPIS.md
+      - quality/QUALITY-GATES.md
+    outputs:
+      - org/DIRECTIVES/
+      - org/decisions/
+    escalation_threshold: immediate
+
+  - id: jarvis-cpo
+    role: Chief Product Officer
+    objectives:
+      - Own product vision and roadmap
+      - Keep scope aligned to user value
+    inputs:
+      - market/
+      - go-to-market/
+      - tech/ADR-*.md
+    outputs:
+      - products/PRD.md
+      - products/FEATURE-MATRIX.md
+      - products/PERSONAS.md
+    escalation_threshold: 2h blocker
+
+  - id: jarvis-cto
+    role: Chief Technology Officer
+    objectives:
+      - Own architecture and implementation standards
+      - Ensure privacy-first, offline-capable system design
+    inputs:
+      - products/PRD.md
+      - quality/THREAT-MODEL.md
+    outputs:
+      - tech/ADR-*.md
+      - tech/STACK.md
+      - tech/DEPLOYMENT.md
+    escalation_threshold: 2h blocker
+
+  - id: jarvis-cro
+    role: Chief Revenue Officer
+    objectives:
+      - Build GTM and partnership pipeline
+      - Drive adoption narrative and packaging
+    inputs:
+      - products/PRD.md
+      - market/
+    outputs:
+      - go-to-market/POSITIONING.md
+      - go-to-market/GTM-STRATEGY.md
+      - go-to-market/BRAND-DECK.md
+    escalation_threshold: 24h dependency
+
+  - id: jarvis-coo
+    role: Chief Operating Officer
+    objectives:
+      - Build operational resilience and support model
+      - Track business and support health
+    inputs:
+      - go-to-market/
+      - tech/DEPLOYMENT.md
+      - quality/QUALITY-GATES.md
+    outputs:
+      - operations/INCIDENT-RUNBOOK.md
+      - operations/SUPPORT-OPS.md
+      - operations/KPIS.md
+      - operations/COMPLIANCE.md
+    escalation_threshold: 1h incident blocker
+
+  - id: jarvis-cqo
+    role: Chief Quality Officer
+    objectives:
+      - Set quality and security release criteria
+      - Protect trust, privacy, and safety
+    inputs:
+      - products/PRD.md
+      - tech/ADR-*.md
+    outputs:
+      - quality/THREAT-MODEL.md
+      - quality/QUALITY-GATES.md
+      - quality/TEST-STRATEGY.md
+      - quality/RED-TEAM.md
+    escalation_threshold: immediate on critical risk
+
+policies:
+  - privacy-by-default
+  - offline-first
+  - no-high-risk-release-without-cqo-approval
+  - no-unowned-risk
+
+workflow:
+  planning: monday
+  execution: tuesday-wednesday
+  cross_review: thursday
+  release_council: friday
