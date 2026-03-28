@@ -6,10 +6,10 @@
 - Technical sponsors who need confidence in guardrails, auditability, and operability
 
 ## 3-minute demo narrative
-1. **Problem framing (30s):** smart homes are fragmented and risky without policy controls.
-2. **Sign-in + context (45s):** show authenticated access tied to tenant/household/actor.
-3. **Household operations (45s):** show device inventory and current household state.
-4. **Action + guardrail (45s):** run "Shift EV charging to low tariff window" and show accept/block behavior.
+1. **Problem framing (30s):** smart homes are fragmented across Matter + vendor apps.
+2. **Integration story (35s):** show Matter, Home Assistant, and energy signal integration cards.
+3. **Household operations (40s):** show multi-device inventory (climate, lighting, lock, camera, sensor, blinds, EV).
+4. **Action + guardrail (60s):** run EV optimization + one non-EV scenario and show policy outcomes.
 5. **Audit evidence (15s):** show audit event with outcome and reason.
 
 ## Demo credentials
@@ -29,13 +29,11 @@
 
 ### 1) Open app shell
 - URL: `https://nestra.homelabdev.space`
-- Expected: sign-in view is shown; app shell remains hidden until login.
+- Expected: console loads directly in public demo mode using seeded demo actor context.
 
-### 2) Sign in
-- Enter demo credentials and submit.
+### 2) Verify demo context
 - Expected:
-  - login succeeds,
-  - session metadata shows signed-in actor,
+  - session metadata shows seeded demo actor,
   - dashboard loads household context, devices, and audit history.
 
 ### 3) Run allowed action
@@ -73,6 +71,7 @@ For `intent_type=shift_ev_charging_low_tariff_window`, Nestra applies:
 
 ## Known limitations
 - Auth mode is alpha demo JWT, not full OIDC/OAuth production flow.
+- Public demo mode bypasses sign-in wall for live demos.
 - Token revocation and advanced session controls are not implemented.
 - Persistence uses SQLite for demo speed and portability.
 - Guardrails are route-level and policy-engine extraction is pending.
@@ -80,8 +79,9 @@ For `intent_type=shift_ev_charging_low_tariff_window`, Nestra applies:
 ## What is real vs simulated
 
 ### Real in this demo
-- Working sign-in flow
-- Protected app shell and protected API routes
+- Working sign-in flow (`/v1/login`) when demo auth is enabled
+- Public demo mode for frictionless live walkthroughs (no login wall)
+- Protected API behavior available when `DEMO_MODE_PUBLIC=false`
 - Persistent tenant/household/actor/device/device_intent/audit_event data
 - Guardrail evaluation and auditable outcomes
 

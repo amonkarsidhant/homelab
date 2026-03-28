@@ -84,6 +84,16 @@ When asked to build something:
 3. Then implement in small, reviewable steps.
 4. After changes, update docs for any architectural decision that matters.
 
+## Superpowers operating loop (Nestra adaptation)
+Use a lightweight superpowers-style flow for non-trivial work:
+1. Clarify actor, boundary, guardrail, and audit expectation.
+2. Write a concrete file-by-file plan before coding.
+3. Implement in small steps with explicit contracts.
+4. Validate with real commands (syntax/tests/runtime path checks).
+5. Close with evidence and clear next slice.
+
+Canonical workflow reference: `nestra/WORKFLOW_SUPERPOWERS.md`
+
 ## Non-negotiable engineering standards
 - No fake enterprise language without concrete implementation.
 - No placeholder endpoints unless clearly marked and justified.
@@ -133,6 +143,7 @@ For any feature larger than a trivial fix, respond in this order:
 - `README.md`
 - `nestra/README.md`
 - `nestra/DEMO.md`
+- `nestra/SKILLS_STACK.md`
 - `nestra/docker-compose.yml`
 - `nestra/web/`
 - `nestra/api/`

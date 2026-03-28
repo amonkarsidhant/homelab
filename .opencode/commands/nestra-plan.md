@@ -10,6 +10,8 @@ Load context from:
 - README.md
 - nestra/README.md
 - nestra/DEMO.md
+- nestra/WORKFLOW_SUPERPOWERS.md
+- nestra/SKILLS_STACK.md
 - nestra/docker-compose.yml
 - nestra/web/*
 - nestra/api/*
@@ -24,3 +26,5 @@ Return:
 4. file-by-file implementation plan
 5. risks / assumptions
 6. best next slice
+
+Use only the Nestra curated skill stack from `nestra/SKILLS_STACK.md`.

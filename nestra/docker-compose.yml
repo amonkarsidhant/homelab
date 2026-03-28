@@ -22,6 +22,15 @@ services:
     environment:
       - APP_ENV=production
       - CORS_ORIGIN=${CORS_ORIGIN:-https://nestra.homelabdev.space}
+      - DATABASE_PATH=${DATABASE_PATH:-/data/nestra_demo.db}
+      - AUTH_JWT_SECRET=${AUTH_JWT_SECRET:-change-me}
+      - DEMO_MODE_PUBLIC=${DEMO_MODE_PUBLIC:-true}
+      - DEMO_TENANT_ID=${DEMO_TENANT_ID:-default-tenant}
+      - DEMO_HOUSEHOLD_ID=${DEMO_HOUSEHOLD_ID:-default-home}
+      - DEMO_ACTOR_ID=${DEMO_ACTOR_ID:-owner-1}
+      - DEMO_ACTOR_ROLE=${DEMO_ACTOR_ROLE:-owner}
+    volumes:
+      - nestra_api_data:/data
     networks:
       - default
     labels:
@@ -41,6 +50,12 @@ services:
       - AUTH_ISSUER=https://auth.nestra.homelabdev.space
       - AUTH_JWT_SECRET=${AUTH_JWT_SECRET:-change-me}
       - AUTH_COOKIE_DOMAIN=.nestra.homelabdev.space
+      - CORS_ORIGIN=${CORS_ORIGIN:-https://nestra.homelabdev.space}
+      - AUTH_DATABASE_PATH=${AUTH_DATABASE_PATH:-/data/nestra_auth.db}
+      - DEMO_OWNER_USERNAME=${DEMO_OWNER_USERNAME:-owner@nestra.demo}
+      - DEMO_OWNER_PASSWORD=${DEMO_OWNER_PASSWORD:-nestra-alpha-owner}
+    volumes:
+      - nestra_auth_data:/data
     networks:
       - default
     labels:
@@ -55,3 +70,7 @@ networks:
   default:
     name: traefik_default
     external: true
+
+volumes:
+  nestra_api_data:
+  nestra_auth_data:

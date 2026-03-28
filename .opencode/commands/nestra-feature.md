@@ -10,6 +10,8 @@ Load repo context from:
 - README.md
 - nestra/README.md
 - nestra/DEMO.md
+- nestra/WORKFLOW_SUPERPOWERS.md
+- nestra/SKILLS_STACK.md
 - nestra/docker-compose.yml
 - nestra/web/*
 - nestra/api/*
@@ -25,3 +27,5 @@ Respond with:
 5. Implementation
 6. Validation
 7. Follow-up backlog
+
+Use only the Nestra curated skill stack from `nestra/SKILLS_STACK.md`.

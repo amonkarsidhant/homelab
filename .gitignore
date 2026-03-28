@@ -32,6 +32,10 @@ node_modules/
 __pycache__/
 *.pycdocs/
 
+# OpenCode local skill installs
+.opencode/skills/*
+!.opencode/skills/ACTIVE_NESTRA_SKILLS.md
+
 # LinkedIn export data (personal info)
 docs/Profile.csv
 docs/Invitations.csv
